@@ -1,5 +1,6 @@
 ﻿using Steamworks.Data;
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Steamworks
@@ -30,20 +31,20 @@ namespace Steamworks
 			set => Connection.ConnectionName = value;
 		}
 
-		public long UserData 
+		public long UserData
 		{
 			get => Connection.UserData;
 			set => Connection.UserData = value;
 		}
 
-		public void Close( bool linger = false, int reasonCode = 0, string debugString = "Closing Connection" )
+		public void Close(bool linger = false, int reasonCode = 0, string debugString = "Closing Connection")
 		{
-			Connection.Close( linger, reasonCode, debugString );
+			Connection.Close(linger, reasonCode, debugString);
 		}
 
 		public override string ToString() => Connection.ToString();
 
-		public virtual void OnConnectionChanged( ConnectionInfo info )
+		public virtual void OnConnectionChanged(ConnectionInfo info)
 		{
 			ConnectionInfo = info;
 
@@ -52,34 +53,34 @@ namespace Steamworks
 			// - Update state before the callbacks, in case an exception is thrown
 			// - ConnectionState.None happens when a connection is destroyed, even if it was already disconnected (ClosedByPeer / ProblemDetectedLocally)
 			//
-			switch ( info.State )
+			switch (info.State)
 			{
 				case ConnectionState.Connecting:
-					if ( !Connecting && !Connected )
+					if (!Connecting && !Connected)
 					{
 						Connecting = true;
 
-						OnConnecting( info );
+						OnConnecting(info);
 					}
 					break;
 				case ConnectionState.Connected:
-					if ( Connecting && !Connected )
+					if (Connecting && !Connected)
 					{
 						Connecting = false;
 						Connected = true;
 
-						OnConnected( info );
+						OnConnected(info);
 					}
 					break;
 				case ConnectionState.ClosedByPeer:
 				case ConnectionState.ProblemDetectedLocally:
 				case ConnectionState.None:
-					if ( Connecting || Connected )
+					if (Connecting || Connected)
 					{
 						Connecting = false;
 						Connected = false;
 
-						OnDisconnected( info );
+						OnDisconnected(info);
 					}
 					break;
 			}
@@ -88,72 +89,67 @@ namespace Steamworks
 		/// <summary>
 		/// We're trying to connect!
 		/// </summary>
-		public virtual void OnConnecting( ConnectionInfo info )
+		public virtual void OnConnecting(ConnectionInfo info)
 		{
-			Interface?.OnConnecting( info );
+			Interface?.OnConnecting(info);
 		}
 
 		/// <summary>
 		/// Client is connected. They move from connecting to Connections
 		/// </summary>
-		public virtual void OnConnected( ConnectionInfo info )
+		public virtual void OnConnected(ConnectionInfo info)
 		{
-			Interface?.OnConnected( info );
+			Interface?.OnConnected(info);
 		}
 
 		/// <summary>
 		/// The connection has been closed remotely or disconnected locally. Check data.State for details.
 		/// </summary>
-		public virtual void OnDisconnected( ConnectionInfo info )
+		public virtual void OnDisconnected(ConnectionInfo info)
 		{
-			Interface?.OnDisconnected( info );
+			Interface?.OnDisconnected(info);
 		}
 
-		public void Receive( int bufferSize = 32 )
+		public unsafe void Receive(int bufferSize = 32)
 		{
 			int processed = 0;
-			IntPtr messageBuffer = Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
+			var messageBuffer = stackalloc IntPtr[bufferSize]; //IntPtr messageBuffer = Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
 
 			try
 			{
-				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnConnection( Connection, messageBuffer, bufferSize );
+				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnConnection(Connection, (IntPtr)messageBuffer, bufferSize);
 
-				for ( int i = 0; i < processed; i++ )
+				for (int i = 0; i < processed; i++)
 				{
-					ReceiveMessage( Marshal.ReadIntPtr( messageBuffer, i * IntPtr.Size ) );
+					ReceiveMessage(messageBuffer[i]);  // ReceiveMessage(Marshal.ReadIntPtr(messageBuffer, i * IntPtr.Size));
 				}
 			}
 			finally
 			{
-				Marshal.FreeHGlobal( messageBuffer );
+				//Marshal.FreeHGlobal(messageBuffer);
 			}
 
-			//
 			// Overwhelmed our buffer, keep going
-			//
-			if ( processed == bufferSize )
-				Receive( bufferSize );
+			if (processed == bufferSize) Receive(bufferSize);
 		}
 
-		internal unsafe void ReceiveMessage( IntPtr msgPtr )
+		internal unsafe void ReceiveMessage(IntPtr msgPtr)
 		{
-			var msg = Marshal.PtrToStructure<NetMsg>( msgPtr );
+			var msg = Unsafe.AsRef<NetMsg>(msgPtr.ToPointer()); // Marshal.PtrToStructure<NetMsg>( msgPtr );
 			try
 			{
-				OnMessage( msg.DataPtr, msg.DataSize, msg.RecvTime, msg.MessageNumber, msg.Channel );
+				OnMessage(msg.DataPtr, msg.DataSize, msg.RecvTime, msg.MessageNumber, msg.Channel);
 			}
 			finally
 			{
-				//
 				// Releases the message
-				//
-				NetMsg.InternalRelease( (NetMsg*) msgPtr );
+				NetMsg.InternalRelease((NetMsg*)msgPtr);
 			}
 		}
 
-		public virtual void OnMessage( IntPtr data, int size, long messageNum, long recvTime, int channel )
+		public virtual void OnMessage(IntPtr data, int size, long messageNum, long recvTime, int channel)
 		{
-			Interface?.OnMessage( data, size, messageNum, recvTime, channel );
+			Interface?.OnMessage(data, size, messageNum, recvTime, channel);
 		}
 	}
 }

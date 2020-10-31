@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Steamworks.Data;
 
@@ -32,9 +33,9 @@ namespace Steamworks
 
 		public bool Close()
 		{
-			if ( SteamNetworkingSockets.Internal.IsValid )
+			if (SteamNetworkingSockets.Internal.IsValid)
 			{
-				SteamNetworkingSockets.Internal.DestroyPollGroup( pollGroup );
+				SteamNetworkingSockets.Internal.DestroyPollGroup(pollGroup);
 				Socket.Close();
 			}
 
@@ -43,41 +44,41 @@ namespace Steamworks
 			return true;
 		}
 
-		public virtual void OnConnectionChanged( Connection connection, ConnectionInfo info )
+		public virtual void OnConnectionChanged(Connection connection, ConnectionInfo info)
 		{
 			//
 			// Some notes:
 			// - Update state before the callbacks, in case an exception is thrown
 			// - ConnectionState.None happens when a connection is destroyed, even if it was already disconnected (ClosedByPeer / ProblemDetectedLocally)
 			//
-			switch ( info.State )
+			switch (info.State)
 			{
 				case ConnectionState.Connecting:
-					if ( !Connecting.Contains( connection ) && !Connected.Contains( connection ) )
+					if (!Connecting.Contains(connection) && !Connected.Contains(connection))
 					{
-						Connecting.Add( connection );
+						Connecting.Add(connection);
 
-						OnConnecting( connection, info );
+						OnConnecting(connection, info);
 					}
 					break;
 				case ConnectionState.Connected:
-					if ( Connecting.Contains( connection ) && !Connected.Contains( connection ) )
+					if (Connecting.Contains(connection) && !Connected.Contains(connection))
 					{
-						Connecting.Remove( connection );
-						Connected.Add( connection );
+						Connecting.Remove(connection);
+						Connected.Add(connection);
 
-						OnConnected( connection, info );
+						OnConnected(connection, info);
 					}
 					break;
 				case ConnectionState.ClosedByPeer:
 				case ConnectionState.ProblemDetectedLocally:
 				case ConnectionState.None:
-					if ( Connecting.Contains( connection ) || Connected.Contains( connection ) )
+					if (Connecting.Contains(connection) || Connected.Contains(connection))
 					{
-						Connecting.Remove( connection );
-						Connected.Remove( connection );
+						Connecting.Remove(connection);
+						Connected.Remove(connection);
 
-						OnDisconnected( connection, info );
+						OnDisconnected(connection, info);
 					}
 					break;
 			}
@@ -86,36 +87,36 @@ namespace Steamworks
 		/// <summary>
 		/// Default behaviour is to accept every connection
 		/// </summary>
-		public virtual void OnConnecting( Connection connection, ConnectionInfo info )
+		public virtual void OnConnecting(Connection connection, ConnectionInfo info)
 		{
-			if ( Interface != null )
+			if (Interface != null)
 			{
-				Interface.OnConnecting( connection, info );
+				Interface.OnConnecting(connection, info);
 			}
 			else
 			{
 				connection.Accept();
-			}			
+			}
 		}
 
 		/// <summary>
 		/// Client is connected. They move from connecting to Connections
 		/// </summary>
-		public virtual void OnConnected( Connection connection, ConnectionInfo info )
+		public virtual void OnConnected(Connection connection, ConnectionInfo info)
 		{
-			SteamNetworkingSockets.Internal.SetConnectionPollGroup( connection, pollGroup );
+			SteamNetworkingSockets.Internal.SetConnectionPollGroup(connection, pollGroup);
 
-			Interface?.OnConnected( connection, info );
+			Interface?.OnConnected(connection, info);
 		}
 
 		/// <summary>
 		/// The connection has been closed remotely or disconnected locally. Check data.State for details.
 		/// </summary>
-		public virtual void OnDisconnected( Connection connection, ConnectionInfo info )
+		public virtual void OnDisconnected(Connection connection, ConnectionInfo info)
 		{
-			if ( Interface != null )
+			if (Interface != null)
 			{
-				Interface.OnDisconnected( connection, info );
+				Interface.OnDisconnected(connection, info);
 			}
 			else
 			{
@@ -123,52 +124,46 @@ namespace Steamworks
 			}
 		}
 
-		public void Receive( int bufferSize = 32 )
+		public unsafe void Receive(int bufferSize = 32)
 		{
 			int processed = 0;
-			IntPtr messageBuffer = Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
+			var messageBuffer = stackalloc IntPtr[bufferSize]; // Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
 
 			try
 			{
-				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnPollGroup( pollGroup, messageBuffer, bufferSize );
+				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnPollGroup(pollGroup, (IntPtr)messageBuffer, bufferSize);
 
-				for ( int i = 0; i < processed; i++ )
+				for (int i = 0; i < processed; i++)
 				{
-					ReceiveMessage( Marshal.ReadIntPtr( messageBuffer, i * IntPtr.Size ) );
+					ReceiveMessage(messageBuffer[i]); //ReceiveMessage( Marshal.ReadIntPtr( messageBuffer, i * IntPtr.Size ) );
 				}
 			}
 			finally
 			{
-				Marshal.FreeHGlobal( messageBuffer );
-			}
-			
 
-			//
+			}
+
 			// Overwhelmed our buffer, keep going
-			//
-			if ( processed == bufferSize )
-				Receive( bufferSize );
+			if (processed == bufferSize) Receive(bufferSize);
 		}
 
-		internal unsafe void ReceiveMessage( IntPtr msgPtr )
+		internal unsafe void ReceiveMessage(IntPtr msgPtr)
 		{
-			var msg = Marshal.PtrToStructure<NetMsg>( msgPtr );
+			var msg = Unsafe.AsRef<NetMsg>(msgPtr.ToPointer()); // Marshal.PtrToStructure<NetMsg>( msgPtr );
 			try
 			{
-				OnMessage( msg.Connection, msg.Identity, msg.DataPtr, msg.DataSize, msg.RecvTime, msg.MessageNumber, msg.Channel );
+				OnMessage(msg.Connection, msg.Identity, msg.DataPtr, msg.DataSize, msg.RecvTime, msg.MessageNumber, msg.Channel);
 			}
 			finally
 			{
-				//
 				// Releases the message
-				//
-				NetMsg.InternalRelease( (NetMsg*) msgPtr );
+				NetMsg.InternalRelease((NetMsg*)msgPtr);
 			}
 		}
 
-		public virtual void OnMessage( Connection connection, NetIdentity identity, IntPtr data, int size, long messageNum, long recvTime, int channel )
+		public virtual void OnMessage(Connection connection, NetIdentity identity, IntPtr data, int size, long messageNum, long recvTime, int channel)
 		{
-			Interface?.OnMessage( connection, identity, data, size, messageNum, recvTime, channel );
+			Interface?.OnMessage(connection, identity, data, size, messageNum, recvTime, channel);
 		}
 	}
 }
