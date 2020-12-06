@@ -10,7 +10,7 @@ namespace Steamworks
 	/// <summary>
 	/// Functions for clients to access matchmaking services, favorites, and to operate on game lobbies
 	/// </summary>
-	internal class SteamMatchmakingServers : SteamClientClass<SteamMatchmakingServers>
+	public class SteamMatchmakingServers : SteamClientClass<SteamMatchmakingServers>
 	{
 		internal static ISteamMatchmakingServers Internal => Interface as ISteamMatchmakingServers;
 
@@ -18,5 +18,6 @@ namespace Steamworks
 		{
 			SetInterface( server, new ISteamMatchmakingServers( server ) );
 		}
+
 	}
 }
