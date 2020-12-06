@@ -381,19 +381,6 @@ namespace Steamworks
 		/// <summary>
 		/// Start authorizing a ticket. This user isn't authorized yet. Wait for a call to OnAuthChange.
 		/// </summary>
-		public static unsafe bool BeginAuthSession(byte* data, int size, SteamId steamid)
-		{
-			var result = Internal.BeginAuthSession((IntPtr)data, size, steamid);
-
-			if (result == BeginAuthResult.OK)
-				return true;
-
-			return false;
-		}
-
-		/// <summary>
-		/// Start authorizing a ticket. This user isn't authorized yet. Wait for a call to OnAuthChange.
-		/// </summary>
 		public static unsafe bool BeginAuthSession( byte[] data, SteamId steamid )
 		{
 			fixed ( byte* p = data )
