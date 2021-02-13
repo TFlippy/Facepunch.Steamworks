@@ -10,7 +10,7 @@ namespace Steamworks.Data
 		public int OldGlobalRank;
 		public int RankChange => NewGlobalRank - OldGlobalRank;
 
-		internal static LeaderboardUpdate From( LeaderboardScoreUploaded_t e ) =>
+		public static LeaderboardUpdate From( LeaderboardScoreUploaded_t e ) =>
 			new LeaderboardUpdate
 			{
 				Score = e.Score,

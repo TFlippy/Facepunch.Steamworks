@@ -11,7 +11,7 @@ namespace Steamworks.ServerList
 	{
 
 		#region ISteamMatchmakingServers
-		internal static ISteamMatchmakingServers Internal => SteamMatchmakingServers.Internal;
+		public static ISteamMatchmakingServers Internal => SteamMatchmakingServers.Internal;
 		#endregion
 
 
@@ -96,14 +96,14 @@ namespace Steamworks.ServerList
 		public virtual void Cancel() => Internal.CancelQuery( request );
 
 		// Overrides
-		internal abstract void LaunchQuery();
+		public abstract void LaunchQuery();
 
-		internal HServerListRequest request;
+		public HServerListRequest request;
 
 		#region Filters
 
-		internal List<MatchMakingKeyValuePair> filters = new List<MatchMakingKeyValuePair>();
-		internal virtual MatchMakingKeyValuePair[] GetFilters() => filters.ToArray();
+		public List<MatchMakingKeyValuePair> filters = new List<MatchMakingKeyValuePair>();
+		public virtual MatchMakingKeyValuePair[] GetFilters() => filters.ToArray();
 
 		public void AddFilter( string key, string value )
 		{
@@ -112,10 +112,10 @@ namespace Steamworks.ServerList
 
 		#endregion
 
-		internal int Count => Internal.GetServerCount( request );
-		internal bool IsRefreshing => request.Value != IntPtr.Zero && Internal.IsRefreshing( request );
-		internal List<int> watchList = new List<int>();
-		internal int LastCount = 0;
+		public int Count => Internal.GetServerCount( request );
+		public bool IsRefreshing => request.Value != IntPtr.Zero && Internal.IsRefreshing( request );
+		public List<int> watchList = new List<int>();
+		public int LastCount = 0;
 
 		void Reset()
 		{
@@ -139,7 +139,7 @@ namespace Steamworks.ServerList
 			ReleaseQuery();
 		}
 
-		internal void InvokeChanges()
+		public void InvokeChanges()
 		{
 			OnChanges?.Invoke();
 		}

@@ -7,19 +7,19 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamNetworking : SteamInterface
+	public class ISteamNetworking : SteamInterface
 	{
 		
-		internal ISteamNetworking( bool IsGameServer )
+		public ISteamNetworking( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamNetworking_v006", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamNetworking_v006();
+		public static extern IntPtr SteamAPI_SteamNetworking_v006();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamNetworking_v006();
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamGameServerNetworking_v006", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamGameServerNetworking_v006();
+		public static extern IntPtr SteamAPI_SteamGameServerNetworking_v006();
 		public override IntPtr GetServerInterfacePointer() => SteamAPI_SteamGameServerNetworking_v006();
 		
 		
@@ -29,7 +29,7 @@ namespace Steamworks
 		private static extern bool _SendP2PPacket( IntPtr self, SteamId steamIDRemote, IntPtr pubData, uint cubData, P2PSend eP2PSendType, int nChannel );
 		
 		#endregion
-		internal bool SendP2PPacket( SteamId steamIDRemote, IntPtr pubData, uint cubData, P2PSend eP2PSendType, int nChannel )
+		public bool SendP2PPacket( SteamId steamIDRemote, IntPtr pubData, uint cubData, P2PSend eP2PSendType, int nChannel )
 		{
 			var returnValue = _SendP2PPacket( Self, steamIDRemote, pubData, cubData, eP2PSendType, nChannel );
 			return returnValue;
@@ -41,7 +41,7 @@ namespace Steamworks
 		private static extern bool _IsP2PPacketAvailable( IntPtr self, ref uint pcubMsgSize, int nChannel );
 		
 		#endregion
-		internal bool IsP2PPacketAvailable( ref uint pcubMsgSize, int nChannel )
+		public bool IsP2PPacketAvailable( ref uint pcubMsgSize, int nChannel )
 		{
 			var returnValue = _IsP2PPacketAvailable( Self, ref pcubMsgSize, nChannel );
 			return returnValue;
@@ -53,7 +53,7 @@ namespace Steamworks
 		private static extern bool _ReadP2PPacket( IntPtr self, IntPtr pubDest, uint cubDest, ref uint pcubMsgSize, ref SteamId psteamIDRemote, int nChannel );
 		
 		#endregion
-		internal bool ReadP2PPacket( IntPtr pubDest, uint cubDest, ref uint pcubMsgSize, ref SteamId psteamIDRemote, int nChannel )
+		public bool ReadP2PPacket( IntPtr pubDest, uint cubDest, ref uint pcubMsgSize, ref SteamId psteamIDRemote, int nChannel )
 		{
 			var returnValue = _ReadP2PPacket( Self, pubDest, cubDest, ref pcubMsgSize, ref psteamIDRemote, nChannel );
 			return returnValue;
@@ -65,7 +65,7 @@ namespace Steamworks
 		private static extern bool _AcceptP2PSessionWithUser( IntPtr self, SteamId steamIDRemote );
 		
 		#endregion
-		internal bool AcceptP2PSessionWithUser( SteamId steamIDRemote )
+		public bool AcceptP2PSessionWithUser( SteamId steamIDRemote )
 		{
 			var returnValue = _AcceptP2PSessionWithUser( Self, steamIDRemote );
 			return returnValue;
@@ -77,7 +77,7 @@ namespace Steamworks
 		private static extern bool _CloseP2PSessionWithUser( IntPtr self, SteamId steamIDRemote );
 		
 		#endregion
-		internal bool CloseP2PSessionWithUser( SteamId steamIDRemote )
+		public bool CloseP2PSessionWithUser( SteamId steamIDRemote )
 		{
 			var returnValue = _CloseP2PSessionWithUser( Self, steamIDRemote );
 			return returnValue;
@@ -89,7 +89,7 @@ namespace Steamworks
 		private static extern bool _CloseP2PChannelWithUser( IntPtr self, SteamId steamIDRemote, int nChannel );
 		
 		#endregion
-		internal bool CloseP2PChannelWithUser( SteamId steamIDRemote, int nChannel )
+		public bool CloseP2PChannelWithUser( SteamId steamIDRemote, int nChannel )
 		{
 			var returnValue = _CloseP2PChannelWithUser( Self, steamIDRemote, nChannel );
 			return returnValue;
@@ -101,7 +101,7 @@ namespace Steamworks
 		private static extern bool _GetP2PSessionState( IntPtr self, SteamId steamIDRemote, ref P2PSessionState_t pConnectionState );
 		
 		#endregion
-		internal bool GetP2PSessionState( SteamId steamIDRemote, ref P2PSessionState_t pConnectionState )
+		public bool GetP2PSessionState( SteamId steamIDRemote, ref P2PSessionState_t pConnectionState )
 		{
 			var returnValue = _GetP2PSessionState( Self, steamIDRemote, ref pConnectionState );
 			return returnValue;
@@ -113,7 +113,7 @@ namespace Steamworks
 		private static extern bool _AllowP2PPacketRelay( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bAllow );
 		
 		#endregion
-		internal bool AllowP2PPacketRelay( [MarshalAs( UnmanagedType.U1 )] bool bAllow )
+		public bool AllowP2PPacketRelay( [MarshalAs( UnmanagedType.U1 )] bool bAllow )
 		{
 			var returnValue = _AllowP2PPacketRelay( Self, bAllow );
 			return returnValue;
@@ -124,7 +124,7 @@ namespace Steamworks
 		private static extern SNetSocket_t _CreateP2PConnectionSocket( IntPtr self, SteamId steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs( UnmanagedType.U1 )] bool bAllowUseOfPacketRelay );
 		
 		#endregion
-		internal SNetSocket_t CreateP2PConnectionSocket( SteamId steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs( UnmanagedType.U1 )] bool bAllowUseOfPacketRelay )
+		public SNetSocket_t CreateP2PConnectionSocket( SteamId steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs( UnmanagedType.U1 )] bool bAllowUseOfPacketRelay )
 		{
 			var returnValue = _CreateP2PConnectionSocket( Self, steamIDTarget, nVirtualPort, nTimeoutSec, bAllowUseOfPacketRelay );
 			return returnValue;

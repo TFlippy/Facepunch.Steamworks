@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamAppList : SteamInterface
+	public class ISteamAppList : SteamInterface
 	{
 		
-		internal ISteamAppList( bool IsGameServer )
+		public ISteamAppList( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamAppList_v001", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamAppList_v001();
+		public static extern IntPtr SteamAPI_SteamAppList_v001();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamAppList_v001();
 		
 		
@@ -25,7 +25,7 @@ namespace Steamworks
 		private static extern uint _GetNumInstalledApps( IntPtr self );
 		
 		#endregion
-		internal uint GetNumInstalledApps()
+		public uint GetNumInstalledApps()
 		{
 			var returnValue = _GetNumInstalledApps( Self );
 			return returnValue;
@@ -36,7 +36,7 @@ namespace Steamworks
 		private static extern uint _GetInstalledApps( IntPtr self, [In,Out] AppId[]  pvecAppID, uint unMaxAppIDs );
 		
 		#endregion
-		internal uint GetInstalledApps( [In,Out] AppId[]  pvecAppID, uint unMaxAppIDs )
+		public uint GetInstalledApps( [In,Out] AppId[]  pvecAppID, uint unMaxAppIDs )
 		{
 			var returnValue = _GetInstalledApps( Self, pvecAppID, unMaxAppIDs );
 			return returnValue;
@@ -47,7 +47,7 @@ namespace Steamworks
 		private static extern int _GetAppName( IntPtr self, AppId nAppID, IntPtr pchName, int cchNameMax );
 		
 		#endregion
-		internal int GetAppName( AppId nAppID, out string pchName )
+		public int GetAppName( AppId nAppID, out string pchName )
 		{
 			IntPtr mempchName = Helpers.TakeMemory();
 			var returnValue = _GetAppName( Self, nAppID, mempchName, (1024 * 32) );
@@ -60,7 +60,7 @@ namespace Steamworks
 		private static extern int _GetAppInstallDir( IntPtr self, AppId nAppID, IntPtr pchDirectory, int cchNameMax );
 		
 		#endregion
-		internal int GetAppInstallDir( AppId nAppID, out string pchDirectory )
+		public int GetAppInstallDir( AppId nAppID, out string pchDirectory )
 		{
 			IntPtr mempchDirectory = Helpers.TakeMemory();
 			var returnValue = _GetAppInstallDir( Self, nAppID, mempchDirectory, (1024 * 32) );
@@ -73,7 +73,7 @@ namespace Steamworks
 		private static extern int _GetAppBuildId( IntPtr self, AppId nAppID );
 		
 		#endregion
-		internal int GetAppBuildId( AppId nAppID )
+		public int GetAppBuildId( AppId nAppID )
 		{
 			var returnValue = _GetAppBuildId( Self, nAppID );
 			return returnValue;

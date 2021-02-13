@@ -17,7 +17,7 @@ namespace Steamworks.Ugc
 		WorkshopFileType creatingType;
 		AppId consumerAppId;
 
-		internal Editor( WorkshopFileType filetype ) : this()
+		public Editor( WorkshopFileType filetype ) : this()
 		{
 			this.creatingNew = true;
 			this.creatingType = filetype;

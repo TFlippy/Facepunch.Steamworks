@@ -10,7 +10,7 @@ namespace Steamworks
 {
 	public static partial class Utility
     {
-        static internal T ToType<T>( this IntPtr ptr )
+        static public T ToType<T>( this IntPtr ptr )
         {
             if ( ptr == IntPtr.Zero )
                 return default;
@@ -18,7 +18,7 @@ namespace Steamworks
             return (T)Marshal.PtrToStructure( ptr, typeof( T ) );
         }
 
-        static internal object ToType( this IntPtr ptr, System.Type t )
+        static public object ToType( this IntPtr ptr, System.Type t )
         {
             if ( ptr == IntPtr.Zero )
                 return default;
@@ -26,7 +26,7 @@ namespace Steamworks
             return Marshal.PtrToStructure( ptr, t );
         }
 
-        static internal uint Swap( uint x )
+        static public uint Swap( uint x )
         {
             return ((x & 0x000000ff) << 24) +
                    ((x & 0x0000ff00) << 8) +

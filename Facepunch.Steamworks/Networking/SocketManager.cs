@@ -20,13 +20,13 @@ namespace Steamworks
 		public HashSet<Connection> Connecting = new HashSet<Connection>();
 		public HashSet<Connection> Connected = new HashSet<Connection>();
 
-		public Socket Socket { get; internal set; }
+		public Socket Socket { get; set; }
 
 		public override string ToString() => Socket.ToString();
 
-		internal HSteamNetPollGroup pollGroup;
+		public HSteamNetPollGroup pollGroup;
 
-		internal void Initialize()
+		public void Initialize()
 		{
 			pollGroup = SteamNetworkingSockets.Internal.CreatePollGroup();
 		}
@@ -147,7 +147,7 @@ namespace Steamworks
 			if (processed == bufferSize) Receive(bufferSize);
 		}
 
-		internal unsafe void ReceiveMessage(IntPtr msgPtr)
+		public unsafe void ReceiveMessage(IntPtr msgPtr)
 		{
 			var msg = Unsafe.AsRef<NetMsg>(msgPtr.ToPointer()); // Marshal.PtrToStructure<NetMsg>( msgPtr );
 			try

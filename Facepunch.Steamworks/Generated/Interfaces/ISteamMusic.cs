@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamMusic : SteamInterface
+	public class ISteamMusic : SteamInterface
 	{
 		
-		internal ISteamMusic( bool IsGameServer )
+		public ISteamMusic( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamMusic_v001", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamMusic_v001();
+		public static extern IntPtr SteamAPI_SteamMusic_v001();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamMusic_v001();
 		
 		
@@ -26,7 +26,7 @@ namespace Steamworks
 		private static extern bool _BIsEnabled( IntPtr self );
 		
 		#endregion
-		internal bool BIsEnabled()
+		public bool BIsEnabled()
 		{
 			var returnValue = _BIsEnabled( Self );
 			return returnValue;
@@ -38,7 +38,7 @@ namespace Steamworks
 		private static extern bool _BIsPlaying( IntPtr self );
 		
 		#endregion
-		internal bool BIsPlaying()
+		public bool BIsPlaying()
 		{
 			var returnValue = _BIsPlaying( Self );
 			return returnValue;
@@ -49,7 +49,7 @@ namespace Steamworks
 		private static extern MusicStatus _GetPlaybackStatus( IntPtr self );
 		
 		#endregion
-		internal MusicStatus GetPlaybackStatus()
+		public MusicStatus GetPlaybackStatus()
 		{
 			var returnValue = _GetPlaybackStatus( Self );
 			return returnValue;
@@ -60,7 +60,7 @@ namespace Steamworks
 		private static extern void _Play( IntPtr self );
 		
 		#endregion
-		internal void Play()
+		public void Play()
 		{
 			_Play( Self );
 		}
@@ -70,7 +70,7 @@ namespace Steamworks
 		private static extern void _Pause( IntPtr self );
 		
 		#endregion
-		internal void Pause()
+		public void Pause()
 		{
 			_Pause( Self );
 		}
@@ -80,7 +80,7 @@ namespace Steamworks
 		private static extern void _PlayPrevious( IntPtr self );
 		
 		#endregion
-		internal void PlayPrevious()
+		public void PlayPrevious()
 		{
 			_PlayPrevious( Self );
 		}
@@ -90,7 +90,7 @@ namespace Steamworks
 		private static extern void _PlayNext( IntPtr self );
 		
 		#endregion
-		internal void PlayNext()
+		public void PlayNext()
 		{
 			_PlayNext( Self );
 		}
@@ -100,7 +100,7 @@ namespace Steamworks
 		private static extern void _SetVolume( IntPtr self, float flVolume );
 		
 		#endregion
-		internal void SetVolume( float flVolume )
+		public void SetVolume( float flVolume )
 		{
 			_SetVolume( Self, flVolume );
 		}
@@ -110,7 +110,7 @@ namespace Steamworks
 		private static extern float _GetVolume( IntPtr self );
 		
 		#endregion
-		internal float GetVolume()
+		public float GetVolume()
 		{
 			var returnValue = _GetVolume( Self );
 			return returnValue;

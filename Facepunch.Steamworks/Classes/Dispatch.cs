@@ -37,21 +37,21 @@ namespace Steamworks
 
 		#region interop
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ManualDispatch_Init", CallingConvention = CallingConvention.Cdecl )]
-		internal static extern void SteamAPI_ManualDispatch_Init();
+		public static extern void SteamAPI_ManualDispatch_Init();
 
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ManualDispatch_RunFrame", CallingConvention = CallingConvention.Cdecl )]
-		internal static extern void SteamAPI_ManualDispatch_RunFrame( HSteamPipe pipe );
+		public static extern void SteamAPI_ManualDispatch_RunFrame( HSteamPipe pipe );
 
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ManualDispatch_GetNextCallback", CallingConvention = CallingConvention.Cdecl )]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		internal static extern bool SteamAPI_ManualDispatch_GetNextCallback( HSteamPipe pipe, [In, Out] ref CallbackMsg_t msg );
+		public static extern bool SteamAPI_ManualDispatch_GetNextCallback( HSteamPipe pipe, [In, Out] ref CallbackMsg_t msg );
 
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ManualDispatch_FreeLastCallback", CallingConvention = CallingConvention.Cdecl )]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		internal static extern bool SteamAPI_ManualDispatch_FreeLastCallback( HSteamPipe pipe );		
+		public static extern bool SteamAPI_ManualDispatch_FreeLastCallback( HSteamPipe pipe );		
 		
 		[StructLayout( LayoutKind.Sequential, Pack = Platform.StructPlatformPackSize )]
-		internal struct CallbackMsg_t
+		public struct CallbackMsg_t
 		{
 			public HSteamUser m_hSteamUser; // Specific user to whom this callback applies.
 			public CallbackType Type; // Callback identifier.  (Corresponds to the k_iCallback enum in the callback structure.)
@@ -61,14 +61,14 @@ namespace Steamworks
 
 		#endregion
 
-		internal static HSteamPipe ClientPipe { get; set; }
-		internal static HSteamPipe ServerPipe { get; set; }
+		public static HSteamPipe ClientPipe { get; set; }
+		public static HSteamPipe ServerPipe { get; set; }
 
 		/// <summary>
 		/// This gets called from Client/Server Init
 		/// It's important to switch to the manual dispatcher
 		/// </summary>
-		internal static void Init()
+		public static void Init()
 		{
 			SteamAPI_ManualDispatch_Init();
 		}
@@ -81,7 +81,7 @@ namespace Steamworks
 		/// <summary>
 		/// Calls RunFrame and processes events from this Steam Pipe
 		/// </summary>
-		internal static void Frame( HSteamPipe pipe )
+		public static void Frame( HSteamPipe pipe )
 		{
 			if ( runningFrame )
 				return;
@@ -163,7 +163,7 @@ namespace Steamworks
 		/// <summary>
 		/// Given a callback, try to turn it into a string
 		/// </summary>
-		internal static string CallbackToString( CallbackType type, IntPtr data, int expectedsize )
+		public static string CallbackToString( CallbackType type, IntPtr data, int expectedsize )
 		{
 			if ( !CallbackTypeFactory.All.TryGetValue( type, out var t ) )
 				return $"[{type} not in sdk]";
@@ -233,7 +233,7 @@ namespace Steamworks
 		/// have to think about it. This has the advantage that
 		/// you can call .Wait() on async shit and it still works.
 		/// </summary>
-		internal static async void LoopClientAsync()
+		public static async void LoopClientAsync()
 		{
 			while ( ClientPipe != 0 )
 			{
@@ -247,7 +247,7 @@ namespace Steamworks
 		/// have to think about it. This has the advantage that
 		/// you can call .Wait() on async shit and it still works.
 		/// </summary>
-		internal static async void LoopServerAsync()
+		public static async void LoopServerAsync()
 		{
 			while ( ServerPipe != 0 )
 			{
@@ -267,7 +267,7 @@ namespace Steamworks
 		/// <summary>
 		/// Watch for a steam api call
 		/// </summary>
-		internal static void OnCallComplete<T>( SteamAPICall_t call, Action continuation, bool server ) where T : struct, ICallbackData
+		public static void OnCallComplete<T>( SteamAPICall_t call, Action continuation, bool server ) where T : struct, ICallbackData
 		{
 			ResultCallbacks[call.Value] = new ResultCallback
 			{
@@ -287,7 +287,7 @@ namespace Steamworks
 		/// <summary>
 		/// Install a global callback. The passed function will get called if it's all good.
 		/// </summary>
-		internal static void Install<T>( Action<T> p, bool server = false ) where T : ICallbackData
+		public static void Install<T>( Action<T> p, bool server = false ) where T : ICallbackData
 		{
 			var t = default( T );
 			var type = t.CallbackType;
@@ -305,7 +305,7 @@ namespace Steamworks
 			} );
 		}
 
-		internal static void ShutdownServer()
+		public static void ShutdownServer()
 		{
 			ServerPipe = 0;
 
@@ -318,7 +318,7 @@ namespace Steamworks
 											 .ToDictionary( x => x.Key, x => x.Value );
 		}
 
-		internal static void ShutdownClient()
+		public static void ShutdownClient()
 		{
 			ClientPipe = 0;
 

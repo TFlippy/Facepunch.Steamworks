@@ -12,15 +12,15 @@ namespace Steamworks
 	/// </summary>
 	public class SteamScreenshots : SteamClientClass<SteamScreenshots>
 	{
-		internal static ISteamScreenshots Internal => Interface as ISteamScreenshots;
+		public static ISteamScreenshots Internal => Interface as ISteamScreenshots;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamScreenshots( server ) );
 			InstallEvents();
 		}
 
-		internal static void InstallEvents()
+		public static void InstallEvents()
 		{
 			Dispatch.Install<ScreenshotRequested_t>( x => OnScreenshotRequested?.Invoke() );
 			Dispatch.Install<ScreenshotReady_t>( x =>

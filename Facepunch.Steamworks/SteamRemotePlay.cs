@@ -12,16 +12,16 @@ namespace Steamworks
 	/// </summary>
 	public class SteamRemotePlay : SteamClientClass<SteamRemotePlay>
 	{
-		internal static ISteamRemotePlay Internal => Interface as ISteamRemotePlay;
+		public static ISteamRemotePlay Internal => Interface as ISteamRemotePlay;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamRemotePlay( server ) );
 
 			InstallEvents( server );
 		}
 
-		internal void InstallEvents( bool server )
+		public void InstallEvents( bool server )
 		{
 			Dispatch.Install<SteamRemotePlaySessionConnected_t>( x => OnSessionConnected?.Invoke( x.SessionID ), server );
 			Dispatch.Install<SteamRemotePlaySessionDisconnected_t>( x => OnSessionDisconnected?.Invoke( x.SessionID ), server );

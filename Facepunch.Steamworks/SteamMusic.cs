@@ -15,16 +15,16 @@ namespace Steamworks
 	/// </summary>
 	public class SteamMusic : SteamClientClass<SteamMusic>
 	{
-		internal static ISteamMusic Internal => Interface as ISteamMusic;
+		public static ISteamMusic Internal => Interface as ISteamMusic;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamMusic( server ) );
 
 			InstallEvents();
 		}
 
-		internal static void InstallEvents()
+		public static void InstallEvents()
 		{
 			Dispatch.Install<PlaybackStatusHasChanged_t>( x => OnPlaybackChanged?.Invoke() );
 			Dispatch.Install<VolumeHasChanged_t>( x => OnVolumeChanged?.Invoke( x.NewVolume ) );

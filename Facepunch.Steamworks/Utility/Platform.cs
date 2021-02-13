@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Steamworks
 {
-	internal static class Platform
+	public static class Platform
     {
 #if PLATFORM_WIN64
 		public const int StructPlatformPackSize = 8;

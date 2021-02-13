@@ -5,18 +5,18 @@ namespace Steamworks.Ugc
 {
 	public struct ResultPage : System.IDisposable
 	{
-		internal UGCQueryHandle_t Handle;
+		public UGCQueryHandle_t Handle;
 
 		public int ResultCount;
 		public int TotalCount;
 
 		public bool CachedData;
 
-		internal bool ReturnsKeyValueTags;
-		internal bool ReturnsDefaultStats;
-		internal bool ReturnsMetadata;
-		internal bool ReturnsChildren;
-		internal bool ReturnsAdditionalPreviews;
+		public bool ReturnsKeyValueTags;
+		public bool ReturnsDefaultStats;
+		public bool ReturnsMetadata;
+		public bool ReturnsChildren;
+		public bool ReturnsAdditionalPreviews;
 
 		public IEnumerable<Item> Entries
 		{

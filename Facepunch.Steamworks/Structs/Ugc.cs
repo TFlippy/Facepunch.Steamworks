@@ -6,7 +6,7 @@ namespace Steamworks.Data
 {
 	public struct Ugc
 	{
-		internal UGCHandle_t Handle;
+		public UGCHandle_t Handle;
 	}
 }
 

@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamVideo : SteamInterface
+	public class ISteamVideo : SteamInterface
 	{
 		
-		internal ISteamVideo( bool IsGameServer )
+		public ISteamVideo( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamVideo_v002", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamVideo_v002();
+		public static extern IntPtr SteamAPI_SteamVideo_v002();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamVideo_v002();
 		
 		
@@ -25,7 +25,7 @@ namespace Steamworks
 		private static extern void _GetVideoURL( IntPtr self, AppId unVideoAppID );
 		
 		#endregion
-		internal void GetVideoURL( AppId unVideoAppID )
+		public void GetVideoURL( AppId unVideoAppID )
 		{
 			_GetVideoURL( Self, unVideoAppID );
 		}
@@ -36,7 +36,7 @@ namespace Steamworks
 		private static extern bool _IsBroadcasting( IntPtr self, ref int pnNumViewers );
 		
 		#endregion
-		internal bool IsBroadcasting( ref int pnNumViewers )
+		public bool IsBroadcasting( ref int pnNumViewers )
 		{
 			var returnValue = _IsBroadcasting( Self, ref pnNumViewers );
 			return returnValue;
@@ -47,7 +47,7 @@ namespace Steamworks
 		private static extern void _GetOPFSettings( IntPtr self, AppId unVideoAppID );
 		
 		#endregion
-		internal void GetOPFSettings( AppId unVideoAppID )
+		public void GetOPFSettings( AppId unVideoAppID )
 		{
 			_GetOPFSettings( Self, unVideoAppID );
 		}
@@ -58,7 +58,7 @@ namespace Steamworks
 		private static extern bool _GetOPFStringForApp( IntPtr self, AppId unVideoAppID, IntPtr pchBuffer, ref int pnBufferSize );
 		
 		#endregion
-		internal bool GetOPFStringForApp( AppId unVideoAppID, out string pchBuffer, ref int pnBufferSize )
+		public bool GetOPFStringForApp( AppId unVideoAppID, out string pchBuffer, ref int pnBufferSize )
 		{
 			IntPtr mempchBuffer = Helpers.TakeMemory();
 			var returnValue = _GetOPFStringForApp( Self, unVideoAppID, mempchBuffer, ref pnBufferSize );

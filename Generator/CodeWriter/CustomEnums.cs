@@ -22,8 +22,8 @@ namespace Generator
 
 			int last = -1;
 
-			StartBlock( "internal static partial class CallbackTypeFactory" );
-			StartBlock( "internal static System.Collections.Generic.Dictionary<CallbackType, System.Type> All = new System.Collections.Generic.Dictionary<CallbackType, System.Type>" );
+			StartBlock( "public static partial class CallbackTypeFactory" );
+			StartBlock( "public static System.Collections.Generic.Dictionary<CallbackType, System.Type> All = new System.Collections.Generic.Dictionary<CallbackType, System.Type>" );
 			foreach ( var c in def.callback_structs.OrderBy( x => x.CallbackId ) )
 			{
 				if ( Cleanup.IsDeprecated( c.Name ) )

@@ -7,20 +7,20 @@ namespace Steamworks.Data
 	public partial struct NetAddress
 	{
 		[FieldOffset( 0 )]
-		internal IPV4 ip;
+		public IPV4 ip;
 
 		[FieldOffset( 16 )]
-		internal ushort port;
+		public ushort port;
 
-		internal struct IPV4
+		public struct IPV4
 		{
-			internal ulong m_8zeros;
-			internal ushort m_0000;
-			internal ushort m_ffff;
-			internal byte ip0;
-			internal byte ip1;
-			internal byte ip2;
-			internal byte ip3;
+			public ulong m_8zeros;
+			public ushort m_0000;
+			public ushort m_ffff;
+			public byte ip0;
+			public byte ip1;
+			public byte ip2;
+			public byte ip3;
 		}
 
 		/// <summary>

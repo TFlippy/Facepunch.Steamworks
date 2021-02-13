@@ -11,8 +11,8 @@ namespace Steamworks.Ugc
 {
 	public struct Item
 	{
-		internal SteamUGCDetails_t details;
-		internal PublishedFileId _id;
+		public SteamUGCDetails_t details;
+		public PublishedFileId _id;
 
 		public Item( PublishedFileId id ) : this()
 		{
@@ -27,22 +27,22 @@ namespace Steamworks.Ugc
 		/// <summary>
 		/// The given title of this item
 		/// </summary>
-		public string Title { get; internal set; }
+		public string Title { get; set; }
 
 		/// <summary>
 		/// The description of this item, in your local language if available
 		/// </summary>
-		public string Description { get; internal set; }
+		public string Description { get; set; }
 
 		/// <summary>
 		/// A list of tags for this item, all lowercase
 		/// </summary>
-		public string[] Tags { get; internal set; }
+		public string[] Tags { get; set; }
 
 		/// <summary>
 		/// A dictionary of key value tags for this item, only available from queries WithKeyValueTags(true)
 		/// </summary>
-		public Dictionary<string,string> KeyValueTags { get; internal set; }
+		public Dictionary<string,string> KeyValueTags { get; set; }
 
 		/// <summary>
 		/// App Id of the app that created this item
@@ -116,7 +116,7 @@ namespace Steamworks.Ugc
 		/// <summary>
 		/// Additional previews of this item or collection, available only from WithAdditionalPreviews(true) queries
 		/// </summary>
-		public UgcAdditionalPreview[] AdditionalPreviews { get; internal set; }
+		public UgcAdditionalPreview[] AdditionalPreviews { get; set; }
 
         public bool IsInstalled => (State & ItemState.Installed) == ItemState.Installed;
 		public bool IsDownloading => (State & ItemState.Downloading) == ItemState.Downloading;
@@ -245,7 +245,7 @@ namespace Steamworks.Ugc
 			}
 		}
 
-		internal static Item From( SteamUGCDetails_t details )
+		public static Item From( SteamUGCDetails_t details )
 		{
 			var d = new Item
 			{
@@ -360,29 +360,29 @@ namespace Steamworks.Ugc
 		/// </summary>
 		public string StatsUrl => $"http://steamcommunity.com/sharedfiles/filedetails/stats/{Id}";
 
-		public ulong NumSubscriptions { get; internal set; }
-		public ulong NumFavorites { get; internal set; }
-		public ulong NumFollowers { get; internal set; }
-		public ulong NumUniqueSubscriptions { get; internal set; }
-		public ulong NumUniqueFavorites { get; internal set; }
-		public ulong NumUniqueFollowers { get; internal set; }
-		public ulong NumUniqueWebsiteViews { get; internal set; }
-		public ulong ReportScore { get; internal set; }
-		public ulong NumSecondsPlayed { get; internal set; }
-		public ulong NumPlaytimeSessions { get; internal set; }
-		public ulong NumComments { get; internal set; }
-		public ulong NumSecondsPlayedDuringTimePeriod { get; internal set; }
-		public ulong NumPlaytimeSessionsDuringTimePeriod { get; internal set; }
+		public ulong NumSubscriptions { get; set; }
+		public ulong NumFavorites { get; set; }
+		public ulong NumFollowers { get; set; }
+		public ulong NumUniqueSubscriptions { get; set; }
+		public ulong NumUniqueFavorites { get; set; }
+		public ulong NumUniqueFollowers { get; set; }
+		public ulong NumUniqueWebsiteViews { get; set; }
+		public ulong ReportScore { get; set; }
+		public ulong NumSecondsPlayed { get; set; }
+		public ulong NumPlaytimeSessions { get; set; }
+		public ulong NumComments { get; set; }
+		public ulong NumSecondsPlayedDuringTimePeriod { get; set; }
+		public ulong NumPlaytimeSessionsDuringTimePeriod { get; set; }
 
 		/// <summary>
 		/// The URL to the preview image for this item
 		/// </summary>
-		public string PreviewImageUrl { get; internal set; }
+		public string PreviewImageUrl { get; set; }
 
 		/// <summary>
 		/// The metadata string for this item, only available from queries WithMetadata(true)
 		/// </summary>
-		public string Metadata { get; internal set; }
+		public string Metadata { get; set; }
 
 		/// <summary>
 		/// Edit this item

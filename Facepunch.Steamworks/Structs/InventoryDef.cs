@@ -7,8 +7,8 @@ namespace Steamworks
 {
 	public class InventoryDef : IEquatable<InventoryDef>
 	{
-		internal InventoryDefId _id;
-		internal Dictionary<string, string> _properties;
+		public InventoryDefId _id;
+		public Dictionary<string, string> _properties;
 
 		public InventoryDef( InventoryDefId defId )
 		{

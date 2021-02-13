@@ -7,11 +7,11 @@ namespace Steamworks
 {
 	public struct InventoryResult : IDisposable
 	{
-		internal SteamInventoryResult_t _id;
+		public SteamInventoryResult_t _id;
 		
-		public bool Expired { get; internal set; }
+		public bool Expired { get; set; }
 
-		internal InventoryResult( SteamInventoryResult_t id, bool expired )
+		public InventoryResult( SteamInventoryResult_t id, bool expired )
 		{
 			_id = id;
 			Expired = expired;
@@ -72,7 +72,7 @@ namespace Steamworks
 			SteamInventory.Internal.DestroyResult( _id );
 		}
 
-		internal static async Task<InventoryResult?> GetAsync( SteamInventoryResult_t sresult )
+		public static async Task<InventoryResult?> GetAsync( SteamInventoryResult_t sresult )
 		{
 			var _result = Result.Pending;
 			while ( _result == Result.Pending )

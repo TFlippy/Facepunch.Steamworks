@@ -7,7 +7,7 @@ namespace Steamworks.Data
 {
 	public struct Lobby
 	{
-		public SteamId Id { get; internal set; }
+		public SteamId Id { get; set; }
 
 
 		public Lobby( SteamId id )
@@ -143,7 +143,7 @@ namespace Steamworks.Data
 		/// this isn't exposed because there's no way to read raw bytes atm, 
 		/// and I figure people can send json if they want something more advanced
 		/// </summary>
-		internal unsafe bool SendChatBytes( byte[] data )
+		public unsafe bool SendChatBytes( byte[] data )
 		{
 			fixed ( byte* ptr = data )
 			{

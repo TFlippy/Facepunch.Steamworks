@@ -8,7 +8,7 @@ namespace Steamworks.Data
 {
 	public struct Achievement
 	{
-		internal string Value;
+		public string Value;
 
 		public Achievement( string name )
 		{

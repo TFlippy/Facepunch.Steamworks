@@ -7,13 +7,13 @@ using System.Text;
 namespace Steamworks.Data
 {
 	[StructLayout( LayoutKind.Explicit, Pack = Platform.StructPlatformPackSize )]
-	internal partial struct SteamIPAddress
+	public partial struct SteamIPAddress
 	{
 		[FieldOffset( 0 )]
 		public uint Ip4Address; // Host Order
 
 		[FieldOffset( 16 )]
-		internal SteamIPType Type; // m_eType ESteamIPType
+		public SteamIPType Type; // m_eType ESteamIPType
 
 		public static implicit operator System.Net.IPAddress( SteamIPAddress value )
 		{

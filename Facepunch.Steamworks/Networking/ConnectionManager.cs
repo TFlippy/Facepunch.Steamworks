@@ -20,7 +20,7 @@ namespace Steamworks
 		/// <summary>
 		/// The last received ConnectionInfo
 		/// </summary>
-		public ConnectionInfo ConnectionInfo { get; internal set; }
+		public ConnectionInfo ConnectionInfo { get; set; }
 
 		public bool Connected = false;
 		public bool Connecting = true;
@@ -133,7 +133,7 @@ namespace Steamworks
 			if (processed == bufferSize) Receive(bufferSize);
 		}
 
-		internal unsafe void ReceiveMessage(IntPtr msgPtr)
+		public unsafe void ReceiveMessage(IntPtr msgPtr)
 		{
 			var msg = Unsafe.AsRef<NetMsg>(msgPtr.ToPointer()); // Marshal.PtrToStructure<NetMsg>( msgPtr );
 			try

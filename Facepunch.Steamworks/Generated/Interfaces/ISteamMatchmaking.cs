@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamMatchmaking : SteamInterface
+	public class ISteamMatchmaking : SteamInterface
 	{
 		
-		internal ISteamMatchmaking( bool IsGameServer )
+		public ISteamMatchmaking( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamMatchmaking_v009", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamMatchmaking_v009();
+		public static extern IntPtr SteamAPI_SteamMatchmaking_v009();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamMatchmaking_v009();
 		
 		
@@ -25,7 +25,7 @@ namespace Steamworks
 		private static extern int _GetFavoriteGameCount( IntPtr self );
 		
 		#endregion
-		internal int GetFavoriteGameCount()
+		public int GetFavoriteGameCount()
 		{
 			var returnValue = _GetFavoriteGameCount( Self );
 			return returnValue;
@@ -37,7 +37,7 @@ namespace Steamworks
 		private static extern bool _GetFavoriteGame( IntPtr self, int iGame, ref AppId pnAppID, ref uint pnIP, ref ushort pnConnPort, ref ushort pnQueryPort, ref uint punFlags, ref uint pRTime32LastPlayedOnServer );
 		
 		#endregion
-		internal bool GetFavoriteGame( int iGame, ref AppId pnAppID, ref uint pnIP, ref ushort pnConnPort, ref ushort pnQueryPort, ref uint punFlags, ref uint pRTime32LastPlayedOnServer )
+		public bool GetFavoriteGame( int iGame, ref AppId pnAppID, ref uint pnIP, ref ushort pnConnPort, ref ushort pnQueryPort, ref uint punFlags, ref uint pRTime32LastPlayedOnServer )
 		{
 			var returnValue = _GetFavoriteGame( Self, iGame, ref pnAppID, ref pnIP, ref pnConnPort, ref pnQueryPort, ref punFlags, ref pRTime32LastPlayedOnServer );
 			return returnValue;
@@ -48,7 +48,7 @@ namespace Steamworks
 		private static extern int _AddFavoriteGame( IntPtr self, AppId nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags, uint rTime32LastPlayedOnServer );
 		
 		#endregion
-		internal int AddFavoriteGame( AppId nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags, uint rTime32LastPlayedOnServer )
+		public int AddFavoriteGame( AppId nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags, uint rTime32LastPlayedOnServer )
 		{
 			var returnValue = _AddFavoriteGame( Self, nAppID, nIP, nConnPort, nQueryPort, unFlags, rTime32LastPlayedOnServer );
 			return returnValue;
@@ -60,7 +60,7 @@ namespace Steamworks
 		private static extern bool _RemoveFavoriteGame( IntPtr self, AppId nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags );
 		
 		#endregion
-		internal bool RemoveFavoriteGame( AppId nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags )
+		public bool RemoveFavoriteGame( AppId nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags )
 		{
 			var returnValue = _RemoveFavoriteGame( Self, nAppID, nIP, nConnPort, nQueryPort, unFlags );
 			return returnValue;
@@ -71,7 +71,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _RequestLobbyList( IntPtr self );
 		
 		#endregion
-		internal CallResult<LobbyMatchList_t> RequestLobbyList()
+		public CallResult<LobbyMatchList_t> RequestLobbyList()
 		{
 			var returnValue = _RequestLobbyList( Self );
 			return new CallResult<LobbyMatchList_t>( returnValue, IsServer );
@@ -82,7 +82,7 @@ namespace Steamworks
 		private static extern void _AddRequestLobbyListStringFilter( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValueToMatch, LobbyComparison eComparisonType );
 		
 		#endregion
-		internal void AddRequestLobbyListStringFilter( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValueToMatch, LobbyComparison eComparisonType )
+		public void AddRequestLobbyListStringFilter( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValueToMatch, LobbyComparison eComparisonType )
 		{
 			_AddRequestLobbyListStringFilter( Self, pchKeyToMatch, pchValueToMatch, eComparisonType );
 		}
@@ -92,7 +92,7 @@ namespace Steamworks
 		private static extern void _AddRequestLobbyListNumericalFilter( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, int nValueToMatch, LobbyComparison eComparisonType );
 		
 		#endregion
-		internal void AddRequestLobbyListNumericalFilter( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, int nValueToMatch, LobbyComparison eComparisonType )
+		public void AddRequestLobbyListNumericalFilter( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, int nValueToMatch, LobbyComparison eComparisonType )
 		{
 			_AddRequestLobbyListNumericalFilter( Self, pchKeyToMatch, nValueToMatch, eComparisonType );
 		}
@@ -102,7 +102,7 @@ namespace Steamworks
 		private static extern void _AddRequestLobbyListNearValueFilter( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, int nValueToBeCloseTo );
 		
 		#endregion
-		internal void AddRequestLobbyListNearValueFilter( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, int nValueToBeCloseTo )
+		public void AddRequestLobbyListNearValueFilter( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKeyToMatch, int nValueToBeCloseTo )
 		{
 			_AddRequestLobbyListNearValueFilter( Self, pchKeyToMatch, nValueToBeCloseTo );
 		}
@@ -112,7 +112,7 @@ namespace Steamworks
 		private static extern void _AddRequestLobbyListFilterSlotsAvailable( IntPtr self, int nSlotsAvailable );
 		
 		#endregion
-		internal void AddRequestLobbyListFilterSlotsAvailable( int nSlotsAvailable )
+		public void AddRequestLobbyListFilterSlotsAvailable( int nSlotsAvailable )
 		{
 			_AddRequestLobbyListFilterSlotsAvailable( Self, nSlotsAvailable );
 		}
@@ -122,7 +122,7 @@ namespace Steamworks
 		private static extern void _AddRequestLobbyListDistanceFilter( IntPtr self, LobbyDistanceFilter eLobbyDistanceFilter );
 		
 		#endregion
-		internal void AddRequestLobbyListDistanceFilter( LobbyDistanceFilter eLobbyDistanceFilter )
+		public void AddRequestLobbyListDistanceFilter( LobbyDistanceFilter eLobbyDistanceFilter )
 		{
 			_AddRequestLobbyListDistanceFilter( Self, eLobbyDistanceFilter );
 		}
@@ -132,7 +132,7 @@ namespace Steamworks
 		private static extern void _AddRequestLobbyListResultCountFilter( IntPtr self, int cMaxResults );
 		
 		#endregion
-		internal void AddRequestLobbyListResultCountFilter( int cMaxResults )
+		public void AddRequestLobbyListResultCountFilter( int cMaxResults )
 		{
 			_AddRequestLobbyListResultCountFilter( Self, cMaxResults );
 		}
@@ -142,7 +142,7 @@ namespace Steamworks
 		private static extern void _AddRequestLobbyListCompatibleMembersFilter( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal void AddRequestLobbyListCompatibleMembersFilter( SteamId steamIDLobby )
+		public void AddRequestLobbyListCompatibleMembersFilter( SteamId steamIDLobby )
 		{
 			_AddRequestLobbyListCompatibleMembersFilter( Self, steamIDLobby );
 		}
@@ -152,7 +152,7 @@ namespace Steamworks
 		private static extern SteamId _GetLobbyByIndex( IntPtr self, int iLobby );
 		
 		#endregion
-		internal SteamId GetLobbyByIndex( int iLobby )
+		public SteamId GetLobbyByIndex( int iLobby )
 		{
 			var returnValue = _GetLobbyByIndex( Self, iLobby );
 			return returnValue;
@@ -163,7 +163,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _CreateLobby( IntPtr self, LobbyType eLobbyType, int cMaxMembers );
 		
 		#endregion
-		internal CallResult<LobbyCreated_t> CreateLobby( LobbyType eLobbyType, int cMaxMembers )
+		public CallResult<LobbyCreated_t> CreateLobby( LobbyType eLobbyType, int cMaxMembers )
 		{
 			var returnValue = _CreateLobby( Self, eLobbyType, cMaxMembers );
 			return new CallResult<LobbyCreated_t>( returnValue, IsServer );
@@ -174,7 +174,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _JoinLobby( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal CallResult<LobbyEnter_t> JoinLobby( SteamId steamIDLobby )
+		public CallResult<LobbyEnter_t> JoinLobby( SteamId steamIDLobby )
 		{
 			var returnValue = _JoinLobby( Self, steamIDLobby );
 			return new CallResult<LobbyEnter_t>( returnValue, IsServer );
@@ -185,7 +185,7 @@ namespace Steamworks
 		private static extern void _LeaveLobby( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal void LeaveLobby( SteamId steamIDLobby )
+		public void LeaveLobby( SteamId steamIDLobby )
 		{
 			_LeaveLobby( Self, steamIDLobby );
 		}
@@ -196,7 +196,7 @@ namespace Steamworks
 		private static extern bool _InviteUserToLobby( IntPtr self, SteamId steamIDLobby, SteamId steamIDInvitee );
 		
 		#endregion
-		internal bool InviteUserToLobby( SteamId steamIDLobby, SteamId steamIDInvitee )
+		public bool InviteUserToLobby( SteamId steamIDLobby, SteamId steamIDInvitee )
 		{
 			var returnValue = _InviteUserToLobby( Self, steamIDLobby, steamIDInvitee );
 			return returnValue;
@@ -207,7 +207,7 @@ namespace Steamworks
 		private static extern int _GetNumLobbyMembers( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal int GetNumLobbyMembers( SteamId steamIDLobby )
+		public int GetNumLobbyMembers( SteamId steamIDLobby )
 		{
 			var returnValue = _GetNumLobbyMembers( Self, steamIDLobby );
 			return returnValue;
@@ -218,7 +218,7 @@ namespace Steamworks
 		private static extern SteamId _GetLobbyMemberByIndex( IntPtr self, SteamId steamIDLobby, int iMember );
 		
 		#endregion
-		internal SteamId GetLobbyMemberByIndex( SteamId steamIDLobby, int iMember )
+		public SteamId GetLobbyMemberByIndex( SteamId steamIDLobby, int iMember )
 		{
 			var returnValue = _GetLobbyMemberByIndex( Self, steamIDLobby, iMember );
 			return returnValue;
@@ -229,7 +229,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetLobbyData( IntPtr self, SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey );
 		
 		#endregion
-		internal string GetLobbyData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
+		public string GetLobbyData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
 		{
 			var returnValue = _GetLobbyData( Self, steamIDLobby, pchKey );
 			return returnValue;
@@ -241,7 +241,7 @@ namespace Steamworks
 		private static extern bool _SetLobbyData( IntPtr self, SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue );
 		
 		#endregion
-		internal bool SetLobbyData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
+		public bool SetLobbyData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
 		{
 			var returnValue = _SetLobbyData( Self, steamIDLobby, pchKey, pchValue );
 			return returnValue;
@@ -252,7 +252,7 @@ namespace Steamworks
 		private static extern int _GetLobbyDataCount( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal int GetLobbyDataCount( SteamId steamIDLobby )
+		public int GetLobbyDataCount( SteamId steamIDLobby )
 		{
 			var returnValue = _GetLobbyDataCount( Self, steamIDLobby );
 			return returnValue;
@@ -264,7 +264,7 @@ namespace Steamworks
 		private static extern bool _GetLobbyDataByIndex( IntPtr self, SteamId steamIDLobby, int iLobbyData, IntPtr pchKey, int cchKeyBufferSize, IntPtr pchValue, int cchValueBufferSize );
 		
 		#endregion
-		internal bool GetLobbyDataByIndex( SteamId steamIDLobby, int iLobbyData, out string pchKey, out string pchValue )
+		public bool GetLobbyDataByIndex( SteamId steamIDLobby, int iLobbyData, out string pchKey, out string pchValue )
 		{
 			IntPtr mempchKey = Helpers.TakeMemory();
 			IntPtr mempchValue = Helpers.TakeMemory();
@@ -280,7 +280,7 @@ namespace Steamworks
 		private static extern bool _DeleteLobbyData( IntPtr self, SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey );
 		
 		#endregion
-		internal bool DeleteLobbyData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
+		public bool DeleteLobbyData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
 		{
 			var returnValue = _DeleteLobbyData( Self, steamIDLobby, pchKey );
 			return returnValue;
@@ -291,7 +291,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetLobbyMemberData( IntPtr self, SteamId steamIDLobby, SteamId steamIDUser, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey );
 		
 		#endregion
-		internal string GetLobbyMemberData( SteamId steamIDLobby, SteamId steamIDUser, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
+		public string GetLobbyMemberData( SteamId steamIDLobby, SteamId steamIDUser, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
 		{
 			var returnValue = _GetLobbyMemberData( Self, steamIDLobby, steamIDUser, pchKey );
 			return returnValue;
@@ -302,7 +302,7 @@ namespace Steamworks
 		private static extern void _SetLobbyMemberData( IntPtr self, SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue );
 		
 		#endregion
-		internal void SetLobbyMemberData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
+		public void SetLobbyMemberData( SteamId steamIDLobby, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
 		{
 			_SetLobbyMemberData( Self, steamIDLobby, pchKey, pchValue );
 		}
@@ -313,7 +313,7 @@ namespace Steamworks
 		private static extern bool _SendLobbyChatMsg( IntPtr self, SteamId steamIDLobby, IntPtr pvMsgBody, int cubMsgBody );
 		
 		#endregion
-		internal bool SendLobbyChatMsg( SteamId steamIDLobby, IntPtr pvMsgBody, int cubMsgBody )
+		public bool SendLobbyChatMsg( SteamId steamIDLobby, IntPtr pvMsgBody, int cubMsgBody )
 		{
 			var returnValue = _SendLobbyChatMsg( Self, steamIDLobby, pvMsgBody, cubMsgBody );
 			return returnValue;
@@ -324,7 +324,7 @@ namespace Steamworks
 		private static extern int _GetLobbyChatEntry( IntPtr self, SteamId steamIDLobby, int iChatID, ref SteamId pSteamIDUser, IntPtr pvData, int cubData, ref ChatEntryType peChatEntryType );
 		
 		#endregion
-		internal int GetLobbyChatEntry( SteamId steamIDLobby, int iChatID, ref SteamId pSteamIDUser, IntPtr pvData, int cubData, ref ChatEntryType peChatEntryType )
+		public int GetLobbyChatEntry( SteamId steamIDLobby, int iChatID, ref SteamId pSteamIDUser, IntPtr pvData, int cubData, ref ChatEntryType peChatEntryType )
 		{
 			var returnValue = _GetLobbyChatEntry( Self, steamIDLobby, iChatID, ref pSteamIDUser, pvData, cubData, ref peChatEntryType );
 			return returnValue;
@@ -336,7 +336,7 @@ namespace Steamworks
 		private static extern bool _RequestLobbyData( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal bool RequestLobbyData( SteamId steamIDLobby )
+		public bool RequestLobbyData( SteamId steamIDLobby )
 		{
 			var returnValue = _RequestLobbyData( Self, steamIDLobby );
 			return returnValue;
@@ -347,7 +347,7 @@ namespace Steamworks
 		private static extern void _SetLobbyGameServer( IntPtr self, SteamId steamIDLobby, uint unGameServerIP, ushort unGameServerPort, SteamId steamIDGameServer );
 		
 		#endregion
-		internal void SetLobbyGameServer( SteamId steamIDLobby, uint unGameServerIP, ushort unGameServerPort, SteamId steamIDGameServer )
+		public void SetLobbyGameServer( SteamId steamIDLobby, uint unGameServerIP, ushort unGameServerPort, SteamId steamIDGameServer )
 		{
 			_SetLobbyGameServer( Self, steamIDLobby, unGameServerIP, unGameServerPort, steamIDGameServer );
 		}
@@ -358,7 +358,7 @@ namespace Steamworks
 		private static extern bool _GetLobbyGameServer( IntPtr self, SteamId steamIDLobby, ref uint punGameServerIP, ref ushort punGameServerPort, ref SteamId psteamIDGameServer );
 		
 		#endregion
-		internal bool GetLobbyGameServer( SteamId steamIDLobby, ref uint punGameServerIP, ref ushort punGameServerPort, ref SteamId psteamIDGameServer )
+		public bool GetLobbyGameServer( SteamId steamIDLobby, ref uint punGameServerIP, ref ushort punGameServerPort, ref SteamId psteamIDGameServer )
 		{
 			var returnValue = _GetLobbyGameServer( Self, steamIDLobby, ref punGameServerIP, ref punGameServerPort, ref psteamIDGameServer );
 			return returnValue;
@@ -370,7 +370,7 @@ namespace Steamworks
 		private static extern bool _SetLobbyMemberLimit( IntPtr self, SteamId steamIDLobby, int cMaxMembers );
 		
 		#endregion
-		internal bool SetLobbyMemberLimit( SteamId steamIDLobby, int cMaxMembers )
+		public bool SetLobbyMemberLimit( SteamId steamIDLobby, int cMaxMembers )
 		{
 			var returnValue = _SetLobbyMemberLimit( Self, steamIDLobby, cMaxMembers );
 			return returnValue;
@@ -381,7 +381,7 @@ namespace Steamworks
 		private static extern int _GetLobbyMemberLimit( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal int GetLobbyMemberLimit( SteamId steamIDLobby )
+		public int GetLobbyMemberLimit( SteamId steamIDLobby )
 		{
 			var returnValue = _GetLobbyMemberLimit( Self, steamIDLobby );
 			return returnValue;
@@ -393,7 +393,7 @@ namespace Steamworks
 		private static extern bool _SetLobbyType( IntPtr self, SteamId steamIDLobby, LobbyType eLobbyType );
 		
 		#endregion
-		internal bool SetLobbyType( SteamId steamIDLobby, LobbyType eLobbyType )
+		public bool SetLobbyType( SteamId steamIDLobby, LobbyType eLobbyType )
 		{
 			var returnValue = _SetLobbyType( Self, steamIDLobby, eLobbyType );
 			return returnValue;
@@ -405,7 +405,7 @@ namespace Steamworks
 		private static extern bool _SetLobbyJoinable( IntPtr self, SteamId steamIDLobby, [MarshalAs( UnmanagedType.U1 )] bool bLobbyJoinable );
 		
 		#endregion
-		internal bool SetLobbyJoinable( SteamId steamIDLobby, [MarshalAs( UnmanagedType.U1 )] bool bLobbyJoinable )
+		public bool SetLobbyJoinable( SteamId steamIDLobby, [MarshalAs( UnmanagedType.U1 )] bool bLobbyJoinable )
 		{
 			var returnValue = _SetLobbyJoinable( Self, steamIDLobby, bLobbyJoinable );
 			return returnValue;
@@ -416,7 +416,7 @@ namespace Steamworks
 		private static extern SteamId _GetLobbyOwner( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal SteamId GetLobbyOwner( SteamId steamIDLobby )
+		public SteamId GetLobbyOwner( SteamId steamIDLobby )
 		{
 			var returnValue = _GetLobbyOwner( Self, steamIDLobby );
 			return returnValue;
@@ -428,7 +428,7 @@ namespace Steamworks
 		private static extern bool _SetLobbyOwner( IntPtr self, SteamId steamIDLobby, SteamId steamIDNewOwner );
 		
 		#endregion
-		internal bool SetLobbyOwner( SteamId steamIDLobby, SteamId steamIDNewOwner )
+		public bool SetLobbyOwner( SteamId steamIDLobby, SteamId steamIDNewOwner )
 		{
 			var returnValue = _SetLobbyOwner( Self, steamIDLobby, steamIDNewOwner );
 			return returnValue;
@@ -440,7 +440,7 @@ namespace Steamworks
 		private static extern bool _SetLinkedLobby( IntPtr self, SteamId steamIDLobby, SteamId steamIDLobbyDependent );
 		
 		#endregion
-		internal bool SetLinkedLobby( SteamId steamIDLobby, SteamId steamIDLobbyDependent )
+		public bool SetLinkedLobby( SteamId steamIDLobby, SteamId steamIDLobbyDependent )
 		{
 			var returnValue = _SetLinkedLobby( Self, steamIDLobby, steamIDLobbyDependent );
 			return returnValue;

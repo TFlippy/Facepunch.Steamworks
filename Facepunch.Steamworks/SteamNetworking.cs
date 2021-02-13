@@ -10,16 +10,16 @@ namespace Steamworks
 {
 	public class SteamNetworking : SteamSharedClass<SteamNetworking>
 	{
-		internal static ISteamNetworking Internal => Interface as ISteamNetworking;
+		public static ISteamNetworking Internal => Interface as ISteamNetworking;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamNetworking( server ) );
 
 			InstallEvents( server );
 		}
 
-		internal static void InstallEvents( bool server )
+		public static void InstallEvents( bool server )
 		{
 			Dispatch.Install<P2PSessionRequest_t>( x => OnP2PSessionRequest?.Invoke( x.SteamIDRemote ), server );
 			Dispatch.Install<P2PSessionConnectFail_t>( x => OnP2PConnectionFailed?.Invoke( x.SteamIDRemote, (P2PSessionError) x.P2PSessionError ), server );

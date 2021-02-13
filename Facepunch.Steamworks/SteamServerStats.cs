@@ -9,9 +9,9 @@ namespace Steamworks
 {
 	public class SteamServerStats : SteamServerClass<SteamServerStats>
 	{
-		internal static ISteamGameServerStats Internal => Interface as ISteamGameServerStats;
+		public static ISteamGameServerStats Internal => Interface as ISteamGameServerStats;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamGameServerStats( server ) );
 		}

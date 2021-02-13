@@ -12,9 +12,9 @@ namespace Steamworks
 	/// </summary>
 	public partial class SteamServer : SteamServerClass<SteamServer>
 	{
-		internal static ISteamGameServer Internal => Interface as ISteamGameServer;
+		public static ISteamGameServer Internal => Interface as ISteamGameServer;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamGameServer( server ) );
 			InstallEvents();
@@ -22,7 +22,7 @@ namespace Steamworks
 
 		public static bool IsValid => Internal != null && Internal.IsValid;
 
-		internal static void InstallEvents()
+		public static void InstallEvents()
 		{
             Dispatch.Install<ValidateAuthTicketResponse_t>( x => OnValidateAuthTicketResponse?.Invoke( x.SteamID, x.OwnerSteamID, x.AuthSessionResponse ), true );
 			Dispatch.Install<SteamServersConnected_t>( x => OnSteamServersConnected?.Invoke(), true );
@@ -128,7 +128,7 @@ namespace Steamworks
 			}
 		}
 
-		internal static void AddInterface<T>() where T : SteamClass, new()
+		public static void AddInterface<T>() where T : SteamClass, new()
 		{
 			var t = new T();
 			t.InitializeInterface( true );
@@ -137,7 +137,7 @@ namespace Steamworks
 
 		static readonly List<SteamClass> openInterfaces = new List<SteamClass>();
 
-		internal static void ShutdownInterfaces()
+		public static void ShutdownInterfaces()
 		{
 			foreach ( var e in openInterfaces )
 			{
@@ -215,7 +215,7 @@ namespace Steamworks
 		public static string ModDir
 		{
 			get => _modDir; 
-			internal set { if ( _modDir == value ) return; Internal.SetModDir( value ); _modDir = value; }
+			set { if ( _modDir == value ) return; Internal.SetModDir( value ); _modDir = value; }
 		}
 		private static string _modDir = "";
 
@@ -225,7 +225,7 @@ namespace Steamworks
 		public static string Product
 		{
 			get => _product;
-			internal set { if ( _product == value ) return; Internal.SetProduct( value ); _product = value; }
+			set { if ( _product == value ) return; Internal.SetProduct( value ); _product = value; }
 		}
 		private static string _product = "";
 
@@ -235,7 +235,7 @@ namespace Steamworks
 		public static string GameDescription
 		{
 			get => _gameDescription;
-			internal set { if ( _gameDescription == value ) return; Internal.SetGameDescription( value ); _gameDescription = value; }
+			set { if ( _gameDescription == value ) return; Internal.SetGameDescription( value ); _gameDescription = value; }
 		}
 		private static string _gameDescription = "";
 

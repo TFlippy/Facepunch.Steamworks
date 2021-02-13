@@ -11,8 +11,8 @@ namespace Steamworks.Data
 {
 	public struct Stat
 	{
-		public string Name { get; internal set; }
-		public SteamId UserId { get; internal set; }
+		public string Name { get; set; }
+		public SteamId UserId { get; set; }
 
 		public Stat( string name )
 		{
@@ -26,7 +26,7 @@ namespace Steamworks.Data
 			UserId = user;
 		}
 
-		internal void LocalUserOnly( [CallerMemberName] string caller = null )
+		public void LocalUserOnly( [CallerMemberName] string caller = null )
 		{
 			if ( UserId == 0 ) return;
 			throw new System.Exception( $"Stat.{caller} can only be called for the local user" );

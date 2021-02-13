@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Steamworks
 {
-	internal static class Helpers
+	public static class Helpers
 	{
 		public const int MemoryBufferSize = 1024 * 32;
 
@@ -64,7 +64,7 @@ namespace Steamworks
 			}
 		}
 
-		internal unsafe static string MemoryToString( IntPtr ptr )
+		public unsafe static string MemoryToString( IntPtr ptr )
 		{
 			var len = 0;
 
@@ -81,7 +81,7 @@ namespace Steamworks
 		}
 	}
 
-	internal class MonoPInvokeCallbackAttribute : Attribute
+	public class MonoPInvokeCallbackAttribute : Attribute
 	{
 		public MonoPInvokeCallbackAttribute() { }
 	}
@@ -90,5 +90,5 @@ namespace Steamworks
 	/// Prevent unity from stripping shit we depend on
 	/// https://docs.unity3d.com/Manual/ManagedCodeStripping.html
 	/// </summary>
-	internal class PreserveAttribute : System.Attribute { }
+	public class PreserveAttribute : System.Attribute { }
 }

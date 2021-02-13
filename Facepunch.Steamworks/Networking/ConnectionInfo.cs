@@ -8,19 +8,19 @@ namespace Steamworks.Data
 	[StructLayout( LayoutKind.Sequential, Size = 696 )]
 	public struct ConnectionInfo
 	{
-		internal NetIdentity identity;
-		internal long userData;
-		internal Socket listenSocket;
-		internal NetAddress address;
-		internal ushort pad;
-		internal SteamNetworkingPOPID popRemote;
-		internal SteamNetworkingPOPID popRelay;
-		internal ConnectionState state;
-		internal int endReason;
+		public NetIdentity identity;
+		public long userData;
+		public Socket listenSocket;
+		public NetAddress address;
+		public ushort pad;
+		public SteamNetworkingPOPID popRemote;
+		public SteamNetworkingPOPID popRelay;
+		public ConnectionState state;
+		public int endReason;
 		[MarshalAs( UnmanagedType.ByValTStr, SizeConst = 128 )]
-		internal string endDebug;
+		public string endDebug;
 		[MarshalAs( UnmanagedType.ByValTStr, SizeConst = 128 )]
-		internal string connectionDescription;
+		public string connectionDescription;
 
 		/// <summary>
 		/// High level state of the connection

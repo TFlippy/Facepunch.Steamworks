@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamHTMLSurface : SteamInterface
+	public class ISteamHTMLSurface : SteamInterface
 	{
 		
-		internal ISteamHTMLSurface( bool IsGameServer )
+		public ISteamHTMLSurface( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamHTMLSurface_v005", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamHTMLSurface_v005();
+		public static extern IntPtr SteamAPI_SteamHTMLSurface_v005();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamHTMLSurface_v005();
 		
 		
@@ -26,7 +26,7 @@ namespace Steamworks
 		private static extern bool _Init( IntPtr self );
 		
 		#endregion
-		internal bool Init()
+		public bool Init()
 		{
 			var returnValue = _Init( Self );
 			return returnValue;
@@ -38,7 +38,7 @@ namespace Steamworks
 		private static extern bool _Shutdown( IntPtr self );
 		
 		#endregion
-		internal bool Shutdown()
+		public bool Shutdown()
 		{
 			var returnValue = _Shutdown( Self );
 			return returnValue;
@@ -49,7 +49,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _CreateBrowser( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchUserAgent, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchUserCSS );
 		
 		#endregion
-		internal CallResult<HTML_BrowserReady_t> CreateBrowser( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchUserAgent, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchUserCSS )
+		public CallResult<HTML_BrowserReady_t> CreateBrowser( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchUserAgent, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchUserCSS )
 		{
 			var returnValue = _CreateBrowser( Self, pchUserAgent, pchUserCSS );
 			return new CallResult<HTML_BrowserReady_t>( returnValue, IsServer );
@@ -60,7 +60,7 @@ namespace Steamworks
 		private static extern void _RemoveBrowser( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void RemoveBrowser( HHTMLBrowser unBrowserHandle )
+		public void RemoveBrowser( HHTMLBrowser unBrowserHandle )
 		{
 			_RemoveBrowser( Self, unBrowserHandle );
 		}
@@ -70,7 +70,7 @@ namespace Steamworks
 		private static extern void _LoadURL( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchURL, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPostData );
 		
 		#endregion
-		internal void LoadURL( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchURL, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPostData )
+		public void LoadURL( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchURL, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPostData )
 		{
 			_LoadURL( Self, unBrowserHandle, pchURL, pchPostData );
 		}
@@ -80,7 +80,7 @@ namespace Steamworks
 		private static extern void _SetSize( IntPtr self, HHTMLBrowser unBrowserHandle, uint unWidth, uint unHeight );
 		
 		#endregion
-		internal void SetSize( HHTMLBrowser unBrowserHandle, uint unWidth, uint unHeight )
+		public void SetSize( HHTMLBrowser unBrowserHandle, uint unWidth, uint unHeight )
 		{
 			_SetSize( Self, unBrowserHandle, unWidth, unHeight );
 		}
@@ -90,7 +90,7 @@ namespace Steamworks
 		private static extern void _StopLoad( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void StopLoad( HHTMLBrowser unBrowserHandle )
+		public void StopLoad( HHTMLBrowser unBrowserHandle )
 		{
 			_StopLoad( Self, unBrowserHandle );
 		}
@@ -100,7 +100,7 @@ namespace Steamworks
 		private static extern void _Reload( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void Reload( HHTMLBrowser unBrowserHandle )
+		public void Reload( HHTMLBrowser unBrowserHandle )
 		{
 			_Reload( Self, unBrowserHandle );
 		}
@@ -110,7 +110,7 @@ namespace Steamworks
 		private static extern void _GoBack( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void GoBack( HHTMLBrowser unBrowserHandle )
+		public void GoBack( HHTMLBrowser unBrowserHandle )
 		{
 			_GoBack( Self, unBrowserHandle );
 		}
@@ -120,7 +120,7 @@ namespace Steamworks
 		private static extern void _GoForward( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void GoForward( HHTMLBrowser unBrowserHandle )
+		public void GoForward( HHTMLBrowser unBrowserHandle )
 		{
 			_GoForward( Self, unBrowserHandle );
 		}
@@ -130,7 +130,7 @@ namespace Steamworks
 		private static extern void _AddHeader( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue );
 		
 		#endregion
-		internal void AddHeader( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
+		public void AddHeader( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
 		{
 			_AddHeader( Self, unBrowserHandle, pchKey, pchValue );
 		}
@@ -140,7 +140,7 @@ namespace Steamworks
 		private static extern void _ExecuteJavascript( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchScript );
 		
 		#endregion
-		internal void ExecuteJavascript( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchScript )
+		public void ExecuteJavascript( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchScript )
 		{
 			_ExecuteJavascript( Self, unBrowserHandle, pchScript );
 		}
@@ -150,7 +150,7 @@ namespace Steamworks
 		private static extern void _MouseUp( IntPtr self, HHTMLBrowser unBrowserHandle, IntPtr eMouseButton );
 		
 		#endregion
-		internal void MouseUp( HHTMLBrowser unBrowserHandle, IntPtr eMouseButton )
+		public void MouseUp( HHTMLBrowser unBrowserHandle, IntPtr eMouseButton )
 		{
 			_MouseUp( Self, unBrowserHandle, eMouseButton );
 		}
@@ -160,7 +160,7 @@ namespace Steamworks
 		private static extern void _MouseDown( IntPtr self, HHTMLBrowser unBrowserHandle, IntPtr eMouseButton );
 		
 		#endregion
-		internal void MouseDown( HHTMLBrowser unBrowserHandle, IntPtr eMouseButton )
+		public void MouseDown( HHTMLBrowser unBrowserHandle, IntPtr eMouseButton )
 		{
 			_MouseDown( Self, unBrowserHandle, eMouseButton );
 		}
@@ -170,7 +170,7 @@ namespace Steamworks
 		private static extern void _MouseDoubleClick( IntPtr self, HHTMLBrowser unBrowserHandle, IntPtr eMouseButton );
 		
 		#endregion
-		internal void MouseDoubleClick( HHTMLBrowser unBrowserHandle, IntPtr eMouseButton )
+		public void MouseDoubleClick( HHTMLBrowser unBrowserHandle, IntPtr eMouseButton )
 		{
 			_MouseDoubleClick( Self, unBrowserHandle, eMouseButton );
 		}
@@ -180,7 +180,7 @@ namespace Steamworks
 		private static extern void _MouseMove( IntPtr self, HHTMLBrowser unBrowserHandle, int x, int y );
 		
 		#endregion
-		internal void MouseMove( HHTMLBrowser unBrowserHandle, int x, int y )
+		public void MouseMove( HHTMLBrowser unBrowserHandle, int x, int y )
 		{
 			_MouseMove( Self, unBrowserHandle, x, y );
 		}
@@ -190,7 +190,7 @@ namespace Steamworks
 		private static extern void _MouseWheel( IntPtr self, HHTMLBrowser unBrowserHandle, int nDelta );
 		
 		#endregion
-		internal void MouseWheel( HHTMLBrowser unBrowserHandle, int nDelta )
+		public void MouseWheel( HHTMLBrowser unBrowserHandle, int nDelta )
 		{
 			_MouseWheel( Self, unBrowserHandle, nDelta );
 		}
@@ -200,7 +200,7 @@ namespace Steamworks
 		private static extern void _KeyDown( IntPtr self, HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, IntPtr eHTMLKeyModifiers, [MarshalAs( UnmanagedType.U1 )] bool bIsSystemKey );
 		
 		#endregion
-		internal void KeyDown( HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, IntPtr eHTMLKeyModifiers, [MarshalAs( UnmanagedType.U1 )] bool bIsSystemKey )
+		public void KeyDown( HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, IntPtr eHTMLKeyModifiers, [MarshalAs( UnmanagedType.U1 )] bool bIsSystemKey )
 		{
 			_KeyDown( Self, unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers, bIsSystemKey );
 		}
@@ -210,7 +210,7 @@ namespace Steamworks
 		private static extern void _KeyUp( IntPtr self, HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, IntPtr eHTMLKeyModifiers );
 		
 		#endregion
-		internal void KeyUp( HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, IntPtr eHTMLKeyModifiers )
+		public void KeyUp( HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, IntPtr eHTMLKeyModifiers )
 		{
 			_KeyUp( Self, unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers );
 		}
@@ -220,7 +220,7 @@ namespace Steamworks
 		private static extern void _KeyChar( IntPtr self, HHTMLBrowser unBrowserHandle, uint cUnicodeChar, IntPtr eHTMLKeyModifiers );
 		
 		#endregion
-		internal void KeyChar( HHTMLBrowser unBrowserHandle, uint cUnicodeChar, IntPtr eHTMLKeyModifiers )
+		public void KeyChar( HHTMLBrowser unBrowserHandle, uint cUnicodeChar, IntPtr eHTMLKeyModifiers )
 		{
 			_KeyChar( Self, unBrowserHandle, cUnicodeChar, eHTMLKeyModifiers );
 		}
@@ -230,7 +230,7 @@ namespace Steamworks
 		private static extern void _SetHorizontalScroll( IntPtr self, HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll );
 		
 		#endregion
-		internal void SetHorizontalScroll( HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll )
+		public void SetHorizontalScroll( HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll )
 		{
 			_SetHorizontalScroll( Self, unBrowserHandle, nAbsolutePixelScroll );
 		}
@@ -240,7 +240,7 @@ namespace Steamworks
 		private static extern void _SetVerticalScroll( IntPtr self, HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll );
 		
 		#endregion
-		internal void SetVerticalScroll( HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll )
+		public void SetVerticalScroll( HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll )
 		{
 			_SetVerticalScroll( Self, unBrowserHandle, nAbsolutePixelScroll );
 		}
@@ -250,7 +250,7 @@ namespace Steamworks
 		private static extern void _SetKeyFocus( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bHasKeyFocus );
 		
 		#endregion
-		internal void SetKeyFocus( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bHasKeyFocus )
+		public void SetKeyFocus( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bHasKeyFocus )
 		{
 			_SetKeyFocus( Self, unBrowserHandle, bHasKeyFocus );
 		}
@@ -260,7 +260,7 @@ namespace Steamworks
 		private static extern void _ViewSource( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void ViewSource( HHTMLBrowser unBrowserHandle )
+		public void ViewSource( HHTMLBrowser unBrowserHandle )
 		{
 			_ViewSource( Self, unBrowserHandle );
 		}
@@ -270,7 +270,7 @@ namespace Steamworks
 		private static extern void _CopyToClipboard( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void CopyToClipboard( HHTMLBrowser unBrowserHandle )
+		public void CopyToClipboard( HHTMLBrowser unBrowserHandle )
 		{
 			_CopyToClipboard( Self, unBrowserHandle );
 		}
@@ -280,7 +280,7 @@ namespace Steamworks
 		private static extern void _PasteFromClipboard( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void PasteFromClipboard( HHTMLBrowser unBrowserHandle )
+		public void PasteFromClipboard( HHTMLBrowser unBrowserHandle )
 		{
 			_PasteFromClipboard( Self, unBrowserHandle );
 		}
@@ -290,7 +290,7 @@ namespace Steamworks
 		private static extern void _Find( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchSearchStr, [MarshalAs( UnmanagedType.U1 )] bool bCurrentlyInFind, [MarshalAs( UnmanagedType.U1 )] bool bReverse );
 		
 		#endregion
-		internal void Find( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchSearchStr, [MarshalAs( UnmanagedType.U1 )] bool bCurrentlyInFind, [MarshalAs( UnmanagedType.U1 )] bool bReverse )
+		public void Find( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchSearchStr, [MarshalAs( UnmanagedType.U1 )] bool bCurrentlyInFind, [MarshalAs( UnmanagedType.U1 )] bool bReverse )
 		{
 			_Find( Self, unBrowserHandle, pchSearchStr, bCurrentlyInFind, bReverse );
 		}
@@ -300,7 +300,7 @@ namespace Steamworks
 		private static extern void _StopFind( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void StopFind( HHTMLBrowser unBrowserHandle )
+		public void StopFind( HHTMLBrowser unBrowserHandle )
 		{
 			_StopFind( Self, unBrowserHandle );
 		}
@@ -310,7 +310,7 @@ namespace Steamworks
 		private static extern void _GetLinkAtPosition( IntPtr self, HHTMLBrowser unBrowserHandle, int x, int y );
 		
 		#endregion
-		internal void GetLinkAtPosition( HHTMLBrowser unBrowserHandle, int x, int y )
+		public void GetLinkAtPosition( HHTMLBrowser unBrowserHandle, int x, int y )
 		{
 			_GetLinkAtPosition( Self, unBrowserHandle, x, y );
 		}
@@ -320,7 +320,7 @@ namespace Steamworks
 		private static extern void _SetCookie( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchHostname, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPath, RTime32 nExpires, [MarshalAs( UnmanagedType.U1 )] bool bSecure, [MarshalAs( UnmanagedType.U1 )] bool bHTTPOnly );
 		
 		#endregion
-		internal void SetCookie( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchHostname, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPath, RTime32 nExpires, [MarshalAs( UnmanagedType.U1 )] bool bSecure, [MarshalAs( UnmanagedType.U1 )] bool bHTTPOnly )
+		public void SetCookie( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchHostname, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPath, RTime32 nExpires, [MarshalAs( UnmanagedType.U1 )] bool bSecure, [MarshalAs( UnmanagedType.U1 )] bool bHTTPOnly )
 		{
 			_SetCookie( Self, pchHostname, pchKey, pchValue, pchPath, nExpires, bSecure, bHTTPOnly );
 		}
@@ -330,7 +330,7 @@ namespace Steamworks
 		private static extern void _SetPageScaleFactor( IntPtr self, HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY );
 		
 		#endregion
-		internal void SetPageScaleFactor( HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY )
+		public void SetPageScaleFactor( HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY )
 		{
 			_SetPageScaleFactor( Self, unBrowserHandle, flZoom, nPointX, nPointY );
 		}
@@ -340,7 +340,7 @@ namespace Steamworks
 		private static extern void _SetBackgroundMode( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bBackgroundMode );
 		
 		#endregion
-		internal void SetBackgroundMode( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bBackgroundMode )
+		public void SetBackgroundMode( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bBackgroundMode )
 		{
 			_SetBackgroundMode( Self, unBrowserHandle, bBackgroundMode );
 		}
@@ -350,7 +350,7 @@ namespace Steamworks
 		private static extern void _SetDPIScalingFactor( IntPtr self, HHTMLBrowser unBrowserHandle, float flDPIScaling );
 		
 		#endregion
-		internal void SetDPIScalingFactor( HHTMLBrowser unBrowserHandle, float flDPIScaling )
+		public void SetDPIScalingFactor( HHTMLBrowser unBrowserHandle, float flDPIScaling )
 		{
 			_SetDPIScalingFactor( Self, unBrowserHandle, flDPIScaling );
 		}
@@ -360,7 +360,7 @@ namespace Steamworks
 		private static extern void _OpenDeveloperTools( IntPtr self, HHTMLBrowser unBrowserHandle );
 		
 		#endregion
-		internal void OpenDeveloperTools( HHTMLBrowser unBrowserHandle )
+		public void OpenDeveloperTools( HHTMLBrowser unBrowserHandle )
 		{
 			_OpenDeveloperTools( Self, unBrowserHandle );
 		}
@@ -370,7 +370,7 @@ namespace Steamworks
 		private static extern void _AllowStartRequest( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bAllowed );
 		
 		#endregion
-		internal void AllowStartRequest( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bAllowed )
+		public void AllowStartRequest( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bAllowed )
 		{
 			_AllowStartRequest( Self, unBrowserHandle, bAllowed );
 		}
@@ -380,7 +380,7 @@ namespace Steamworks
 		private static extern void _JSDialogResponse( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bResult );
 		
 		#endregion
-		internal void JSDialogResponse( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bResult )
+		public void JSDialogResponse( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.U1 )] bool bResult )
 		{
 			_JSDialogResponse( Self, unBrowserHandle, bResult );
 		}
@@ -390,7 +390,7 @@ namespace Steamworks
 		private static extern void _FileLoadDialogResponse( IntPtr self, HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchSelectedFiles );
 		
 		#endregion
-		internal void FileLoadDialogResponse( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchSelectedFiles )
+		public void FileLoadDialogResponse( HHTMLBrowser unBrowserHandle, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchSelectedFiles )
 		{
 			_FileLoadDialogResponse( Self, unBrowserHandle, pchSelectedFiles );
 		}

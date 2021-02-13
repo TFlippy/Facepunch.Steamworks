@@ -7,19 +7,19 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamUtils : SteamInterface
+	public class ISteamUtils : SteamInterface
 	{
 		
-		internal ISteamUtils( bool IsGameServer )
+		public ISteamUtils( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamUtils_v010", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamUtils_v010();
+		public static extern IntPtr SteamAPI_SteamUtils_v010();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamUtils_v010();
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamGameServerUtils_v010", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamGameServerUtils_v010();
+		public static extern IntPtr SteamAPI_SteamGameServerUtils_v010();
 		public override IntPtr GetServerInterfacePointer() => SteamAPI_SteamGameServerUtils_v010();
 		
 		
@@ -28,7 +28,7 @@ namespace Steamworks
 		private static extern uint _GetSecondsSinceAppActive( IntPtr self );
 		
 		#endregion
-		internal uint GetSecondsSinceAppActive()
+		public uint GetSecondsSinceAppActive()
 		{
 			var returnValue = _GetSecondsSinceAppActive( Self );
 			return returnValue;
@@ -39,7 +39,7 @@ namespace Steamworks
 		private static extern uint _GetSecondsSinceComputerActive( IntPtr self );
 		
 		#endregion
-		internal uint GetSecondsSinceComputerActive()
+		public uint GetSecondsSinceComputerActive()
 		{
 			var returnValue = _GetSecondsSinceComputerActive( Self );
 			return returnValue;
@@ -50,7 +50,7 @@ namespace Steamworks
 		private static extern Universe _GetConnectedUniverse( IntPtr self );
 		
 		#endregion
-		internal Universe GetConnectedUniverse()
+		public Universe GetConnectedUniverse()
 		{
 			var returnValue = _GetConnectedUniverse( Self );
 			return returnValue;
@@ -61,7 +61,7 @@ namespace Steamworks
 		private static extern uint _GetServerRealTime( IntPtr self );
 		
 		#endregion
-		internal uint GetServerRealTime()
+		public uint GetServerRealTime()
 		{
 			var returnValue = _GetServerRealTime( Self );
 			return returnValue;
@@ -72,7 +72,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetIPCountry( IntPtr self );
 		
 		#endregion
-		internal string GetIPCountry()
+		public string GetIPCountry()
 		{
 			var returnValue = _GetIPCountry( Self );
 			return returnValue;
@@ -84,7 +84,7 @@ namespace Steamworks
 		private static extern bool _GetImageSize( IntPtr self, int iImage, ref uint pnWidth, ref uint pnHeight );
 		
 		#endregion
-		internal bool GetImageSize( int iImage, ref uint pnWidth, ref uint pnHeight )
+		public bool GetImageSize( int iImage, ref uint pnWidth, ref uint pnHeight )
 		{
 			var returnValue = _GetImageSize( Self, iImage, ref pnWidth, ref pnHeight );
 			return returnValue;
@@ -96,7 +96,7 @@ namespace Steamworks
 		private static extern bool _GetImageRGBA( IntPtr self, int iImage, [In,Out] byte[]  pubDest, int nDestBufferSize );
 		
 		#endregion
-		internal bool GetImageRGBA( int iImage, [In,Out] byte[]  pubDest, int nDestBufferSize )
+		public bool GetImageRGBA( int iImage, [In,Out] byte[]  pubDest, int nDestBufferSize )
 		{
 			var returnValue = _GetImageRGBA( Self, iImage, pubDest, nDestBufferSize );
 			return returnValue;
@@ -108,7 +108,7 @@ namespace Steamworks
 		private static extern bool _GetCSERIPPort( IntPtr self, ref uint unIP, ref ushort usPort );
 		
 		#endregion
-		internal bool GetCSERIPPort( ref uint unIP, ref ushort usPort )
+		public bool GetCSERIPPort( ref uint unIP, ref ushort usPort )
 		{
 			var returnValue = _GetCSERIPPort( Self, ref unIP, ref usPort );
 			return returnValue;
@@ -119,7 +119,7 @@ namespace Steamworks
 		private static extern byte _GetCurrentBatteryPower( IntPtr self );
 		
 		#endregion
-		internal byte GetCurrentBatteryPower()
+		public byte GetCurrentBatteryPower()
 		{
 			var returnValue = _GetCurrentBatteryPower( Self );
 			return returnValue;
@@ -130,7 +130,7 @@ namespace Steamworks
 		private static extern uint _GetAppID( IntPtr self );
 		
 		#endregion
-		internal uint GetAppID()
+		public uint GetAppID()
 		{
 			var returnValue = _GetAppID( Self );
 			return returnValue;
@@ -141,7 +141,7 @@ namespace Steamworks
 		private static extern void _SetOverlayNotificationPosition( IntPtr self, NotificationPosition eNotificationPosition );
 		
 		#endregion
-		internal void SetOverlayNotificationPosition( NotificationPosition eNotificationPosition )
+		public void SetOverlayNotificationPosition( NotificationPosition eNotificationPosition )
 		{
 			_SetOverlayNotificationPosition( Self, eNotificationPosition );
 		}
@@ -152,7 +152,7 @@ namespace Steamworks
 		private static extern bool _IsAPICallCompleted( IntPtr self, SteamAPICall_t hSteamAPICall, [MarshalAs( UnmanagedType.U1 )] ref bool pbFailed );
 		
 		#endregion
-		internal bool IsAPICallCompleted( SteamAPICall_t hSteamAPICall, [MarshalAs( UnmanagedType.U1 )] ref bool pbFailed )
+		public bool IsAPICallCompleted( SteamAPICall_t hSteamAPICall, [MarshalAs( UnmanagedType.U1 )] ref bool pbFailed )
 		{
 			var returnValue = _IsAPICallCompleted( Self, hSteamAPICall, ref pbFailed );
 			return returnValue;
@@ -163,7 +163,7 @@ namespace Steamworks
 		private static extern SteamAPICallFailure _GetAPICallFailureReason( IntPtr self, SteamAPICall_t hSteamAPICall );
 		
 		#endregion
-		internal SteamAPICallFailure GetAPICallFailureReason( SteamAPICall_t hSteamAPICall )
+		public SteamAPICallFailure GetAPICallFailureReason( SteamAPICall_t hSteamAPICall )
 		{
 			var returnValue = _GetAPICallFailureReason( Self, hSteamAPICall );
 			return returnValue;
@@ -175,7 +175,7 @@ namespace Steamworks
 		private static extern bool _GetAPICallResult( IntPtr self, SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, [MarshalAs( UnmanagedType.U1 )] ref bool pbFailed );
 		
 		#endregion
-		internal bool GetAPICallResult( SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, [MarshalAs( UnmanagedType.U1 )] ref bool pbFailed )
+		public bool GetAPICallResult( SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, [MarshalAs( UnmanagedType.U1 )] ref bool pbFailed )
 		{
 			var returnValue = _GetAPICallResult( Self, hSteamAPICall, pCallback, cubCallback, iCallbackExpected, ref pbFailed );
 			return returnValue;
@@ -186,7 +186,7 @@ namespace Steamworks
 		private static extern uint _GetIPCCallCount( IntPtr self );
 		
 		#endregion
-		internal uint GetIPCCallCount()
+		public uint GetIPCCallCount()
 		{
 			var returnValue = _GetIPCCallCount( Self );
 			return returnValue;
@@ -197,7 +197,7 @@ namespace Steamworks
 		private static extern void _SetWarningMessageHook( IntPtr self, IntPtr pFunction );
 		
 		#endregion
-		internal void SetWarningMessageHook( IntPtr pFunction )
+		public void SetWarningMessageHook( IntPtr pFunction )
 		{
 			_SetWarningMessageHook( Self, pFunction );
 		}
@@ -208,7 +208,7 @@ namespace Steamworks
 		private static extern bool _IsOverlayEnabled( IntPtr self );
 		
 		#endregion
-		internal bool IsOverlayEnabled()
+		public bool IsOverlayEnabled()
 		{
 			var returnValue = _IsOverlayEnabled( Self );
 			return returnValue;
@@ -220,7 +220,7 @@ namespace Steamworks
 		private static extern bool _BOverlayNeedsPresent( IntPtr self );
 		
 		#endregion
-		internal bool BOverlayNeedsPresent()
+		public bool BOverlayNeedsPresent()
 		{
 			var returnValue = _BOverlayNeedsPresent( Self );
 			return returnValue;
@@ -231,7 +231,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _CheckFileSignature( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string szFileName );
 		
 		#endregion
-		internal CallResult<CheckFileSignature_t> CheckFileSignature( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string szFileName )
+		public CallResult<CheckFileSignature_t> CheckFileSignature( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string szFileName )
 		{
 			var returnValue = _CheckFileSignature( Self, szFileName );
 			return new CallResult<CheckFileSignature_t>( returnValue, IsServer );
@@ -243,7 +243,7 @@ namespace Steamworks
 		private static extern bool _ShowGamepadTextInput( IntPtr self, GamepadTextInputMode eInputMode, GamepadTextInputLineMode eLineInputMode, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDescription, uint unCharMax, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchExistingText );
 		
 		#endregion
-		internal bool ShowGamepadTextInput( GamepadTextInputMode eInputMode, GamepadTextInputLineMode eLineInputMode, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDescription, uint unCharMax, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchExistingText )
+		public bool ShowGamepadTextInput( GamepadTextInputMode eInputMode, GamepadTextInputLineMode eLineInputMode, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDescription, uint unCharMax, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchExistingText )
 		{
 			var returnValue = _ShowGamepadTextInput( Self, eInputMode, eLineInputMode, pchDescription, unCharMax, pchExistingText );
 			return returnValue;
@@ -254,7 +254,7 @@ namespace Steamworks
 		private static extern uint _GetEnteredGamepadTextLength( IntPtr self );
 		
 		#endregion
-		internal uint GetEnteredGamepadTextLength()
+		public uint GetEnteredGamepadTextLength()
 		{
 			var returnValue = _GetEnteredGamepadTextLength( Self );
 			return returnValue;
@@ -266,7 +266,7 @@ namespace Steamworks
 		private static extern bool _GetEnteredGamepadTextInput( IntPtr self, IntPtr pchText, uint cchText );
 		
 		#endregion
-		internal bool GetEnteredGamepadTextInput( out string pchText )
+		public bool GetEnteredGamepadTextInput( out string pchText )
 		{
 			IntPtr mempchText = Helpers.TakeMemory();
 			var returnValue = _GetEnteredGamepadTextInput( Self, mempchText, (1024 * 32) );
@@ -279,7 +279,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetSteamUILanguage( IntPtr self );
 		
 		#endregion
-		internal string GetSteamUILanguage()
+		public string GetSteamUILanguage()
 		{
 			var returnValue = _GetSteamUILanguage( Self );
 			return returnValue;
@@ -291,7 +291,7 @@ namespace Steamworks
 		private static extern bool _IsSteamRunningInVR( IntPtr self );
 		
 		#endregion
-		internal bool IsSteamRunningInVR()
+		public bool IsSteamRunningInVR()
 		{
 			var returnValue = _IsSteamRunningInVR( Self );
 			return returnValue;
@@ -302,7 +302,7 @@ namespace Steamworks
 		private static extern void _SetOverlayNotificationInset( IntPtr self, int nHorizontalInset, int nVerticalInset );
 		
 		#endregion
-		internal void SetOverlayNotificationInset( int nHorizontalInset, int nVerticalInset )
+		public void SetOverlayNotificationInset( int nHorizontalInset, int nVerticalInset )
 		{
 			_SetOverlayNotificationInset( Self, nHorizontalInset, nVerticalInset );
 		}
@@ -313,7 +313,7 @@ namespace Steamworks
 		private static extern bool _IsSteamInBigPictureMode( IntPtr self );
 		
 		#endregion
-		internal bool IsSteamInBigPictureMode()
+		public bool IsSteamInBigPictureMode()
 		{
 			var returnValue = _IsSteamInBigPictureMode( Self );
 			return returnValue;
@@ -324,7 +324,7 @@ namespace Steamworks
 		private static extern void _StartVRDashboard( IntPtr self );
 		
 		#endregion
-		internal void StartVRDashboard()
+		public void StartVRDashboard()
 		{
 			_StartVRDashboard( Self );
 		}
@@ -335,7 +335,7 @@ namespace Steamworks
 		private static extern bool _IsVRHeadsetStreamingEnabled( IntPtr self );
 		
 		#endregion
-		internal bool IsVRHeadsetStreamingEnabled()
+		public bool IsVRHeadsetStreamingEnabled()
 		{
 			var returnValue = _IsVRHeadsetStreamingEnabled( Self );
 			return returnValue;
@@ -346,7 +346,7 @@ namespace Steamworks
 		private static extern void _SetVRHeadsetStreamingEnabled( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bEnabled );
 		
 		#endregion
-		internal void SetVRHeadsetStreamingEnabled( [MarshalAs( UnmanagedType.U1 )] bool bEnabled )
+		public void SetVRHeadsetStreamingEnabled( [MarshalAs( UnmanagedType.U1 )] bool bEnabled )
 		{
 			_SetVRHeadsetStreamingEnabled( Self, bEnabled );
 		}
@@ -357,7 +357,7 @@ namespace Steamworks
 		private static extern bool _IsSteamChinaLauncher( IntPtr self );
 		
 		#endregion
-		internal bool IsSteamChinaLauncher()
+		public bool IsSteamChinaLauncher()
 		{
 			var returnValue = _IsSteamChinaLauncher( Self );
 			return returnValue;
@@ -369,7 +369,7 @@ namespace Steamworks
 		private static extern bool _InitFilterText( IntPtr self, uint unFilterOptions );
 		
 		#endregion
-		internal bool InitFilterText( uint unFilterOptions )
+		public bool InitFilterText( uint unFilterOptions )
 		{
 			var returnValue = _InitFilterText( Self, unFilterOptions );
 			return returnValue;
@@ -380,7 +380,7 @@ namespace Steamworks
 		private static extern int _FilterText( IntPtr self, TextFilteringContext eContext, SteamId sourceSteamID, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchInputMessage, IntPtr pchOutFilteredText, uint nByteSizeOutFilteredText );
 		
 		#endregion
-		internal int FilterText( TextFilteringContext eContext, SteamId sourceSteamID, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchInputMessage, out string pchOutFilteredText )
+		public int FilterText( TextFilteringContext eContext, SteamId sourceSteamID, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchInputMessage, out string pchOutFilteredText )
 		{
 			IntPtr mempchOutFilteredText = Helpers.TakeMemory();
 			var returnValue = _FilterText( Self, eContext, sourceSteamID, pchInputMessage, mempchOutFilteredText, (1024 * 32) );
@@ -393,7 +393,7 @@ namespace Steamworks
 		private static extern SteamIPv6ConnectivityState _GetIPv6ConnectivityState( IntPtr self, SteamIPv6ConnectivityProtocol eProtocol );
 		
 		#endregion
-		internal SteamIPv6ConnectivityState GetIPv6ConnectivityState( SteamIPv6ConnectivityProtocol eProtocol )
+		public SteamIPv6ConnectivityState GetIPv6ConnectivityState( SteamIPv6ConnectivityProtocol eProtocol )
 		{
 			var returnValue = _GetIPv6ConnectivityState( Self, eProtocol );
 			return returnValue;

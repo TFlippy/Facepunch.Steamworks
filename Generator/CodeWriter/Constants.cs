@@ -10,7 +10,7 @@ namespace Generator
     {
         private void Constants()
         {
-            StartBlock( "internal static class Defines" );
+            StartBlock("public static class Defines");
             foreach ( var o in def.Consts )
             {
                 var type = o.Type;
@@ -34,7 +34,7 @@ namespace Generator
                 if ( o.Name == "HSERVERQUERY_INVALID" && val == "0xffffffff" )
                     val = "-1";
 
-                WriteLine( $"internal static readonly {type} {o.Name} = {val};" );
+                WriteLine( $"public static readonly {type} {o.Name} = {val};" );
             }
             EndBlock();
         }

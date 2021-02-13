@@ -7,10 +7,10 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamMatchmakingServerListResponse : SteamInterface
+	public class ISteamMatchmakingServerListResponse : SteamInterface
 	{
 		
-		internal ISteamMatchmakingServerListResponse( bool IsGameServer )
+		public ISteamMatchmakingServerListResponse( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
@@ -20,7 +20,7 @@ namespace Steamworks
 		private static extern void _ServerResponded( IntPtr self, HServerListRequest hRequest, int iServer );
 		
 		#endregion
-		internal void ServerResponded( HServerListRequest hRequest, int iServer )
+		public void ServerResponded( HServerListRequest hRequest, int iServer )
 		{
 			_ServerResponded( Self, hRequest, iServer );
 		}
@@ -30,7 +30,7 @@ namespace Steamworks
 		private static extern void _ServerFailedToRespond( IntPtr self, HServerListRequest hRequest, int iServer );
 		
 		#endregion
-		internal void ServerFailedToRespond( HServerListRequest hRequest, int iServer )
+		public void ServerFailedToRespond( HServerListRequest hRequest, int iServer )
 		{
 			_ServerFailedToRespond( Self, hRequest, iServer );
 		}
@@ -40,7 +40,7 @@ namespace Steamworks
 		private static extern void _RefreshComplete( IntPtr self, HServerListRequest hRequest, MatchMakingServerResponse response );
 		
 		#endregion
-		internal void RefreshComplete( HServerListRequest hRequest, MatchMakingServerResponse response )
+		public void RefreshComplete( HServerListRequest hRequest, MatchMakingServerResponse response )
 		{
 			_RefreshComplete( Self, hRequest, response );
 		}

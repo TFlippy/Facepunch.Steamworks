@@ -5,14 +5,14 @@ namespace Steamworks
 {
 	public class SteamInput : SteamClientClass<SteamInput>
 	{
-		internal static ISteamInput Internal => Interface as ISteamInput;
+		public static ISteamInput Internal => Interface as ISteamInput;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamInput( server ) );
 		}
 
-		internal const int STEAM_CONTROLLER_MAX_COUNT = 16;
+		public const int STEAM_CONTROLLER_MAX_COUNT = 16;
 
 
 		/// <summary>
@@ -66,8 +66,8 @@ namespace Steamworks
             return Internal.GetGlyphForActionOrigin(origin);
         }
 
-        internal static Dictionary<string, InputDigitalActionHandle_t> DigitalHandles = new Dictionary<string, InputDigitalActionHandle_t>();
-		internal static InputDigitalActionHandle_t GetDigitalActionHandle( string name )
+        public static Dictionary<string, InputDigitalActionHandle_t> DigitalHandles = new Dictionary<string, InputDigitalActionHandle_t>();
+		public static InputDigitalActionHandle_t GetDigitalActionHandle( string name )
 		{
 			if ( DigitalHandles.TryGetValue( name, out var val ) )
 				return val;
@@ -77,8 +77,8 @@ namespace Steamworks
 			return val;
 		}
 
-		internal static Dictionary<string, InputAnalogActionHandle_t> AnalogHandles = new Dictionary<string, InputAnalogActionHandle_t>();
-		internal static InputAnalogActionHandle_t GetAnalogActionHandle( string name )
+		public static Dictionary<string, InputAnalogActionHandle_t> AnalogHandles = new Dictionary<string, InputAnalogActionHandle_t>();
+		public static InputAnalogActionHandle_t GetAnalogActionHandle( string name )
 		{
 			if ( AnalogHandles.TryGetValue( name, out var val ) )
 				return val;
@@ -88,8 +88,8 @@ namespace Steamworks
 			return val;
 		}
 
-		internal static Dictionary<string, InputActionSetHandle_t> ActionSets = new Dictionary<string, InputActionSetHandle_t>();
-		internal static InputActionSetHandle_t GetActionSetHandle( string name )
+		public static Dictionary<string, InputActionSetHandle_t> ActionSets = new Dictionary<string, InputActionSetHandle_t>();
+		public static InputActionSetHandle_t GetActionSetHandle( string name )
 		{
 			if ( ActionSets.TryGetValue( name, out var val ) )
 				return val;

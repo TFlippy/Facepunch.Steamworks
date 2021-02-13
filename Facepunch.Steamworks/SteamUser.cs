@@ -15,9 +15,9 @@ namespace Steamworks
 	/// </summary>
 	public class SteamUser : SteamClientClass<SteamUser>
 	{
-		internal static ISteamUser Internal => Interface as ISteamUser;
+		public static ISteamUser Internal => Interface as ISteamUser;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamUser( server ) );
 			InstallEvents();
@@ -28,7 +28,7 @@ namespace Steamworks
 
 		static Dictionary<string, string> richPresence;
 
-		internal static void InstallEvents()
+		public static void InstallEvents()
 		{
 			Dispatch.Install<SteamServersConnected_t>( x => OnSteamServersConnected?.Invoke() );
 			Dispatch.Install<SteamServerConnectFailure_t>( x => OnSteamServerConnectFailure?.Invoke() );
@@ -87,7 +87,7 @@ namespace Steamworks
 		/// <summary>
 		/// Used internally for GetAuthSessionTicketAsync
 		/// </summary>
-		internal static event Action<GetAuthSessionTicketResponse_t> OnGetAuthSessionTicketResponse;
+		public static event Action<GetAuthSessionTicketResponse_t> OnGetAuthSessionTicketResponse;
 
 		/// <summary>
 		/// Called when a user has responded to a microtransaction authorization request.

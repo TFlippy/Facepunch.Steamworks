@@ -29,7 +29,7 @@ namespace Steamworks
 			/// </summary>
 			public int Count;
 
-			internal static Ingredient FromString( string part )
+			public static Ingredient FromString( string part )
 			{
 				var i = new Ingredient();
 				i.Count = 1;
@@ -72,7 +72,7 @@ namespace Steamworks
 
 		public string Source;
 
-		internal static InventoryRecipe FromString( string part, InventoryDef Result )
+		public static InventoryRecipe FromString( string part, InventoryDef Result )
 		{
 			var r = new InventoryRecipe
 			{
@@ -86,7 +86,7 @@ namespace Steamworks
 			return r;
 		}
 
-		internal bool ContainsIngredient( InventoryDef inventoryDef )
+		public bool ContainsIngredient( InventoryDef inventoryDef )
 		{
 			return Ingredients.Any( x => x.DefinitionId == inventoryDef.Id );
 		}

@@ -6,9 +6,9 @@ namespace Steamworks
 {
 	public struct Controller
 	{
-		internal InputHandle_t Handle;
+		public InputHandle_t Handle;
 
-		internal Controller( InputHandle_t inputHandle_t )
+		public Controller( InputHandle_t inputHandle_t )
 		{
 			this.Handle = inputHandle_t;
 		}
@@ -64,12 +64,12 @@ namespace Steamworks
 		public InputSourceMode EMode; // eMode EInputSourceMode
 		public float X; // x float
 		public float Y; // y float
-		internal byte BActive; // bActive byte
+		public byte BActive; // bActive byte
 		public bool Active => BActive != 0;
 	}
 
 	[StructLayout( LayoutKind.Sequential, Pack = 1 )]
-	internal struct MotionState
+	public struct MotionState
 	{
 		public float RotQuatX; // rotQuatX float
 		public float RotQuatY; // rotQuatY float
@@ -87,9 +87,9 @@ namespace Steamworks
 	public struct DigitalState
 	{
 		[MarshalAs( UnmanagedType.I1 )]
-		internal byte BState; // bState byte
+		public byte BState; // bState byte
 		[MarshalAs( UnmanagedType.I1 )]
-		internal byte BActive; // bActive byte
+		public byte BActive; // bActive byte
 
 		public bool Pressed => BState != 0;
 		public bool Active => BActive != 0;

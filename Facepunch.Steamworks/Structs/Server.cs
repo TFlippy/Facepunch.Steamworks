@@ -50,7 +50,7 @@ namespace Steamworks.Data
 			}
 		}
 
-		internal static ServerInfo From( gameserveritem_t item )
+		public static ServerInfo From( gameserveritem_t item )
 		{
 			return new ServerInfo()
 			{
@@ -85,9 +85,9 @@ namespace Steamworks.Data
 			LastTimePlayed = timeplayed;
 		}
 
-		internal const uint k_unFavoriteFlagNone = 0x00;
-		internal const uint k_unFavoriteFlagFavorite = 0x01; // this game favorite entry is for the favorites list
-		internal const uint k_unFavoriteFlagHistory = 0x02; // this game favorite entry is for the history list
+		public const uint k_unFavoriteFlagNone = 0x00;
+		public const uint k_unFavoriteFlagFavorite = 0x01; // this game favorite entry is for the favorites list
+		public const uint k_unFavoriteFlagHistory = 0x02; // this game favorite entry is for the history list
 
 
 

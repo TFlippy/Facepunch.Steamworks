@@ -6,16 +6,16 @@ namespace Steamworks.Data
 	public partial struct NetIdentity
 	{
 		[FieldOffset( 0 )]
-		internal IdentityType type;
+		public IdentityType type;
 
 		[FieldOffset( 4 )]
-		internal int size;
+		public int size;
 
 		[FieldOffset( 8 )]
-		internal ulong steamid;
+		public ulong steamid;
 
 		[FieldOffset( 8 )]
-		internal NetAddress netaddress;
+		public NetAddress netaddress;
 
 		/// <summary>
 		/// Return a NetIdentity that represents LocalHost
@@ -114,7 +114,7 @@ namespace Steamworks.Data
 			return str;
 		}
 
-		internal enum IdentityType
+		public enum IdentityType
 		{
 			Invalid = 0,
 			IPAddress = 1,

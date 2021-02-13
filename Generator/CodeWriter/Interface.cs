@@ -23,10 +23,10 @@ namespace Generator
 
 			StartBlock( $"namespace Steamworks" );
 			{
-				StartBlock( $"internal class {iface.Name} : SteamInterface" );
+				StartBlock( $"public class {iface.Name} : SteamInterface" );
 				{
 					WriteLine();
-					StartBlock( $"internal {iface.Name}( bool IsGameServer )" );
+					StartBlock( $"public {iface.Name}( bool IsGameServer )" );
 					{
 						WriteLine( $"SetupInterface( IsGameServer );" );
 					}
@@ -38,7 +38,7 @@ namespace Generator
 						foreach ( var func in iface.Accessors )
 						{
 							WriteLine( $"[DllImport( Platform.LibraryName, EntryPoint = \"{func.Name_Flat}\", CallingConvention = Platform.CC)]" );
-							WriteLine( $"internal static extern IntPtr {func.Name_Flat}();" );
+							WriteLine( $"public static extern IntPtr {func.Name_Flat}();" );
 
 							if ( func.Kind == "user" )
 							{
@@ -141,7 +141,7 @@ namespace Generator
 				WriteLine( "/// </summary>" );
 			}
 
-			StartBlock( $"internal {returnType.ReturnType} {func.Name}( {argstr} )".Replace( "(  )", "()" ) );
+			StartBlock( $"public {returnType.ReturnType} {func.Name}( {argstr} )".Replace( "(  )", "()" ) );
 			{
 				var callargs = string.Join( ", ", args.Select( x => x.AsCallArgument() ) );
 

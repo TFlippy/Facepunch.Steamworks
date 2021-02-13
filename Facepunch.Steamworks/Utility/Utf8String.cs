@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Steamworks
 {
-	internal unsafe class Utf8StringToNative : ICustomMarshaler
+	public unsafe class Utf8StringToNative : ICustomMarshaler
 	{
 		public IntPtr MarshalManagedToNative(object managedObj)
 		{
@@ -42,10 +42,10 @@ namespace Steamworks
 		public static ICustomMarshaler GetInstance(string cookie) => new Utf8StringToNative();
 	}
 
-	internal struct Utf8StringPointer
+	public struct Utf8StringPointer
 	{
 #pragma warning disable 649
-		internal IntPtr ptr;
+		public IntPtr ptr;
 #pragma warning restore 649
 
 		public unsafe static implicit operator string( Utf8StringPointer p )

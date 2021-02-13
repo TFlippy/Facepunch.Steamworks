@@ -11,7 +11,7 @@ namespace Steamworks
 	/// <summary>
 	/// An awaitable version of a SteamAPICall_t
 	/// </summary>
-	internal struct CallResult<T> : INotifyCompletion where T : struct, ICallbackData
+	public struct CallResult<T> : INotifyCompletion where T : struct, ICallbackData
 	{
 		SteamAPICall_t call;
 		ISteamUtils utils;
@@ -90,7 +90,7 @@ namespace Steamworks
 		/// <summary>
 		/// This is what makes this struct awaitable
 		/// </summary>
-		internal CallResult<T> GetAwaiter()
+		public CallResult<T> GetAwaiter()
 		{
 			return this;
 		}

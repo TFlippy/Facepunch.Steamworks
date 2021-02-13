@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Steamworks
 {
-	internal abstract class SteamInterface
+	public abstract class SteamInterface
 	{
 		public virtual IntPtr GetUserInterfacePointer() => IntPtr.Zero;
 		public virtual IntPtr GetServerInterfacePointer() => IntPtr.Zero;
@@ -23,7 +23,7 @@ namespace Steamworks
 		public bool IsValid => Self != IntPtr.Zero;
 		public bool IsServer { get; private set; }
 
-		internal void SetupInterface( bool gameServer )
+		public void SetupInterface( bool gameServer )
 		{
 			if ( Self != IntPtr.Zero )
 				return;
@@ -47,7 +47,7 @@ namespace Steamworks
 			}
 		}
 
-		internal void ShutdownInterface()
+		public void ShutdownInterface()
 		{
 			Self = IntPtr.Zero;
 		}
@@ -55,22 +55,22 @@ namespace Steamworks
 
 	public abstract class SteamClass
 	{
-		internal abstract void InitializeInterface( bool server );
-		internal abstract void DestroyInterface( bool server );
+		public abstract void InitializeInterface( bool server );
+		public abstract void DestroyInterface( bool server );
 	}
 
 	public class SteamSharedClass<T> : SteamClass
 	{
-		internal static SteamInterface Interface => InterfaceClient ?? InterfaceServer;
-		internal static SteamInterface InterfaceClient;
-		internal static SteamInterface InterfaceServer;
+		public static SteamInterface Interface => InterfaceClient ?? InterfaceServer;
+		public static SteamInterface InterfaceClient;
+		public static SteamInterface InterfaceServer;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 
 		}
 
-		internal virtual void SetInterface( bool server, SteamInterface iface )
+		public virtual void SetInterface( bool server, SteamInterface iface )
 		{
 			if ( server )
 			{
@@ -83,7 +83,7 @@ namespace Steamworks
 			}
 		}
 
-		internal override void DestroyInterface( bool server )
+		public override void DestroyInterface( bool server )
 		{
 			if ( !server )
 			{
@@ -99,14 +99,14 @@ namespace Steamworks
 
 	public class SteamClientClass<T> : SteamClass
 	{
-		internal static SteamInterface Interface;
+		public static SteamInterface Interface;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 
 		}
 
-		internal virtual void SetInterface( bool server, SteamInterface iface )
+		public virtual void SetInterface( bool server, SteamInterface iface )
 		{
 			if ( server )
 				throw new System.NotSupportedException();
@@ -114,7 +114,7 @@ namespace Steamworks
 			Interface = iface;
 		}
 
-		internal override void DestroyInterface( bool server )
+		public override void DestroyInterface( bool server )
 		{
 			Interface = null;
 		}
@@ -122,14 +122,14 @@ namespace Steamworks
 	
 	public class SteamServerClass<T> : SteamClass
 	{
-		internal static SteamInterface Interface;
+		public static SteamInterface Interface;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 
 		}
 
-		internal virtual void SetInterface( bool server, SteamInterface iface )
+		public virtual void SetInterface( bool server, SteamInterface iface )
 		{
 			if ( !server )
 				throw new System.NotSupportedException();
@@ -137,7 +137,7 @@ namespace Steamworks
 			Interface = iface;
 		}
 
-		internal override void DestroyInterface( bool server )
+		public override void DestroyInterface( bool server )
 		{
 			Interface = null;
 		}

@@ -9,7 +9,7 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal static class SourceServerQuery
+	public static class SourceServerQuery
 	{
 		private static readonly byte[] A2S_SERVERQUERY_GETCHALLENGE = { 0x55, 0xFF, 0xFF, 0xFF, 0xFF };
 		//      private static readonly byte A2S_PLAYER = 0x55;
@@ -18,7 +18,7 @@ namespace Steamworks
         private static readonly Dictionary<IPEndPoint, Task<Dictionary<string, string>>> PendingQueries =
             new Dictionary<IPEndPoint, Task<Dictionary<string, string>>>();
 
-        internal static Task<Dictionary<string, string>> GetRules( ServerInfo server )
+        public static Task<Dictionary<string, string>> GetRules( ServerInfo server )
         {
             var endpoint = new IPEndPoint(server.Address, server.QueryPort);
 

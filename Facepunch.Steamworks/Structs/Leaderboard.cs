@@ -9,7 +9,7 @@ namespace Steamworks.Data
 {
 	public struct Leaderboard
 	{
-		internal SteamLeaderboard_t Id;
+		public SteamLeaderboard_t Id;
 
 		/// <summary>
 		/// the name of a leaderboard
@@ -116,7 +116,7 @@ namespace Steamworks.Data
 		}
 
 		#region util
-		internal async Task<LeaderboardEntry[]> LeaderboardResultToEntries( LeaderboardScoresDownloaded_t r )
+		public async Task<LeaderboardEntry[]> LeaderboardResultToEntries( LeaderboardScoresDownloaded_t r )
 		{
 			if ( r.CEntryCount <= 0 )
 				return null;
@@ -137,7 +137,7 @@ namespace Steamworks.Data
 			return output;
 		}
 
-		internal static async Task WaitForUserNames( LeaderboardEntry[] entries)
+		public static async Task WaitForUserNames( LeaderboardEntry[] entries)
 		{
 			bool gotAll = false;
 			while ( !gotAll )

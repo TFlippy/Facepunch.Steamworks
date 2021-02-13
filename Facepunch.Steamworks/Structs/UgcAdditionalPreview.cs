@@ -8,7 +8,7 @@ namespace Steamworks.Data
 {
 	public struct UgcAdditionalPreview
 	{
-		internal UgcAdditionalPreview( string urlOrVideoID, string originalFileName, ItemPreviewType itemPreviewType )
+		public UgcAdditionalPreview( string urlOrVideoID, string originalFileName, ItemPreviewType itemPreviewType )
 		{
 			this.UrlOrVideoID = urlOrVideoID;
 			this.OriginalFileName = originalFileName;

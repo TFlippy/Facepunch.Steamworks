@@ -7,10 +7,10 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamMatchmakingRulesResponse : SteamInterface
+	public class ISteamMatchmakingRulesResponse : SteamInterface
 	{
 		
-		internal ISteamMatchmakingRulesResponse( bool IsGameServer )
+		public ISteamMatchmakingRulesResponse( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
@@ -20,7 +20,7 @@ namespace Steamworks
 		private static extern void _RulesResponded( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchRule, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue );
 		
 		#endregion
-		internal void RulesResponded( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchRule, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
+		public void RulesResponded( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchRule, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
 		{
 			_RulesResponded( Self, pchRule, pchValue );
 		}
@@ -30,7 +30,7 @@ namespace Steamworks
 		private static extern void _RulesFailedToRespond( IntPtr self );
 		
 		#endregion
-		internal void RulesFailedToRespond()
+		public void RulesFailedToRespond()
 		{
 			_RulesFailedToRespond( Self );
 		}
@@ -40,7 +40,7 @@ namespace Steamworks
 		private static extern void _RulesRefreshComplete( IntPtr self );
 		
 		#endregion
-		internal void RulesRefreshComplete()
+		public void RulesRefreshComplete()
 		{
 			_RulesRefreshComplete( Self );
 		}

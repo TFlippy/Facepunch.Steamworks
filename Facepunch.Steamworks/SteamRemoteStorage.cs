@@ -12,9 +12,9 @@ namespace Steamworks
 	/// </summary>
 	public class SteamRemoteStorage : SteamClientClass<SteamRemoteStorage>
 	{
-		internal static ISteamRemoteStorage Internal => Interface as ISteamRemoteStorage;
+		public static ISteamRemoteStorage Internal => Interface as ISteamRemoteStorage;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamRemoteStorage( server ) );
 		}

@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamFriends : SteamInterface
+	public class ISteamFriends : SteamInterface
 	{
 		
-		internal ISteamFriends( bool IsGameServer )
+		public ISteamFriends( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamFriends_v017", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamFriends_v017();
+		public static extern IntPtr SteamAPI_SteamFriends_v017();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamFriends_v017();
 		
 		
@@ -25,7 +25,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetPersonaName( IntPtr self );
 		
 		#endregion
-		internal string GetPersonaName()
+		public string GetPersonaName()
 		{
 			var returnValue = _GetPersonaName( Self );
 			return returnValue;
@@ -36,7 +36,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _SetPersonaName( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPersonaName );
 		
 		#endregion
-		internal CallResult<SetPersonaNameResponse_t> SetPersonaName( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPersonaName )
+		public CallResult<SetPersonaNameResponse_t> SetPersonaName( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchPersonaName )
 		{
 			var returnValue = _SetPersonaName( Self, pchPersonaName );
 			return new CallResult<SetPersonaNameResponse_t>( returnValue, IsServer );
@@ -47,7 +47,7 @@ namespace Steamworks
 		private static extern FriendState _GetPersonaState( IntPtr self );
 		
 		#endregion
-		internal FriendState GetPersonaState()
+		public FriendState GetPersonaState()
 		{
 			var returnValue = _GetPersonaState( Self );
 			return returnValue;
@@ -58,7 +58,7 @@ namespace Steamworks
 		private static extern int _GetFriendCount( IntPtr self, int iFriendFlags );
 		
 		#endregion
-		internal int GetFriendCount( int iFriendFlags )
+		public int GetFriendCount( int iFriendFlags )
 		{
 			var returnValue = _GetFriendCount( Self, iFriendFlags );
 			return returnValue;
@@ -69,7 +69,7 @@ namespace Steamworks
 		private static extern SteamId _GetFriendByIndex( IntPtr self, int iFriend, int iFriendFlags );
 		
 		#endregion
-		internal SteamId GetFriendByIndex( int iFriend, int iFriendFlags )
+		public SteamId GetFriendByIndex( int iFriend, int iFriendFlags )
 		{
 			var returnValue = _GetFriendByIndex( Self, iFriend, iFriendFlags );
 			return returnValue;
@@ -80,7 +80,7 @@ namespace Steamworks
 		private static extern Relationship _GetFriendRelationship( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal Relationship GetFriendRelationship( SteamId steamIDFriend )
+		public Relationship GetFriendRelationship( SteamId steamIDFriend )
 		{
 			var returnValue = _GetFriendRelationship( Self, steamIDFriend );
 			return returnValue;
@@ -91,7 +91,7 @@ namespace Steamworks
 		private static extern FriendState _GetFriendPersonaState( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal FriendState GetFriendPersonaState( SteamId steamIDFriend )
+		public FriendState GetFriendPersonaState( SteamId steamIDFriend )
 		{
 			var returnValue = _GetFriendPersonaState( Self, steamIDFriend );
 			return returnValue;
@@ -102,7 +102,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetFriendPersonaName( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal string GetFriendPersonaName( SteamId steamIDFriend )
+		public string GetFriendPersonaName( SteamId steamIDFriend )
 		{
 			var returnValue = _GetFriendPersonaName( Self, steamIDFriend );
 			return returnValue;
@@ -114,7 +114,7 @@ namespace Steamworks
 		private static extern bool _GetFriendGamePlayed( IntPtr self, SteamId steamIDFriend, ref FriendGameInfo_t pFriendGameInfo );
 		
 		#endregion
-		internal bool GetFriendGamePlayed( SteamId steamIDFriend, ref FriendGameInfo_t pFriendGameInfo )
+		public bool GetFriendGamePlayed( SteamId steamIDFriend, ref FriendGameInfo_t pFriendGameInfo )
 		{
 			var returnValue = _GetFriendGamePlayed( Self, steamIDFriend, ref pFriendGameInfo );
 			return returnValue;
@@ -125,7 +125,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetFriendPersonaNameHistory( IntPtr self, SteamId steamIDFriend, int iPersonaName );
 		
 		#endregion
-		internal string GetFriendPersonaNameHistory( SteamId steamIDFriend, int iPersonaName )
+		public string GetFriendPersonaNameHistory( SteamId steamIDFriend, int iPersonaName )
 		{
 			var returnValue = _GetFriendPersonaNameHistory( Self, steamIDFriend, iPersonaName );
 			return returnValue;
@@ -136,7 +136,7 @@ namespace Steamworks
 		private static extern int _GetFriendSteamLevel( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal int GetFriendSteamLevel( SteamId steamIDFriend )
+		public int GetFriendSteamLevel( SteamId steamIDFriend )
 		{
 			var returnValue = _GetFriendSteamLevel( Self, steamIDFriend );
 			return returnValue;
@@ -147,7 +147,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetPlayerNickname( IntPtr self, SteamId steamIDPlayer );
 		
 		#endregion
-		internal string GetPlayerNickname( SteamId steamIDPlayer )
+		public string GetPlayerNickname( SteamId steamIDPlayer )
 		{
 			var returnValue = _GetPlayerNickname( Self, steamIDPlayer );
 			return returnValue;
@@ -158,7 +158,7 @@ namespace Steamworks
 		private static extern int _GetFriendsGroupCount( IntPtr self );
 		
 		#endregion
-		internal int GetFriendsGroupCount()
+		public int GetFriendsGroupCount()
 		{
 			var returnValue = _GetFriendsGroupCount( Self );
 			return returnValue;
@@ -169,7 +169,7 @@ namespace Steamworks
 		private static extern FriendsGroupID_t _GetFriendsGroupIDByIndex( IntPtr self, int iFG );
 		
 		#endregion
-		internal FriendsGroupID_t GetFriendsGroupIDByIndex( int iFG )
+		public FriendsGroupID_t GetFriendsGroupIDByIndex( int iFG )
 		{
 			var returnValue = _GetFriendsGroupIDByIndex( Self, iFG );
 			return returnValue;
@@ -180,7 +180,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetFriendsGroupName( IntPtr self, FriendsGroupID_t friendsGroupID );
 		
 		#endregion
-		internal string GetFriendsGroupName( FriendsGroupID_t friendsGroupID )
+		public string GetFriendsGroupName( FriendsGroupID_t friendsGroupID )
 		{
 			var returnValue = _GetFriendsGroupName( Self, friendsGroupID );
 			return returnValue;
@@ -191,7 +191,7 @@ namespace Steamworks
 		private static extern int _GetFriendsGroupMembersCount( IntPtr self, FriendsGroupID_t friendsGroupID );
 		
 		#endregion
-		internal int GetFriendsGroupMembersCount( FriendsGroupID_t friendsGroupID )
+		public int GetFriendsGroupMembersCount( FriendsGroupID_t friendsGroupID )
 		{
 			var returnValue = _GetFriendsGroupMembersCount( Self, friendsGroupID );
 			return returnValue;
@@ -202,7 +202,7 @@ namespace Steamworks
 		private static extern void _GetFriendsGroupMembersList( IntPtr self, FriendsGroupID_t friendsGroupID, [In,Out] SteamId[]  pOutSteamIDMembers, int nMembersCount );
 		
 		#endregion
-		internal void GetFriendsGroupMembersList( FriendsGroupID_t friendsGroupID, [In,Out] SteamId[]  pOutSteamIDMembers, int nMembersCount )
+		public void GetFriendsGroupMembersList( FriendsGroupID_t friendsGroupID, [In,Out] SteamId[]  pOutSteamIDMembers, int nMembersCount )
 		{
 			_GetFriendsGroupMembersList( Self, friendsGroupID, pOutSteamIDMembers, nMembersCount );
 		}
@@ -213,7 +213,7 @@ namespace Steamworks
 		private static extern bool _HasFriend( IntPtr self, SteamId steamIDFriend, int iFriendFlags );
 		
 		#endregion
-		internal bool HasFriend( SteamId steamIDFriend, int iFriendFlags )
+		public bool HasFriend( SteamId steamIDFriend, int iFriendFlags )
 		{
 			var returnValue = _HasFriend( Self, steamIDFriend, iFriendFlags );
 			return returnValue;
@@ -224,7 +224,7 @@ namespace Steamworks
 		private static extern int _GetClanCount( IntPtr self );
 		
 		#endregion
-		internal int GetClanCount()
+		public int GetClanCount()
 		{
 			var returnValue = _GetClanCount( Self );
 			return returnValue;
@@ -235,7 +235,7 @@ namespace Steamworks
 		private static extern SteamId _GetClanByIndex( IntPtr self, int iClan );
 		
 		#endregion
-		internal SteamId GetClanByIndex( int iClan )
+		public SteamId GetClanByIndex( int iClan )
 		{
 			var returnValue = _GetClanByIndex( Self, iClan );
 			return returnValue;
@@ -246,7 +246,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetClanName( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal string GetClanName( SteamId steamIDClan )
+		public string GetClanName( SteamId steamIDClan )
 		{
 			var returnValue = _GetClanName( Self, steamIDClan );
 			return returnValue;
@@ -257,7 +257,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetClanTag( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal string GetClanTag( SteamId steamIDClan )
+		public string GetClanTag( SteamId steamIDClan )
 		{
 			var returnValue = _GetClanTag( Self, steamIDClan );
 			return returnValue;
@@ -269,7 +269,7 @@ namespace Steamworks
 		private static extern bool _GetClanActivityCounts( IntPtr self, SteamId steamIDClan, ref int pnOnline, ref int pnInGame, ref int pnChatting );
 		
 		#endregion
-		internal bool GetClanActivityCounts( SteamId steamIDClan, ref int pnOnline, ref int pnInGame, ref int pnChatting )
+		public bool GetClanActivityCounts( SteamId steamIDClan, ref int pnOnline, ref int pnInGame, ref int pnChatting )
 		{
 			var returnValue = _GetClanActivityCounts( Self, steamIDClan, ref pnOnline, ref pnInGame, ref pnChatting );
 			return returnValue;
@@ -280,7 +280,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _DownloadClanActivityCounts( IntPtr self, [In,Out] SteamId[]  psteamIDClans, int cClansToRequest );
 		
 		#endregion
-		internal CallResult<DownloadClanActivityCountsResult_t> DownloadClanActivityCounts( [In,Out] SteamId[]  psteamIDClans, int cClansToRequest )
+		public CallResult<DownloadClanActivityCountsResult_t> DownloadClanActivityCounts( [In,Out] SteamId[]  psteamIDClans, int cClansToRequest )
 		{
 			var returnValue = _DownloadClanActivityCounts( Self, psteamIDClans, cClansToRequest );
 			return new CallResult<DownloadClanActivityCountsResult_t>( returnValue, IsServer );
@@ -291,7 +291,7 @@ namespace Steamworks
 		private static extern int _GetFriendCountFromSource( IntPtr self, SteamId steamIDSource );
 		
 		#endregion
-		internal int GetFriendCountFromSource( SteamId steamIDSource )
+		public int GetFriendCountFromSource( SteamId steamIDSource )
 		{
 			var returnValue = _GetFriendCountFromSource( Self, steamIDSource );
 			return returnValue;
@@ -302,7 +302,7 @@ namespace Steamworks
 		private static extern SteamId _GetFriendFromSourceByIndex( IntPtr self, SteamId steamIDSource, int iFriend );
 		
 		#endregion
-		internal SteamId GetFriendFromSourceByIndex( SteamId steamIDSource, int iFriend )
+		public SteamId GetFriendFromSourceByIndex( SteamId steamIDSource, int iFriend )
 		{
 			var returnValue = _GetFriendFromSourceByIndex( Self, steamIDSource, iFriend );
 			return returnValue;
@@ -314,7 +314,7 @@ namespace Steamworks
 		private static extern bool _IsUserInSource( IntPtr self, SteamId steamIDUser, SteamId steamIDSource );
 		
 		#endregion
-		internal bool IsUserInSource( SteamId steamIDUser, SteamId steamIDSource )
+		public bool IsUserInSource( SteamId steamIDUser, SteamId steamIDSource )
 		{
 			var returnValue = _IsUserInSource( Self, steamIDUser, steamIDSource );
 			return returnValue;
@@ -325,7 +325,7 @@ namespace Steamworks
 		private static extern void _SetInGameVoiceSpeaking( IntPtr self, SteamId steamIDUser, [MarshalAs( UnmanagedType.U1 )] bool bSpeaking );
 		
 		#endregion
-		internal void SetInGameVoiceSpeaking( SteamId steamIDUser, [MarshalAs( UnmanagedType.U1 )] bool bSpeaking )
+		public void SetInGameVoiceSpeaking( SteamId steamIDUser, [MarshalAs( UnmanagedType.U1 )] bool bSpeaking )
 		{
 			_SetInGameVoiceSpeaking( Self, steamIDUser, bSpeaking );
 		}
@@ -335,7 +335,7 @@ namespace Steamworks
 		private static extern void _ActivateGameOverlay( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDialog );
 		
 		#endregion
-		internal void ActivateGameOverlay( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDialog )
+		public void ActivateGameOverlay( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDialog )
 		{
 			_ActivateGameOverlay( Self, pchDialog );
 		}
@@ -345,7 +345,7 @@ namespace Steamworks
 		private static extern void _ActivateGameOverlayToUser( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDialog, SteamId steamID );
 		
 		#endregion
-		internal void ActivateGameOverlayToUser( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDialog, SteamId steamID )
+		public void ActivateGameOverlayToUser( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDialog, SteamId steamID )
 		{
 			_ActivateGameOverlayToUser( Self, pchDialog, steamID );
 		}
@@ -355,7 +355,7 @@ namespace Steamworks
 		private static extern void _ActivateGameOverlayToWebPage( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchURL, ActivateGameOverlayToWebPageMode eMode );
 		
 		#endregion
-		internal void ActivateGameOverlayToWebPage( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchURL, ActivateGameOverlayToWebPageMode eMode )
+		public void ActivateGameOverlayToWebPage( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchURL, ActivateGameOverlayToWebPageMode eMode )
 		{
 			_ActivateGameOverlayToWebPage( Self, pchURL, eMode );
 		}
@@ -365,7 +365,7 @@ namespace Steamworks
 		private static extern void _ActivateGameOverlayToStore( IntPtr self, AppId nAppID, OverlayToStoreFlag eFlag );
 		
 		#endregion
-		internal void ActivateGameOverlayToStore( AppId nAppID, OverlayToStoreFlag eFlag )
+		public void ActivateGameOverlayToStore( AppId nAppID, OverlayToStoreFlag eFlag )
 		{
 			_ActivateGameOverlayToStore( Self, nAppID, eFlag );
 		}
@@ -375,7 +375,7 @@ namespace Steamworks
 		private static extern void _SetPlayedWith( IntPtr self, SteamId steamIDUserPlayedWith );
 		
 		#endregion
-		internal void SetPlayedWith( SteamId steamIDUserPlayedWith )
+		public void SetPlayedWith( SteamId steamIDUserPlayedWith )
 		{
 			_SetPlayedWith( Self, steamIDUserPlayedWith );
 		}
@@ -385,7 +385,7 @@ namespace Steamworks
 		private static extern void _ActivateGameOverlayInviteDialog( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal void ActivateGameOverlayInviteDialog( SteamId steamIDLobby )
+		public void ActivateGameOverlayInviteDialog( SteamId steamIDLobby )
 		{
 			_ActivateGameOverlayInviteDialog( Self, steamIDLobby );
 		}
@@ -395,7 +395,7 @@ namespace Steamworks
 		private static extern int _GetSmallFriendAvatar( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal int GetSmallFriendAvatar( SteamId steamIDFriend )
+		public int GetSmallFriendAvatar( SteamId steamIDFriend )
 		{
 			var returnValue = _GetSmallFriendAvatar( Self, steamIDFriend );
 			return returnValue;
@@ -406,7 +406,7 @@ namespace Steamworks
 		private static extern int _GetMediumFriendAvatar( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal int GetMediumFriendAvatar( SteamId steamIDFriend )
+		public int GetMediumFriendAvatar( SteamId steamIDFriend )
 		{
 			var returnValue = _GetMediumFriendAvatar( Self, steamIDFriend );
 			return returnValue;
@@ -417,7 +417,7 @@ namespace Steamworks
 		private static extern int _GetLargeFriendAvatar( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal int GetLargeFriendAvatar( SteamId steamIDFriend )
+		public int GetLargeFriendAvatar( SteamId steamIDFriend )
 		{
 			var returnValue = _GetLargeFriendAvatar( Self, steamIDFriend );
 			return returnValue;
@@ -429,7 +429,7 @@ namespace Steamworks
 		private static extern bool _RequestUserInformation( IntPtr self, SteamId steamIDUser, [MarshalAs( UnmanagedType.U1 )] bool bRequireNameOnly );
 		
 		#endregion
-		internal bool RequestUserInformation( SteamId steamIDUser, [MarshalAs( UnmanagedType.U1 )] bool bRequireNameOnly )
+		public bool RequestUserInformation( SteamId steamIDUser, [MarshalAs( UnmanagedType.U1 )] bool bRequireNameOnly )
 		{
 			var returnValue = _RequestUserInformation( Self, steamIDUser, bRequireNameOnly );
 			return returnValue;
@@ -440,7 +440,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _RequestClanOfficerList( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal CallResult<ClanOfficerListResponse_t> RequestClanOfficerList( SteamId steamIDClan )
+		public CallResult<ClanOfficerListResponse_t> RequestClanOfficerList( SteamId steamIDClan )
 		{
 			var returnValue = _RequestClanOfficerList( Self, steamIDClan );
 			return new CallResult<ClanOfficerListResponse_t>( returnValue, IsServer );
@@ -451,7 +451,7 @@ namespace Steamworks
 		private static extern SteamId _GetClanOwner( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal SteamId GetClanOwner( SteamId steamIDClan )
+		public SteamId GetClanOwner( SteamId steamIDClan )
 		{
 			var returnValue = _GetClanOwner( Self, steamIDClan );
 			return returnValue;
@@ -462,7 +462,7 @@ namespace Steamworks
 		private static extern int _GetClanOfficerCount( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal int GetClanOfficerCount( SteamId steamIDClan )
+		public int GetClanOfficerCount( SteamId steamIDClan )
 		{
 			var returnValue = _GetClanOfficerCount( Self, steamIDClan );
 			return returnValue;
@@ -473,7 +473,7 @@ namespace Steamworks
 		private static extern SteamId _GetClanOfficerByIndex( IntPtr self, SteamId steamIDClan, int iOfficer );
 		
 		#endregion
-		internal SteamId GetClanOfficerByIndex( SteamId steamIDClan, int iOfficer )
+		public SteamId GetClanOfficerByIndex( SteamId steamIDClan, int iOfficer )
 		{
 			var returnValue = _GetClanOfficerByIndex( Self, steamIDClan, iOfficer );
 			return returnValue;
@@ -484,7 +484,7 @@ namespace Steamworks
 		private static extern uint _GetUserRestrictions( IntPtr self );
 		
 		#endregion
-		internal uint GetUserRestrictions()
+		public uint GetUserRestrictions()
 		{
 			var returnValue = _GetUserRestrictions( Self );
 			return returnValue;
@@ -496,7 +496,7 @@ namespace Steamworks
 		private static extern bool _SetRichPresence( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue );
 		
 		#endregion
-		internal bool SetRichPresence( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
+		public bool SetRichPresence( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchValue )
 		{
 			var returnValue = _SetRichPresence( Self, pchKey, pchValue );
 			return returnValue;
@@ -507,7 +507,7 @@ namespace Steamworks
 		private static extern void _ClearRichPresence( IntPtr self );
 		
 		#endregion
-		internal void ClearRichPresence()
+		public void ClearRichPresence()
 		{
 			_ClearRichPresence( Self );
 		}
@@ -517,7 +517,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetFriendRichPresence( IntPtr self, SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey );
 		
 		#endregion
-		internal string GetFriendRichPresence( SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
+		public string GetFriendRichPresence( SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
 		{
 			var returnValue = _GetFriendRichPresence( Self, steamIDFriend, pchKey );
 			return returnValue;
@@ -528,7 +528,7 @@ namespace Steamworks
 		private static extern int _GetFriendRichPresenceKeyCount( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal int GetFriendRichPresenceKeyCount( SteamId steamIDFriend )
+		public int GetFriendRichPresenceKeyCount( SteamId steamIDFriend )
 		{
 			var returnValue = _GetFriendRichPresenceKeyCount( Self, steamIDFriend );
 			return returnValue;
@@ -539,7 +539,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetFriendRichPresenceKeyByIndex( IntPtr self, SteamId steamIDFriend, int iKey );
 		
 		#endregion
-		internal string GetFriendRichPresenceKeyByIndex( SteamId steamIDFriend, int iKey )
+		public string GetFriendRichPresenceKeyByIndex( SteamId steamIDFriend, int iKey )
 		{
 			var returnValue = _GetFriendRichPresenceKeyByIndex( Self, steamIDFriend, iKey );
 			return returnValue;
@@ -550,7 +550,7 @@ namespace Steamworks
 		private static extern void _RequestFriendRichPresence( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal void RequestFriendRichPresence( SteamId steamIDFriend )
+		public void RequestFriendRichPresence( SteamId steamIDFriend )
 		{
 			_RequestFriendRichPresence( Self, steamIDFriend );
 		}
@@ -561,7 +561,7 @@ namespace Steamworks
 		private static extern bool _InviteUserToGame( IntPtr self, SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchConnectString );
 		
 		#endregion
-		internal bool InviteUserToGame( SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchConnectString )
+		public bool InviteUserToGame( SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchConnectString )
 		{
 			var returnValue = _InviteUserToGame( Self, steamIDFriend, pchConnectString );
 			return returnValue;
@@ -572,7 +572,7 @@ namespace Steamworks
 		private static extern int _GetCoplayFriendCount( IntPtr self );
 		
 		#endregion
-		internal int GetCoplayFriendCount()
+		public int GetCoplayFriendCount()
 		{
 			var returnValue = _GetCoplayFriendCount( Self );
 			return returnValue;
@@ -583,7 +583,7 @@ namespace Steamworks
 		private static extern SteamId _GetCoplayFriend( IntPtr self, int iCoplayFriend );
 		
 		#endregion
-		internal SteamId GetCoplayFriend( int iCoplayFriend )
+		public SteamId GetCoplayFriend( int iCoplayFriend )
 		{
 			var returnValue = _GetCoplayFriend( Self, iCoplayFriend );
 			return returnValue;
@@ -594,7 +594,7 @@ namespace Steamworks
 		private static extern int _GetFriendCoplayTime( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal int GetFriendCoplayTime( SteamId steamIDFriend )
+		public int GetFriendCoplayTime( SteamId steamIDFriend )
 		{
 			var returnValue = _GetFriendCoplayTime( Self, steamIDFriend );
 			return returnValue;
@@ -605,7 +605,7 @@ namespace Steamworks
 		private static extern AppId _GetFriendCoplayGame( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal AppId GetFriendCoplayGame( SteamId steamIDFriend )
+		public AppId GetFriendCoplayGame( SteamId steamIDFriend )
 		{
 			var returnValue = _GetFriendCoplayGame( Self, steamIDFriend );
 			return returnValue;
@@ -616,7 +616,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _JoinClanChatRoom( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal CallResult<JoinClanChatRoomCompletionResult_t> JoinClanChatRoom( SteamId steamIDClan )
+		public CallResult<JoinClanChatRoomCompletionResult_t> JoinClanChatRoom( SteamId steamIDClan )
 		{
 			var returnValue = _JoinClanChatRoom( Self, steamIDClan );
 			return new CallResult<JoinClanChatRoomCompletionResult_t>( returnValue, IsServer );
@@ -628,7 +628,7 @@ namespace Steamworks
 		private static extern bool _LeaveClanChatRoom( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal bool LeaveClanChatRoom( SteamId steamIDClan )
+		public bool LeaveClanChatRoom( SteamId steamIDClan )
 		{
 			var returnValue = _LeaveClanChatRoom( Self, steamIDClan );
 			return returnValue;
@@ -639,7 +639,7 @@ namespace Steamworks
 		private static extern int _GetClanChatMemberCount( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal int GetClanChatMemberCount( SteamId steamIDClan )
+		public int GetClanChatMemberCount( SteamId steamIDClan )
 		{
 			var returnValue = _GetClanChatMemberCount( Self, steamIDClan );
 			return returnValue;
@@ -650,7 +650,7 @@ namespace Steamworks
 		private static extern SteamId _GetChatMemberByIndex( IntPtr self, SteamId steamIDClan, int iUser );
 		
 		#endregion
-		internal SteamId GetChatMemberByIndex( SteamId steamIDClan, int iUser )
+		public SteamId GetChatMemberByIndex( SteamId steamIDClan, int iUser )
 		{
 			var returnValue = _GetChatMemberByIndex( Self, steamIDClan, iUser );
 			return returnValue;
@@ -662,7 +662,7 @@ namespace Steamworks
 		private static extern bool _SendClanChatMessage( IntPtr self, SteamId steamIDClanChat, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchText );
 		
 		#endregion
-		internal bool SendClanChatMessage( SteamId steamIDClanChat, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchText )
+		public bool SendClanChatMessage( SteamId steamIDClanChat, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchText )
 		{
 			var returnValue = _SendClanChatMessage( Self, steamIDClanChat, pchText );
 			return returnValue;
@@ -673,7 +673,7 @@ namespace Steamworks
 		private static extern int _GetClanChatMessage( IntPtr self, SteamId steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, ref ChatEntryType peChatEntryType, ref SteamId psteamidChatter );
 		
 		#endregion
-		internal int GetClanChatMessage( SteamId steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, ref ChatEntryType peChatEntryType, ref SteamId psteamidChatter )
+		public int GetClanChatMessage( SteamId steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, ref ChatEntryType peChatEntryType, ref SteamId psteamidChatter )
 		{
 			var returnValue = _GetClanChatMessage( Self, steamIDClanChat, iMessage, prgchText, cchTextMax, ref peChatEntryType, ref psteamidChatter );
 			return returnValue;
@@ -685,7 +685,7 @@ namespace Steamworks
 		private static extern bool _IsClanChatAdmin( IntPtr self, SteamId steamIDClanChat, SteamId steamIDUser );
 		
 		#endregion
-		internal bool IsClanChatAdmin( SteamId steamIDClanChat, SteamId steamIDUser )
+		public bool IsClanChatAdmin( SteamId steamIDClanChat, SteamId steamIDUser )
 		{
 			var returnValue = _IsClanChatAdmin( Self, steamIDClanChat, steamIDUser );
 			return returnValue;
@@ -697,7 +697,7 @@ namespace Steamworks
 		private static extern bool _IsClanChatWindowOpenInSteam( IntPtr self, SteamId steamIDClanChat );
 		
 		#endregion
-		internal bool IsClanChatWindowOpenInSteam( SteamId steamIDClanChat )
+		public bool IsClanChatWindowOpenInSteam( SteamId steamIDClanChat )
 		{
 			var returnValue = _IsClanChatWindowOpenInSteam( Self, steamIDClanChat );
 			return returnValue;
@@ -709,7 +709,7 @@ namespace Steamworks
 		private static extern bool _OpenClanChatWindowInSteam( IntPtr self, SteamId steamIDClanChat );
 		
 		#endregion
-		internal bool OpenClanChatWindowInSteam( SteamId steamIDClanChat )
+		public bool OpenClanChatWindowInSteam( SteamId steamIDClanChat )
 		{
 			var returnValue = _OpenClanChatWindowInSteam( Self, steamIDClanChat );
 			return returnValue;
@@ -721,7 +721,7 @@ namespace Steamworks
 		private static extern bool _CloseClanChatWindowInSteam( IntPtr self, SteamId steamIDClanChat );
 		
 		#endregion
-		internal bool CloseClanChatWindowInSteam( SteamId steamIDClanChat )
+		public bool CloseClanChatWindowInSteam( SteamId steamIDClanChat )
 		{
 			var returnValue = _CloseClanChatWindowInSteam( Self, steamIDClanChat );
 			return returnValue;
@@ -733,7 +733,7 @@ namespace Steamworks
 		private static extern bool _SetListenForFriendsMessages( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bInterceptEnabled );
 		
 		#endregion
-		internal bool SetListenForFriendsMessages( [MarshalAs( UnmanagedType.U1 )] bool bInterceptEnabled )
+		public bool SetListenForFriendsMessages( [MarshalAs( UnmanagedType.U1 )] bool bInterceptEnabled )
 		{
 			var returnValue = _SetListenForFriendsMessages( Self, bInterceptEnabled );
 			return returnValue;
@@ -745,7 +745,7 @@ namespace Steamworks
 		private static extern bool _ReplyToFriendMessage( IntPtr self, SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchMsgToSend );
 		
 		#endregion
-		internal bool ReplyToFriendMessage( SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchMsgToSend )
+		public bool ReplyToFriendMessage( SteamId steamIDFriend, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchMsgToSend )
 		{
 			var returnValue = _ReplyToFriendMessage( Self, steamIDFriend, pchMsgToSend );
 			return returnValue;
@@ -756,7 +756,7 @@ namespace Steamworks
 		private static extern int _GetFriendMessage( IntPtr self, SteamId steamIDFriend, int iMessageID, IntPtr pvData, int cubData, ref ChatEntryType peChatEntryType );
 		
 		#endregion
-		internal int GetFriendMessage( SteamId steamIDFriend, int iMessageID, IntPtr pvData, int cubData, ref ChatEntryType peChatEntryType )
+		public int GetFriendMessage( SteamId steamIDFriend, int iMessageID, IntPtr pvData, int cubData, ref ChatEntryType peChatEntryType )
 		{
 			var returnValue = _GetFriendMessage( Self, steamIDFriend, iMessageID, pvData, cubData, ref peChatEntryType );
 			return returnValue;
@@ -767,7 +767,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _GetFollowerCount( IntPtr self, SteamId steamID );
 		
 		#endregion
-		internal CallResult<FriendsGetFollowerCount_t> GetFollowerCount( SteamId steamID )
+		public CallResult<FriendsGetFollowerCount_t> GetFollowerCount( SteamId steamID )
 		{
 			var returnValue = _GetFollowerCount( Self, steamID );
 			return new CallResult<FriendsGetFollowerCount_t>( returnValue, IsServer );
@@ -778,7 +778,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _IsFollowing( IntPtr self, SteamId steamID );
 		
 		#endregion
-		internal CallResult<FriendsIsFollowing_t> IsFollowing( SteamId steamID )
+		public CallResult<FriendsIsFollowing_t> IsFollowing( SteamId steamID )
 		{
 			var returnValue = _IsFollowing( Self, steamID );
 			return new CallResult<FriendsIsFollowing_t>( returnValue, IsServer );
@@ -789,7 +789,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _EnumerateFollowingList( IntPtr self, uint unStartIndex );
 		
 		#endregion
-		internal CallResult<FriendsEnumerateFollowingList_t> EnumerateFollowingList( uint unStartIndex )
+		public CallResult<FriendsEnumerateFollowingList_t> EnumerateFollowingList( uint unStartIndex )
 		{
 			var returnValue = _EnumerateFollowingList( Self, unStartIndex );
 			return new CallResult<FriendsEnumerateFollowingList_t>( returnValue, IsServer );
@@ -801,7 +801,7 @@ namespace Steamworks
 		private static extern bool _IsClanPublic( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal bool IsClanPublic( SteamId steamIDClan )
+		public bool IsClanPublic( SteamId steamIDClan )
 		{
 			var returnValue = _IsClanPublic( Self, steamIDClan );
 			return returnValue;
@@ -813,7 +813,7 @@ namespace Steamworks
 		private static extern bool _IsClanOfficialGameGroup( IntPtr self, SteamId steamIDClan );
 		
 		#endregion
-		internal bool IsClanOfficialGameGroup( SteamId steamIDClan )
+		public bool IsClanOfficialGameGroup( SteamId steamIDClan )
 		{
 			var returnValue = _IsClanOfficialGameGroup( Self, steamIDClan );
 			return returnValue;
@@ -824,7 +824,7 @@ namespace Steamworks
 		private static extern int _GetNumChatsWithUnreadPriorityMessages( IntPtr self );
 		
 		#endregion
-		internal int GetNumChatsWithUnreadPriorityMessages()
+		public int GetNumChatsWithUnreadPriorityMessages()
 		{
 			var returnValue = _GetNumChatsWithUnreadPriorityMessages( Self );
 			return returnValue;
@@ -835,7 +835,7 @@ namespace Steamworks
 		private static extern void _ActivateGameOverlayRemotePlayTogetherInviteDialog( IntPtr self, SteamId steamIDLobby );
 		
 		#endregion
-		internal void ActivateGameOverlayRemotePlayTogetherInviteDialog( SteamId steamIDLobby )
+		public void ActivateGameOverlayRemotePlayTogetherInviteDialog( SteamId steamIDLobby )
 		{
 			_ActivateGameOverlayRemotePlayTogetherInviteDialog( Self, steamIDLobby );
 		}
@@ -846,7 +846,7 @@ namespace Steamworks
 		private static extern bool _RegisterProtocolInOverlayBrowser( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchProtocol );
 		
 		#endregion
-		internal bool RegisterProtocolInOverlayBrowser( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchProtocol )
+		public bool RegisterProtocolInOverlayBrowser( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchProtocol )
 		{
 			var returnValue = _RegisterProtocolInOverlayBrowser( Self, pchProtocol );
 			return returnValue;

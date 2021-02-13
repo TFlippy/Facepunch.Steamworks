@@ -10,7 +10,7 @@ namespace Steamworks.Data
 		// - WithoutKeyValue
 
 		#region Distance Filter
-		internal LobbyDistanceFilter? distance;
+		public LobbyDistanceFilter? distance;
 
 		/// <summary>
 		/// only lobbies in the same immediate region will be returned
@@ -41,7 +41,7 @@ namespace Steamworks.Data
 		#endregion
 
 		#region String key/value filter
-		internal Dictionary<string, string> stringFilters;
+		public Dictionary<string, string> stringFilters;
 
 		/// <summary>
 		/// Filter by specified key/value pair; string parameters
@@ -64,7 +64,7 @@ namespace Steamworks.Data
 		#endregion
 
 		#region Numerical filters
-		internal List<NumericalFilter> numericalFilters;
+		public List<NumericalFilter> numericalFilters;
 
 		/// <summary>
 		/// Numerical filter where value is less than the value provided
@@ -105,7 +105,7 @@ namespace Steamworks.Data
 		/// <summary>
 		/// Test key, initialize numerical filter list if necessary, then add new numerical filter
 		/// </summary>
-		internal void AddNumericalFilter( string key, int value, LobbyComparison compare )
+		public void AddNumericalFilter( string key, int value, LobbyComparison compare )
 		{
 			if ( string.IsNullOrEmpty( key ) )
 				throw new System.ArgumentException( "Key string provided for LobbyQuery filter is null or empty", nameof( key ) );
@@ -121,7 +121,7 @@ namespace Steamworks.Data
 		#endregion
 
 		#region Near value filter
-		internal Dictionary<string, int> nearValFilters;
+		public Dictionary<string, int> nearValFilters;
 
 		/// <summary>
 		/// Order filtered results according to key/values nearest the provided key/value pair.
@@ -145,7 +145,7 @@ namespace Steamworks.Data
 		#endregion
 
 		#region Slots Filter
-		internal int? slotsAvailable;
+		public int? slotsAvailable;
 
 		/// <summary>
 		/// returns only lobbies with the specified number of slots available
@@ -159,7 +159,7 @@ namespace Steamworks.Data
 		#endregion
 
 		#region Max results filter
-		internal int? maxResults;
+		public int? maxResults;
 
 		/// <summary>
 		/// sets how many results to return, the lower the count the faster it is to download the lobby results

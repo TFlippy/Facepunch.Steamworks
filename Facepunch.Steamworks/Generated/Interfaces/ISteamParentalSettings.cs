@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamParentalSettings : SteamInterface
+	public class ISteamParentalSettings : SteamInterface
 	{
 		
-		internal ISteamParentalSettings( bool IsGameServer )
+		public ISteamParentalSettings( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamParentalSettings_v001", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamParentalSettings_v001();
+		public static extern IntPtr SteamAPI_SteamParentalSettings_v001();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamParentalSettings_v001();
 		
 		
@@ -26,7 +26,7 @@ namespace Steamworks
 		private static extern bool _BIsParentalLockEnabled( IntPtr self );
 		
 		#endregion
-		internal bool BIsParentalLockEnabled()
+		public bool BIsParentalLockEnabled()
 		{
 			var returnValue = _BIsParentalLockEnabled( Self );
 			return returnValue;
@@ -38,7 +38,7 @@ namespace Steamworks
 		private static extern bool _BIsParentalLockLocked( IntPtr self );
 		
 		#endregion
-		internal bool BIsParentalLockLocked()
+		public bool BIsParentalLockLocked()
 		{
 			var returnValue = _BIsParentalLockLocked( Self );
 			return returnValue;
@@ -50,7 +50,7 @@ namespace Steamworks
 		private static extern bool _BIsAppBlocked( IntPtr self, AppId nAppID );
 		
 		#endregion
-		internal bool BIsAppBlocked( AppId nAppID )
+		public bool BIsAppBlocked( AppId nAppID )
 		{
 			var returnValue = _BIsAppBlocked( Self, nAppID );
 			return returnValue;
@@ -62,7 +62,7 @@ namespace Steamworks
 		private static extern bool _BIsAppInBlockList( IntPtr self, AppId nAppID );
 		
 		#endregion
-		internal bool BIsAppInBlockList( AppId nAppID )
+		public bool BIsAppInBlockList( AppId nAppID )
 		{
 			var returnValue = _BIsAppInBlockList( Self, nAppID );
 			return returnValue;
@@ -74,7 +74,7 @@ namespace Steamworks
 		private static extern bool _BIsFeatureBlocked( IntPtr self, ParentalFeature eFeature );
 		
 		#endregion
-		internal bool BIsFeatureBlocked( ParentalFeature eFeature )
+		public bool BIsFeatureBlocked( ParentalFeature eFeature )
 		{
 			var returnValue = _BIsFeatureBlocked( Self, eFeature );
 			return returnValue;
@@ -86,7 +86,7 @@ namespace Steamworks
 		private static extern bool _BIsFeatureInBlockList( IntPtr self, ParentalFeature eFeature );
 		
 		#endregion
-		internal bool BIsFeatureInBlockList( ParentalFeature eFeature )
+		public bool BIsFeatureInBlockList( ParentalFeature eFeature )
 		{
 			var returnValue = _BIsFeatureInBlockList( Self, eFeature );
 			return returnValue;

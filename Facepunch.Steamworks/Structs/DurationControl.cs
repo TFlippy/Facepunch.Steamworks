@@ -12,7 +12,7 @@ namespace Steamworks.Data
 	/// </summary>
 	public struct DurationControl
 	{
-		internal DurationControl_t _inner;
+		public DurationControl_t _inner;
 
 		/// <summary>
 		/// appid generating playtime
@@ -27,16 +27,16 @@ namespace Steamworks.Data
 		/// <summary>
 		/// playtime since most recent 5 hour gap in playtime, only counting up to regulatory limit of playtime, in seconds
 		/// </summary>
-		internal TimeSpan PlaytimeInLastFiveHours => TimeSpan.FromSeconds( _inner.CsecsLast5h );
+		public TimeSpan PlaytimeInLastFiveHours => TimeSpan.FromSeconds( _inner.CsecsLast5h );
 
 		/// <summary>
 		/// playtime on current calendar day
 		/// </summary>
-		internal TimeSpan PlaytimeToday => TimeSpan.FromSeconds( _inner.CsecsLast5h );
+		public TimeSpan PlaytimeToday => TimeSpan.FromSeconds( _inner.CsecsLast5h );
 
 		/// <summary>
 		/// recommended progress
 		/// </summary>
-		internal DurationControlProgress Progress => _inner.Progress;
+		public DurationControlProgress Progress => _inner.Progress;
 	}
 }

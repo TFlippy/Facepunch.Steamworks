@@ -4,7 +4,7 @@ using Steamworks.Data;
 
 namespace Steamworks.Ugc
 {
-	internal struct SteamParamStringArray : IDisposable
+	public struct SteamParamStringArray : IDisposable
 	{
 		public SteamParamStringArray_t Value;
 

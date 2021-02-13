@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamMusicRemote : SteamInterface
+	public class ISteamMusicRemote : SteamInterface
 	{
 		
-		internal ISteamMusicRemote( bool IsGameServer )
+		public ISteamMusicRemote( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamMusicRemote_v001", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamMusicRemote_v001();
+		public static extern IntPtr SteamAPI_SteamMusicRemote_v001();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamMusicRemote_v001();
 		
 		
@@ -26,7 +26,7 @@ namespace Steamworks
 		private static extern bool _RegisterSteamMusicRemote( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchName );
 		
 		#endregion
-		internal bool RegisterSteamMusicRemote( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchName )
+		public bool RegisterSteamMusicRemote( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchName )
 		{
 			var returnValue = _RegisterSteamMusicRemote( Self, pchName );
 			return returnValue;
@@ -38,7 +38,7 @@ namespace Steamworks
 		private static extern bool _DeregisterSteamMusicRemote( IntPtr self );
 		
 		#endregion
-		internal bool DeregisterSteamMusicRemote()
+		public bool DeregisterSteamMusicRemote()
 		{
 			var returnValue = _DeregisterSteamMusicRemote( Self );
 			return returnValue;
@@ -50,7 +50,7 @@ namespace Steamworks
 		private static extern bool _BIsCurrentMusicRemote( IntPtr self );
 		
 		#endregion
-		internal bool BIsCurrentMusicRemote()
+		public bool BIsCurrentMusicRemote()
 		{
 			var returnValue = _BIsCurrentMusicRemote( Self );
 			return returnValue;
@@ -62,7 +62,7 @@ namespace Steamworks
 		private static extern bool _BActivationSuccess( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool BActivationSuccess( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool BActivationSuccess( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _BActivationSuccess( Self, bValue );
 			return returnValue;
@@ -74,7 +74,7 @@ namespace Steamworks
 		private static extern bool _SetDisplayName( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDisplayName );
 		
 		#endregion
-		internal bool SetDisplayName( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDisplayName )
+		public bool SetDisplayName( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchDisplayName )
 		{
 			var returnValue = _SetDisplayName( Self, pchDisplayName );
 			return returnValue;
@@ -86,7 +86,7 @@ namespace Steamworks
 		private static extern bool _SetPNGIcon_64x64( IntPtr self, IntPtr pvBuffer, uint cbBufferLength );
 		
 		#endregion
-		internal bool SetPNGIcon_64x64( IntPtr pvBuffer, uint cbBufferLength )
+		public bool SetPNGIcon_64x64( IntPtr pvBuffer, uint cbBufferLength )
 		{
 			var returnValue = _SetPNGIcon_64x64( Self, pvBuffer, cbBufferLength );
 			return returnValue;
@@ -98,7 +98,7 @@ namespace Steamworks
 		private static extern bool _EnablePlayPrevious( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool EnablePlayPrevious( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool EnablePlayPrevious( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _EnablePlayPrevious( Self, bValue );
 			return returnValue;
@@ -110,7 +110,7 @@ namespace Steamworks
 		private static extern bool _EnablePlayNext( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool EnablePlayNext( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool EnablePlayNext( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _EnablePlayNext( Self, bValue );
 			return returnValue;
@@ -122,7 +122,7 @@ namespace Steamworks
 		private static extern bool _EnableShuffled( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool EnableShuffled( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool EnableShuffled( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _EnableShuffled( Self, bValue );
 			return returnValue;
@@ -134,7 +134,7 @@ namespace Steamworks
 		private static extern bool _EnableLooped( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool EnableLooped( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool EnableLooped( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _EnableLooped( Self, bValue );
 			return returnValue;
@@ -146,7 +146,7 @@ namespace Steamworks
 		private static extern bool _EnableQueue( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool EnableQueue( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool EnableQueue( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _EnableQueue( Self, bValue );
 			return returnValue;
@@ -158,7 +158,7 @@ namespace Steamworks
 		private static extern bool _EnablePlaylists( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool EnablePlaylists( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool EnablePlaylists( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _EnablePlaylists( Self, bValue );
 			return returnValue;
@@ -170,7 +170,7 @@ namespace Steamworks
 		private static extern bool _UpdatePlaybackStatus( IntPtr self, MusicStatus nStatus );
 		
 		#endregion
-		internal bool UpdatePlaybackStatus( MusicStatus nStatus )
+		public bool UpdatePlaybackStatus( MusicStatus nStatus )
 		{
 			var returnValue = _UpdatePlaybackStatus( Self, nStatus );
 			return returnValue;
@@ -182,7 +182,7 @@ namespace Steamworks
 		private static extern bool _UpdateShuffled( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool UpdateShuffled( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool UpdateShuffled( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _UpdateShuffled( Self, bValue );
 			return returnValue;
@@ -194,7 +194,7 @@ namespace Steamworks
 		private static extern bool _UpdateLooped( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bValue );
 		
 		#endregion
-		internal bool UpdateLooped( [MarshalAs( UnmanagedType.U1 )] bool bValue )
+		public bool UpdateLooped( [MarshalAs( UnmanagedType.U1 )] bool bValue )
 		{
 			var returnValue = _UpdateLooped( Self, bValue );
 			return returnValue;
@@ -206,7 +206,7 @@ namespace Steamworks
 		private static extern bool _UpdateVolume( IntPtr self, float flValue );
 		
 		#endregion
-		internal bool UpdateVolume( float flValue )
+		public bool UpdateVolume( float flValue )
 		{
 			var returnValue = _UpdateVolume( Self, flValue );
 			return returnValue;
@@ -218,7 +218,7 @@ namespace Steamworks
 		private static extern bool _CurrentEntryWillChange( IntPtr self );
 		
 		#endregion
-		internal bool CurrentEntryWillChange()
+		public bool CurrentEntryWillChange()
 		{
 			var returnValue = _CurrentEntryWillChange( Self );
 			return returnValue;
@@ -230,7 +230,7 @@ namespace Steamworks
 		private static extern bool _CurrentEntryIsAvailable( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bAvailable );
 		
 		#endregion
-		internal bool CurrentEntryIsAvailable( [MarshalAs( UnmanagedType.U1 )] bool bAvailable )
+		public bool CurrentEntryIsAvailable( [MarshalAs( UnmanagedType.U1 )] bool bAvailable )
 		{
 			var returnValue = _CurrentEntryIsAvailable( Self, bAvailable );
 			return returnValue;
@@ -242,7 +242,7 @@ namespace Steamworks
 		private static extern bool _UpdateCurrentEntryText( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchText );
 		
 		#endregion
-		internal bool UpdateCurrentEntryText( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchText )
+		public bool UpdateCurrentEntryText( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchText )
 		{
 			var returnValue = _UpdateCurrentEntryText( Self, pchText );
 			return returnValue;
@@ -254,7 +254,7 @@ namespace Steamworks
 		private static extern bool _UpdateCurrentEntryElapsedSeconds( IntPtr self, int nValue );
 		
 		#endregion
-		internal bool UpdateCurrentEntryElapsedSeconds( int nValue )
+		public bool UpdateCurrentEntryElapsedSeconds( int nValue )
 		{
 			var returnValue = _UpdateCurrentEntryElapsedSeconds( Self, nValue );
 			return returnValue;
@@ -266,7 +266,7 @@ namespace Steamworks
 		private static extern bool _UpdateCurrentEntryCoverArt( IntPtr self, IntPtr pvBuffer, uint cbBufferLength );
 		
 		#endregion
-		internal bool UpdateCurrentEntryCoverArt( IntPtr pvBuffer, uint cbBufferLength )
+		public bool UpdateCurrentEntryCoverArt( IntPtr pvBuffer, uint cbBufferLength )
 		{
 			var returnValue = _UpdateCurrentEntryCoverArt( Self, pvBuffer, cbBufferLength );
 			return returnValue;
@@ -278,7 +278,7 @@ namespace Steamworks
 		private static extern bool _CurrentEntryDidChange( IntPtr self );
 		
 		#endregion
-		internal bool CurrentEntryDidChange()
+		public bool CurrentEntryDidChange()
 		{
 			var returnValue = _CurrentEntryDidChange( Self );
 			return returnValue;
@@ -290,7 +290,7 @@ namespace Steamworks
 		private static extern bool _QueueWillChange( IntPtr self );
 		
 		#endregion
-		internal bool QueueWillChange()
+		public bool QueueWillChange()
 		{
 			var returnValue = _QueueWillChange( Self );
 			return returnValue;
@@ -302,7 +302,7 @@ namespace Steamworks
 		private static extern bool _ResetQueueEntries( IntPtr self );
 		
 		#endregion
-		internal bool ResetQueueEntries()
+		public bool ResetQueueEntries()
 		{
 			var returnValue = _ResetQueueEntries( Self );
 			return returnValue;
@@ -314,7 +314,7 @@ namespace Steamworks
 		private static extern bool _SetQueueEntry( IntPtr self, int nID, int nPosition, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchEntryText );
 		
 		#endregion
-		internal bool SetQueueEntry( int nID, int nPosition, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchEntryText )
+		public bool SetQueueEntry( int nID, int nPosition, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchEntryText )
 		{
 			var returnValue = _SetQueueEntry( Self, nID, nPosition, pchEntryText );
 			return returnValue;
@@ -326,7 +326,7 @@ namespace Steamworks
 		private static extern bool _SetCurrentQueueEntry( IntPtr self, int nID );
 		
 		#endregion
-		internal bool SetCurrentQueueEntry( int nID )
+		public bool SetCurrentQueueEntry( int nID )
 		{
 			var returnValue = _SetCurrentQueueEntry( Self, nID );
 			return returnValue;
@@ -338,7 +338,7 @@ namespace Steamworks
 		private static extern bool _QueueDidChange( IntPtr self );
 		
 		#endregion
-		internal bool QueueDidChange()
+		public bool QueueDidChange()
 		{
 			var returnValue = _QueueDidChange( Self );
 			return returnValue;
@@ -350,7 +350,7 @@ namespace Steamworks
 		private static extern bool _PlaylistWillChange( IntPtr self );
 		
 		#endregion
-		internal bool PlaylistWillChange()
+		public bool PlaylistWillChange()
 		{
 			var returnValue = _PlaylistWillChange( Self );
 			return returnValue;
@@ -362,7 +362,7 @@ namespace Steamworks
 		private static extern bool _ResetPlaylistEntries( IntPtr self );
 		
 		#endregion
-		internal bool ResetPlaylistEntries()
+		public bool ResetPlaylistEntries()
 		{
 			var returnValue = _ResetPlaylistEntries( Self );
 			return returnValue;
@@ -374,7 +374,7 @@ namespace Steamworks
 		private static extern bool _SetPlaylistEntry( IntPtr self, int nID, int nPosition, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchEntryText );
 		
 		#endregion
-		internal bool SetPlaylistEntry( int nID, int nPosition, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchEntryText )
+		public bool SetPlaylistEntry( int nID, int nPosition, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchEntryText )
 		{
 			var returnValue = _SetPlaylistEntry( Self, nID, nPosition, pchEntryText );
 			return returnValue;
@@ -386,7 +386,7 @@ namespace Steamworks
 		private static extern bool _SetCurrentPlaylistEntry( IntPtr self, int nID );
 		
 		#endregion
-		internal bool SetCurrentPlaylistEntry( int nID )
+		public bool SetCurrentPlaylistEntry( int nID )
 		{
 			var returnValue = _SetCurrentPlaylistEntry( Self, nID );
 			return returnValue;
@@ -398,7 +398,7 @@ namespace Steamworks
 		private static extern bool _PlaylistDidChange( IntPtr self );
 		
 		#endregion
-		internal bool PlaylistDidChange()
+		public bool PlaylistDidChange()
 		{
 			var returnValue = _PlaylistDidChange( Self );
 			return returnValue;

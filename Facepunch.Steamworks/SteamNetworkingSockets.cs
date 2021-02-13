@@ -10,7 +10,7 @@ namespace Steamworks
 {
 	public class SteamNetworkingSockets : SteamSharedClass<SteamNetworkingSockets>
 	{
-		internal static ISteamNetworkingSockets Internal => Interface as ISteamNetworkingSockets;
+		public static ISteamNetworkingSockets Internal => Interface as ISteamNetworkingSockets;
 
 		/// <summary>
 		/// Get the identity assigned to this interface.
@@ -31,7 +31,7 @@ namespace Steamworks
 			}
 		}
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamNetworkingSockets( server ) );
 			InstallEvents( server );
@@ -41,7 +41,7 @@ namespace Steamworks
 
 		static readonly Dictionary<uint, SocketManager> SocketInterfaces = new Dictionary<uint, SocketManager>();
 
-		internal static SocketManager GetSocketManager( uint id )
+		public static SocketManager GetSocketManager( uint id )
 		{
 			if ( SocketInterfaces == null ) return null;
 			if ( id == 0 ) throw new System.ArgumentException( "Invalid Socket" );
@@ -52,7 +52,7 @@ namespace Steamworks
 			return null;
 		}
 
-		internal static void SetSocketManager( uint id, SocketManager manager )
+		public static void SetSocketManager( uint id, SocketManager manager )
 		{
 			if ( id == 0 ) throw new System.ArgumentException( "Invalid Socket" );
 			SocketInterfaces[id] = manager;
@@ -62,7 +62,7 @@ namespace Steamworks
 #region ConnectionInterface
 		static readonly Dictionary<uint, ConnectionManager> ConnectionInterfaces = new Dictionary<uint, ConnectionManager>();
 
-		internal static ConnectionManager GetConnectionManager( uint id )
+		public static ConnectionManager GetConnectionManager( uint id )
 		{
 			if ( ConnectionInterfaces == null ) return null;
 			if ( id == 0 ) return null;
@@ -73,7 +73,7 @@ namespace Steamworks
 			return null;
 		}
 
-		internal static void SetConnectionManager( uint id, ConnectionManager manager )
+		public static void SetConnectionManager( uint id, ConnectionManager manager )
 		{
 			if ( id == 0 ) throw new System.ArgumentException( "Invalid Connection" );
 			ConnectionInterfaces[id] = manager;
@@ -82,7 +82,7 @@ namespace Steamworks
 
 
 
-		internal void InstallEvents( bool server )
+		public void InstallEvents( bool server )
 		{
 			Dispatch.Install<SteamNetConnectionStatusChangedCallback_t>( ConnectionStatusChanged, server );
 		}

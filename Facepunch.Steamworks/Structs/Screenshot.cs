@@ -8,7 +8,7 @@ namespace Steamworks.Data
 {
 	public struct Screenshot
 	{
-		internal ScreenshotHandle Value;
+		public ScreenshotHandle Value;
 
 		/// <summary>
 		/// Tags a user as being visible in the screenshot

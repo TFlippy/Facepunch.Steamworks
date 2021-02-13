@@ -14,16 +14,16 @@ namespace Steamworks
 	/// </summary>
 	public class SteamInventory : SteamSharedClass<SteamInventory>
 	{
-		internal static ISteamInventory Internal => Interface as ISteamInventory;
+		public static ISteamInventory Internal => Interface as ISteamInventory;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamInventory( server ) );
 
 			InstallEvents( server );
 		}
 	
-		internal static void InstallEvents( bool server )
+		public static void InstallEvents( bool server )
 		{
 			if ( !server )
 			{
@@ -124,7 +124,7 @@ namespace Steamworks
 			return null;
 		}
 
-		public static string Currency { get; internal set; }
+		public static string Currency { get; set; }
 
 		public static async Task<InventoryDef[]> GetDefinitionsWithPricesAsync()
 		{
@@ -153,12 +153,12 @@ namespace Steamworks
 		/// <summary>
 		/// We will try to keep this list of your items automatically up to date.
 		/// </summary>
-		public static InventoryItem[] Items { get; internal set; }
+		public static InventoryItem[] Items { get; set; }
 
-		public static InventoryDef[] Definitions { get; internal set; }
+		public static InventoryDef[] Definitions { get; set; }
 		static Dictionary<int, InventoryDef> _defMap;
 
-		internal static InventoryDef[] GetDefinitions()
+		public static InventoryDef[] GetDefinitions()
 		{
 			uint num = 0;
 			if ( !Internal.GetItemDefinitionIDs( null, ref num ) )

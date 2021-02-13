@@ -64,7 +64,7 @@ namespace Steamworks.Ugc
 		UserUGCList userType;
 		UserUGCListSortOrder userSort;
 
-		internal Query LimitUser( SteamId steamid )
+		public Query LimitUser( SteamId steamid )
 		{
 			if ( steamid.Value == 0 )
 				steamid = SteamClient.SteamId;

@@ -7,9 +7,9 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal static class SteamAPI
+	public static class SteamAPI
 	{
-		internal static class Native
+		public static class Native
 		{
 			[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_Init", CallingConvention = CallingConvention.Cdecl )]
 			[return: MarshalAs( UnmanagedType.I1 )]
@@ -26,22 +26,22 @@ namespace Steamworks
 			public static extern bool SteamAPI_RestartAppIfNecessary( uint unOwnAppID );
 			
 		}
-		static internal bool Init()
+		static public bool Init()
 		{
 			return Native.SteamAPI_Init();
 		}
 		
-		static internal void Shutdown()
+		static public void Shutdown()
 		{
 			Native.SteamAPI_Shutdown();
 		}
 				
-		static internal HSteamPipe GetHSteamPipe()
+		static public HSteamPipe GetHSteamPipe()
 		{
 			return Native.SteamAPI_GetHSteamPipe();
 		}
 		
-		static internal bool RestartAppIfNecessary( uint unOwnAppID )
+		static public bool RestartAppIfNecessary( uint unOwnAppID )
 		{
 			return Native.SteamAPI_RestartAppIfNecessary( unOwnAppID );
 		}

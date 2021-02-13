@@ -7,9 +7,9 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal static class SteamGameServer
+	public static class SteamGameServer
 	{
-		internal static class Native
+		public static class Native
 		{
 			[DllImport( Platform.LibraryName, EntryPoint = "SteamGameServer_RunCallbacks", CallingConvention = CallingConvention.Cdecl )]
 			public static extern void SteamGameServer_RunCallbacks();
@@ -21,17 +21,17 @@ namespace Steamworks
 			public static extern HSteamPipe SteamGameServer_GetHSteamPipe();
 			
 		}
-		static internal void RunCallbacks()
+		static public void RunCallbacks()
 		{
 			Native.SteamGameServer_RunCallbacks();
 		}
 		
-		static internal void Shutdown()
+		static public void Shutdown()
 		{
 			Native.SteamGameServer_Shutdown();
 		}
 		
-		static internal HSteamPipe GetHSteamPipe()
+		static public HSteamPipe GetHSteamPipe()
 		{
 			return Native.SteamGameServer_GetHSteamPipe();
 		}

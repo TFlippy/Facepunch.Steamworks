@@ -7,11 +7,11 @@ namespace Steamworks
 {
 	public struct InventoryItem : IEquatable<InventoryItem>
 	{
-		internal InventoryItemId _id;
-		internal InventoryDefId _def;
-		internal SteamItemFlags _flags;
-		internal ushort _quantity;
-		internal Dictionary<string, string> _properties;
+		public InventoryItemId _id;
+		public InventoryDefId _def;
+		public SteamItemFlags _flags;
+		public ushort _quantity;
+		public Dictionary<string, string> _properties;
 
 		public InventoryItemId Id => _id;
 
@@ -85,7 +85,7 @@ namespace Steamworks
 		}
 
 
-		internal static InventoryItem From( SteamItemDetails_t details )
+		public static InventoryItem From( SteamItemDetails_t details )
 		{
 			var i = new InventoryItem
 			{
@@ -98,7 +98,7 @@ namespace Steamworks
 			return i;
 		}
 
-		internal static Dictionary<string, string> GetProperties( SteamInventoryResult_t result, int index )
+		public static Dictionary<string, string> GetProperties( SteamInventoryResult_t result, int index )
 		{
 			var strlen = (uint) Helpers.MemoryBufferSize;
 

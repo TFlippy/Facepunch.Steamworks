@@ -12,15 +12,15 @@ namespace Steamworks
 	/// </summary>
 	public class SteamUtils : SteamSharedClass<SteamUtils>
 	{
-		internal static ISteamUtils Internal => Interface as ISteamUtils;
+		public static ISteamUtils Internal => Interface as ISteamUtils;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamUtils( server ) );
 			InstallEvents( server );
 		}
 
-		internal static void InstallEvents( bool server )
+		public static void InstallEvents( bool server )
 		{
 			Dispatch.Install<IPCountry_t>( x => OnIpCountryChanged?.Invoke(), server );
 			Dispatch.Install<LowBatteryPower_t>( x => OnLowBatteryPower?.Invoke( x.MinutesBatteryLeft ), server );
@@ -155,7 +155,7 @@ namespace Steamworks
 		/// D3D Present API, or OGL SwapBuffers API every frame.
 		///
 		/// However, if you have a game that only refreshes the screen on an event driven basis then that can break 
-		/// the overlay, as it uses your Present/SwapBuffers calls to drive it's internal frame loop and it may also
+		/// the overlay, as it uses your Present/SwapBuffers calls to drive it's public frame loop and it may also
 		/// need to Present() to the screen any time an even needing a notification happens or when the overlay is
 		/// brought up over the game by a user.  You can use this API to ask the overlay if it currently need a present
 		/// in that case, and then you can check for this periodically (roughly 33hz is desirable) and make sure you
@@ -250,7 +250,7 @@ namespace Steamworks
 			}
 		}
 
-		internal static bool IsCallComplete( SteamAPICall_t call, out bool failed )
+		public static bool IsCallComplete( SteamAPICall_t call, out bool failed )
 		{
 			failed = false;
 			return Internal.IsAPICallCompleted( call, ref failed );

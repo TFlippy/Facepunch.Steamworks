@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Steamworks.Data
 {
-	internal struct GID_t : IEquatable<GID_t>, IComparable<GID_t>
+	public struct GID_t : IEquatable<GID_t>, IComparable<GID_t>
 	{
 		// Name: GID_t, Type: unsigned long long
 		public ulong Value;
@@ -22,7 +22,7 @@ namespace Steamworks.Data
 		public int CompareTo( GID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct JobID_t : IEquatable<JobID_t>, IComparable<JobID_t>
+	public struct JobID_t : IEquatable<JobID_t>, IComparable<JobID_t>
 	{
 		// Name: JobID_t, Type: unsigned long long
 		public ulong Value;
@@ -38,7 +38,7 @@ namespace Steamworks.Data
 		public int CompareTo( JobID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct TxnID_t : IEquatable<TxnID_t>, IComparable<TxnID_t>
+	public struct TxnID_t : IEquatable<TxnID_t>, IComparable<TxnID_t>
 	{
 		// Name: TxnID_t, Type: unsigned long long
 		public ulong Value;
@@ -54,7 +54,7 @@ namespace Steamworks.Data
 		public int CompareTo( TxnID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct PackageId_t : IEquatable<PackageId_t>, IComparable<PackageId_t>
+	public struct PackageId_t : IEquatable<PackageId_t>, IComparable<PackageId_t>
 	{
 		// Name: PackageId_t, Type: unsigned int
 		public uint Value;
@@ -70,7 +70,7 @@ namespace Steamworks.Data
 		public int CompareTo( PackageId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct BundleId_t : IEquatable<BundleId_t>, IComparable<BundleId_t>
+	public struct BundleId_t : IEquatable<BundleId_t>, IComparable<BundleId_t>
 	{
 		// Name: BundleId_t, Type: unsigned int
 		public uint Value;
@@ -86,7 +86,7 @@ namespace Steamworks.Data
 		public int CompareTo( BundleId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct AssetClassId_t : IEquatable<AssetClassId_t>, IComparable<AssetClassId_t>
+	public struct AssetClassId_t : IEquatable<AssetClassId_t>, IComparable<AssetClassId_t>
 	{
 		// Name: AssetClassId_t, Type: unsigned long long
 		public ulong Value;
@@ -102,7 +102,7 @@ namespace Steamworks.Data
 		public int CompareTo( AssetClassId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct PhysicalItemId_t : IEquatable<PhysicalItemId_t>, IComparable<PhysicalItemId_t>
+	public struct PhysicalItemId_t : IEquatable<PhysicalItemId_t>, IComparable<PhysicalItemId_t>
 	{
 		// Name: PhysicalItemId_t, Type: unsigned int
 		public uint Value;
@@ -118,7 +118,7 @@ namespace Steamworks.Data
 		public int CompareTo( PhysicalItemId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct DepotId_t : IEquatable<DepotId_t>, IComparable<DepotId_t>
+	public struct DepotId_t : IEquatable<DepotId_t>, IComparable<DepotId_t>
 	{
 		// Name: DepotId_t, Type: unsigned int
 		public uint Value;
@@ -134,7 +134,7 @@ namespace Steamworks.Data
 		public int CompareTo( DepotId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct RTime32 : IEquatable<RTime32>, IComparable<RTime32>
+	public struct RTime32 : IEquatable<RTime32>, IComparable<RTime32>
 	{
 		// Name: RTime32, Type: unsigned int
 		public uint Value;
@@ -150,7 +150,7 @@ namespace Steamworks.Data
 		public int CompareTo( RTime32 other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct CellID_t : IEquatable<CellID_t>, IComparable<CellID_t>
+	public struct CellID_t : IEquatable<CellID_t>, IComparable<CellID_t>
 	{
 		// Name: CellID_t, Type: unsigned int
 		public uint Value;
@@ -166,7 +166,7 @@ namespace Steamworks.Data
 		public int CompareTo( CellID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SteamAPICall_t : IEquatable<SteamAPICall_t>, IComparable<SteamAPICall_t>
+	public struct SteamAPICall_t : IEquatable<SteamAPICall_t>, IComparable<SteamAPICall_t>
 	{
 		// Name: SteamAPICall_t, Type: unsigned long long
 		public ulong Value;
@@ -182,7 +182,7 @@ namespace Steamworks.Data
 		public int CompareTo( SteamAPICall_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct AccountID_t : IEquatable<AccountID_t>, IComparable<AccountID_t>
+	public struct AccountID_t : IEquatable<AccountID_t>, IComparable<AccountID_t>
 	{
 		// Name: AccountID_t, Type: unsigned int
 		public uint Value;
@@ -198,7 +198,7 @@ namespace Steamworks.Data
 		public int CompareTo( AccountID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct PartnerId_t : IEquatable<PartnerId_t>, IComparable<PartnerId_t>
+	public struct PartnerId_t : IEquatable<PartnerId_t>, IComparable<PartnerId_t>
 	{
 		// Name: PartnerId_t, Type: unsigned int
 		public uint Value;
@@ -214,7 +214,7 @@ namespace Steamworks.Data
 		public int CompareTo( PartnerId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct ManifestId_t : IEquatable<ManifestId_t>, IComparable<ManifestId_t>
+	public struct ManifestId_t : IEquatable<ManifestId_t>, IComparable<ManifestId_t>
 	{
 		// Name: ManifestId_t, Type: unsigned long long
 		public ulong Value;
@@ -230,7 +230,7 @@ namespace Steamworks.Data
 		public int CompareTo( ManifestId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SiteId_t : IEquatable<SiteId_t>, IComparable<SiteId_t>
+	public struct SiteId_t : IEquatable<SiteId_t>, IComparable<SiteId_t>
 	{
 		// Name: SiteId_t, Type: unsigned long long
 		public ulong Value;
@@ -246,7 +246,7 @@ namespace Steamworks.Data
 		public int CompareTo( SiteId_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct PartyBeaconID_t : IEquatable<PartyBeaconID_t>, IComparable<PartyBeaconID_t>
+	public struct PartyBeaconID_t : IEquatable<PartyBeaconID_t>, IComparable<PartyBeaconID_t>
 	{
 		// Name: PartyBeaconID_t, Type: unsigned long long
 		public ulong Value;
@@ -262,7 +262,7 @@ namespace Steamworks.Data
 		public int CompareTo( PartyBeaconID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct HAuthTicket : IEquatable<HAuthTicket>, IComparable<HAuthTicket>
+	public struct HAuthTicket : IEquatable<HAuthTicket>, IComparable<HAuthTicket>
 	{
 		// Name: HAuthTicket, Type: unsigned int
 		public uint Value;
@@ -278,7 +278,7 @@ namespace Steamworks.Data
 		public int CompareTo( HAuthTicket other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct BREAKPAD_HANDLE : IEquatable<BREAKPAD_HANDLE>, IComparable<BREAKPAD_HANDLE>
+	public struct BREAKPAD_HANDLE : IEquatable<BREAKPAD_HANDLE>, IComparable<BREAKPAD_HANDLE>
 	{
 		// Name: BREAKPAD_HANDLE, Type: void *
 		public IntPtr Value;
@@ -294,7 +294,7 @@ namespace Steamworks.Data
 		public int CompareTo( BREAKPAD_HANDLE other ) => Value.ToInt64().CompareTo( other.Value.ToInt64() );
 	}
 	
-	internal struct HSteamPipe : IEquatable<HSteamPipe>, IComparable<HSteamPipe>
+	public struct HSteamPipe : IEquatable<HSteamPipe>, IComparable<HSteamPipe>
 	{
 		// Name: HSteamPipe, Type: int
 		public int Value;
@@ -310,7 +310,7 @@ namespace Steamworks.Data
 		public int CompareTo( HSteamPipe other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct HSteamUser : IEquatable<HSteamUser>, IComparable<HSteamUser>
+	public struct HSteamUser : IEquatable<HSteamUser>, IComparable<HSteamUser>
 	{
 		// Name: HSteamUser, Type: int
 		public int Value;
@@ -326,7 +326,7 @@ namespace Steamworks.Data
 		public int CompareTo( HSteamUser other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct FriendsGroupID_t : IEquatable<FriendsGroupID_t>, IComparable<FriendsGroupID_t>
+	public struct FriendsGroupID_t : IEquatable<FriendsGroupID_t>, IComparable<FriendsGroupID_t>
 	{
 		// Name: FriendsGroupID_t, Type: short
 		public short Value;
@@ -342,7 +342,7 @@ namespace Steamworks.Data
 		public int CompareTo( FriendsGroupID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct HServerListRequest : IEquatable<HServerListRequest>, IComparable<HServerListRequest>
+	public struct HServerListRequest : IEquatable<HServerListRequest>, IComparable<HServerListRequest>
 	{
 		// Name: HServerListRequest, Type: void *
 		public IntPtr Value;
@@ -358,7 +358,7 @@ namespace Steamworks.Data
 		public int CompareTo( HServerListRequest other ) => Value.ToInt64().CompareTo( other.Value.ToInt64() );
 	}
 	
-	internal struct HServerQuery : IEquatable<HServerQuery>, IComparable<HServerQuery>
+	public struct HServerQuery : IEquatable<HServerQuery>, IComparable<HServerQuery>
 	{
 		// Name: HServerQuery, Type: int
 		public int Value;
@@ -374,7 +374,7 @@ namespace Steamworks.Data
 		public int CompareTo( HServerQuery other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct UGCHandle_t : IEquatable<UGCHandle_t>, IComparable<UGCHandle_t>
+	public struct UGCHandle_t : IEquatable<UGCHandle_t>, IComparable<UGCHandle_t>
 	{
 		// Name: UGCHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -390,7 +390,7 @@ namespace Steamworks.Data
 		public int CompareTo( UGCHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct PublishedFileUpdateHandle_t : IEquatable<PublishedFileUpdateHandle_t>, IComparable<PublishedFileUpdateHandle_t>
+	public struct PublishedFileUpdateHandle_t : IEquatable<PublishedFileUpdateHandle_t>, IComparable<PublishedFileUpdateHandle_t>
 	{
 		// Name: PublishedFileUpdateHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -422,7 +422,7 @@ namespace Steamworks.Data
 		public int CompareTo( PublishedFileId other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct UGCFileWriteStreamHandle_t : IEquatable<UGCFileWriteStreamHandle_t>, IComparable<UGCFileWriteStreamHandle_t>
+	public struct UGCFileWriteStreamHandle_t : IEquatable<UGCFileWriteStreamHandle_t>, IComparable<UGCFileWriteStreamHandle_t>
 	{
 		// Name: UGCFileWriteStreamHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -438,7 +438,7 @@ namespace Steamworks.Data
 		public int CompareTo( UGCFileWriteStreamHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SteamLeaderboard_t : IEquatable<SteamLeaderboard_t>, IComparable<SteamLeaderboard_t>
+	public struct SteamLeaderboard_t : IEquatable<SteamLeaderboard_t>, IComparable<SteamLeaderboard_t>
 	{
 		// Name: SteamLeaderboard_t, Type: unsigned long long
 		public ulong Value;
@@ -454,7 +454,7 @@ namespace Steamworks.Data
 		public int CompareTo( SteamLeaderboard_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SteamLeaderboardEntries_t : IEquatable<SteamLeaderboardEntries_t>, IComparable<SteamLeaderboardEntries_t>
+	public struct SteamLeaderboardEntries_t : IEquatable<SteamLeaderboardEntries_t>, IComparable<SteamLeaderboardEntries_t>
 	{
 		// Name: SteamLeaderboardEntries_t, Type: unsigned long long
 		public ulong Value;
@@ -470,7 +470,7 @@ namespace Steamworks.Data
 		public int CompareTo( SteamLeaderboardEntries_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SNetSocket_t : IEquatable<SNetSocket_t>, IComparable<SNetSocket_t>
+	public struct SNetSocket_t : IEquatable<SNetSocket_t>, IComparable<SNetSocket_t>
 	{
 		// Name: SNetSocket_t, Type: unsigned int
 		public uint Value;
@@ -486,7 +486,7 @@ namespace Steamworks.Data
 		public int CompareTo( SNetSocket_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SNetListenSocket_t : IEquatable<SNetListenSocket_t>, IComparable<SNetListenSocket_t>
+	public struct SNetListenSocket_t : IEquatable<SNetListenSocket_t>, IComparable<SNetListenSocket_t>
 	{
 		// Name: SNetListenSocket_t, Type: unsigned int
 		public uint Value;
@@ -502,7 +502,7 @@ namespace Steamworks.Data
 		public int CompareTo( SNetListenSocket_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct ScreenshotHandle : IEquatable<ScreenshotHandle>, IComparable<ScreenshotHandle>
+	public struct ScreenshotHandle : IEquatable<ScreenshotHandle>, IComparable<ScreenshotHandle>
 	{
 		// Name: ScreenshotHandle, Type: unsigned int
 		public uint Value;
@@ -518,7 +518,7 @@ namespace Steamworks.Data
 		public int CompareTo( ScreenshotHandle other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct HTTPRequestHandle : IEquatable<HTTPRequestHandle>, IComparable<HTTPRequestHandle>
+	public struct HTTPRequestHandle : IEquatable<HTTPRequestHandle>, IComparable<HTTPRequestHandle>
 	{
 		// Name: HTTPRequestHandle, Type: unsigned int
 		public uint Value;
@@ -534,7 +534,7 @@ namespace Steamworks.Data
 		public int CompareTo( HTTPRequestHandle other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct HTTPCookieContainerHandle : IEquatable<HTTPCookieContainerHandle>, IComparable<HTTPCookieContainerHandle>
+	public struct HTTPCookieContainerHandle : IEquatable<HTTPCookieContainerHandle>, IComparable<HTTPCookieContainerHandle>
 	{
 		// Name: HTTPCookieContainerHandle, Type: unsigned int
 		public uint Value;
@@ -550,7 +550,7 @@ namespace Steamworks.Data
 		public int CompareTo( HTTPCookieContainerHandle other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct InputHandle_t : IEquatable<InputHandle_t>, IComparable<InputHandle_t>
+	public struct InputHandle_t : IEquatable<InputHandle_t>, IComparable<InputHandle_t>
 	{
 		// Name: InputHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -566,7 +566,7 @@ namespace Steamworks.Data
 		public int CompareTo( InputHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct InputActionSetHandle_t : IEquatable<InputActionSetHandle_t>, IComparable<InputActionSetHandle_t>
+	public struct InputActionSetHandle_t : IEquatable<InputActionSetHandle_t>, IComparable<InputActionSetHandle_t>
 	{
 		// Name: InputActionSetHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -582,7 +582,7 @@ namespace Steamworks.Data
 		public int CompareTo( InputActionSetHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct InputDigitalActionHandle_t : IEquatable<InputDigitalActionHandle_t>, IComparable<InputDigitalActionHandle_t>
+	public struct InputDigitalActionHandle_t : IEquatable<InputDigitalActionHandle_t>, IComparable<InputDigitalActionHandle_t>
 	{
 		// Name: InputDigitalActionHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -598,7 +598,7 @@ namespace Steamworks.Data
 		public int CompareTo( InputDigitalActionHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct InputAnalogActionHandle_t : IEquatable<InputAnalogActionHandle_t>, IComparable<InputAnalogActionHandle_t>
+	public struct InputAnalogActionHandle_t : IEquatable<InputAnalogActionHandle_t>, IComparable<InputAnalogActionHandle_t>
 	{
 		// Name: InputAnalogActionHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -614,7 +614,7 @@ namespace Steamworks.Data
 		public int CompareTo( InputAnalogActionHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct ControllerHandle_t : IEquatable<ControllerHandle_t>, IComparable<ControllerHandle_t>
+	public struct ControllerHandle_t : IEquatable<ControllerHandle_t>, IComparable<ControllerHandle_t>
 	{
 		// Name: ControllerHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -630,7 +630,7 @@ namespace Steamworks.Data
 		public int CompareTo( ControllerHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct ControllerActionSetHandle_t : IEquatable<ControllerActionSetHandle_t>, IComparable<ControllerActionSetHandle_t>
+	public struct ControllerActionSetHandle_t : IEquatable<ControllerActionSetHandle_t>, IComparable<ControllerActionSetHandle_t>
 	{
 		// Name: ControllerActionSetHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -646,7 +646,7 @@ namespace Steamworks.Data
 		public int CompareTo( ControllerActionSetHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct ControllerDigitalActionHandle_t : IEquatable<ControllerDigitalActionHandle_t>, IComparable<ControllerDigitalActionHandle_t>
+	public struct ControllerDigitalActionHandle_t : IEquatable<ControllerDigitalActionHandle_t>, IComparable<ControllerDigitalActionHandle_t>
 	{
 		// Name: ControllerDigitalActionHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -662,7 +662,7 @@ namespace Steamworks.Data
 		public int CompareTo( ControllerDigitalActionHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct ControllerAnalogActionHandle_t : IEquatable<ControllerAnalogActionHandle_t>, IComparable<ControllerAnalogActionHandle_t>
+	public struct ControllerAnalogActionHandle_t : IEquatable<ControllerAnalogActionHandle_t>, IComparable<ControllerAnalogActionHandle_t>
 	{
 		// Name: ControllerAnalogActionHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -678,7 +678,7 @@ namespace Steamworks.Data
 		public int CompareTo( ControllerAnalogActionHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct UGCQueryHandle_t : IEquatable<UGCQueryHandle_t>, IComparable<UGCQueryHandle_t>
+	public struct UGCQueryHandle_t : IEquatable<UGCQueryHandle_t>, IComparable<UGCQueryHandle_t>
 	{
 		// Name: UGCQueryHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -694,7 +694,7 @@ namespace Steamworks.Data
 		public int CompareTo( UGCQueryHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct UGCUpdateHandle_t : IEquatable<UGCUpdateHandle_t>, IComparable<UGCUpdateHandle_t>
+	public struct UGCUpdateHandle_t : IEquatable<UGCUpdateHandle_t>, IComparable<UGCUpdateHandle_t>
 	{
 		// Name: UGCUpdateHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -710,7 +710,7 @@ namespace Steamworks.Data
 		public int CompareTo( UGCUpdateHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct HHTMLBrowser : IEquatable<HHTMLBrowser>, IComparable<HHTMLBrowser>
+	public struct HHTMLBrowser : IEquatable<HHTMLBrowser>, IComparable<HHTMLBrowser>
 	{
 		// Name: HHTMLBrowser, Type: unsigned int
 		public uint Value;
@@ -758,7 +758,7 @@ namespace Steamworks.Data
 		public int CompareTo( InventoryDefId other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SteamInventoryResult_t : IEquatable<SteamInventoryResult_t>, IComparable<SteamInventoryResult_t>
+	public struct SteamInventoryResult_t : IEquatable<SteamInventoryResult_t>, IComparable<SteamInventoryResult_t>
 	{
 		// Name: SteamInventoryResult_t, Type: int
 		public int Value;
@@ -774,7 +774,7 @@ namespace Steamworks.Data
 		public int CompareTo( SteamInventoryResult_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SteamInventoryUpdateHandle_t : IEquatable<SteamInventoryUpdateHandle_t>, IComparable<SteamInventoryUpdateHandle_t>
+	public struct SteamInventoryUpdateHandle_t : IEquatable<SteamInventoryUpdateHandle_t>, IComparable<SteamInventoryUpdateHandle_t>
 	{
 		// Name: SteamInventoryUpdateHandle_t, Type: unsigned long long
 		public ulong Value;
@@ -790,7 +790,7 @@ namespace Steamworks.Data
 		public int CompareTo( SteamInventoryUpdateHandle_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct RemotePlaySessionID_t : IEquatable<RemotePlaySessionID_t>, IComparable<RemotePlaySessionID_t>
+	public struct RemotePlaySessionID_t : IEquatable<RemotePlaySessionID_t>, IComparable<RemotePlaySessionID_t>
 	{
 		// Name: RemotePlaySessionID_t, Type: unsigned int
 		public uint Value;
@@ -806,7 +806,7 @@ namespace Steamworks.Data
 		public int CompareTo( RemotePlaySessionID_t other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct HSteamNetPollGroup : IEquatable<HSteamNetPollGroup>, IComparable<HSteamNetPollGroup>
+	public struct HSteamNetPollGroup : IEquatable<HSteamNetPollGroup>, IComparable<HSteamNetPollGroup>
 	{
 		// Name: HSteamNetPollGroup, Type: unsigned int
 		public uint Value;
@@ -822,7 +822,7 @@ namespace Steamworks.Data
 		public int CompareTo( HSteamNetPollGroup other ) => Value.CompareTo( other.Value );
 	}
 	
-	internal struct SteamNetworkingPOPID : IEquatable<SteamNetworkingPOPID>, IComparable<SteamNetworkingPOPID>
+	public struct SteamNetworkingPOPID : IEquatable<SteamNetworkingPOPID>, IComparable<SteamNetworkingPOPID>
 	{
 		// Name: SteamNetworkingPOPID, Type: unsigned int
 		public uint Value;

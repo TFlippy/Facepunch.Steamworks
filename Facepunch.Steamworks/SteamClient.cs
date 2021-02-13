@@ -70,7 +70,7 @@ namespace Steamworks
 			}
 		}
 
-		internal static void AddInterface<T>() where T : SteamClass, new()
+		public static void AddInterface<T>() where T : SteamClass, new()
 		{
 			var t = new T();
 			t.InitializeInterface( false );
@@ -79,7 +79,7 @@ namespace Steamworks
 
 		static readonly List<SteamClass> openInterfaces = new List<SteamClass>();
 
-		internal static void ShutdownInterfaces()
+		public static void ShutdownInterfaces()
 		{
 			foreach ( var e in openInterfaces )
 			{
@@ -103,7 +103,7 @@ namespace Steamworks
 			SteamAPI.Shutdown();
 		}
 
-		internal static void Cleanup()
+		public static void Cleanup()
 		{
 			Dispatch.ShutdownClient();
 
@@ -151,7 +151,7 @@ namespace Steamworks
 		/// <summary>
 		/// returns the appID of the current process
 		/// </summary>
-		public static AppId AppId { get; internal set; }
+		public static AppId AppId { get; set; }
 
 		/// <summary>
 		/// Checks if your executable was launched through Steam and relaunches it through Steam if it wasn't
@@ -174,7 +174,7 @@ namespace Steamworks
 		/// <summary>
 		/// Called in interfaces that rely on this being initialized
 		/// </summary>
-		internal static void ValidCheck()
+		public static void ValidCheck()
 		{
 			if ( !IsValid )
 				throw new System.Exception( "SteamClient isn't initialized" );

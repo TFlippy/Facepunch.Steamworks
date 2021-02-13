@@ -12,15 +12,15 @@ namespace Steamworks
 	/// </summary>
 	public class SteamParental : SteamSharedClass<SteamParental>
 	{
-		internal static ISteamParentalSettings Internal => Interface as ISteamParentalSettings;
+		public static ISteamParentalSettings Internal => Interface as ISteamParentalSettings;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamParentalSettings( server ) );
 			InstallEvents( server );
 		}
 
-		internal static void InstallEvents( bool server )
+		public static void InstallEvents( bool server )
 		{
 			Dispatch.Install<SteamParentalSettingsChanged_t>( x => OnSettingsChanged?.Invoke(), server );
 		}

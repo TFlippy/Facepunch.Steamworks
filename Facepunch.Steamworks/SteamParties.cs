@@ -15,15 +15,15 @@ namespace Steamworks
 	/// </summary>
 	public class SteamParties : SteamClientClass<SteamParties>
 	{
-		internal static ISteamParties Internal => Interface as ISteamParties;
+		public static ISteamParties Internal => Interface as ISteamParties;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamParties( server ) );
 			InstallEvents( server );
 		}
 
-		internal void InstallEvents( bool server )
+		public void InstallEvents( bool server )
 		{
 			Dispatch.Install<AvailableBeaconLocationsUpdated_t>( x => OnBeaconLocationsUpdated?.Invoke(), server );
 			Dispatch.Install<ActiveBeaconsUpdated_t>( x => OnActiveBeaconsUpdated?.Invoke(), server );

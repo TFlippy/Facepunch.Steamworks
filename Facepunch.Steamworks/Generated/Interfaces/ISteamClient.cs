@@ -7,10 +7,10 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamClient : SteamInterface
+	public class ISteamClient : SteamInterface
 	{
 		
-		internal ISteamClient( bool IsGameServer )
+		public ISteamClient( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
@@ -20,7 +20,7 @@ namespace Steamworks
 		private static extern HSteamPipe _CreateSteamPipe( IntPtr self );
 		
 		#endregion
-		internal HSteamPipe CreateSteamPipe()
+		public HSteamPipe CreateSteamPipe()
 		{
 			var returnValue = _CreateSteamPipe( Self );
 			return returnValue;
@@ -32,7 +32,7 @@ namespace Steamworks
 		private static extern bool _BReleaseSteamPipe( IntPtr self, HSteamPipe hSteamPipe );
 		
 		#endregion
-		internal bool BReleaseSteamPipe( HSteamPipe hSteamPipe )
+		public bool BReleaseSteamPipe( HSteamPipe hSteamPipe )
 		{
 			var returnValue = _BReleaseSteamPipe( Self, hSteamPipe );
 			return returnValue;
@@ -43,7 +43,7 @@ namespace Steamworks
 		private static extern HSteamUser _ConnectToGlobalUser( IntPtr self, HSteamPipe hSteamPipe );
 		
 		#endregion
-		internal HSteamUser ConnectToGlobalUser( HSteamPipe hSteamPipe )
+		public HSteamUser ConnectToGlobalUser( HSteamPipe hSteamPipe )
 		{
 			var returnValue = _ConnectToGlobalUser( Self, hSteamPipe );
 			return returnValue;
@@ -54,7 +54,7 @@ namespace Steamworks
 		private static extern HSteamUser _CreateLocalUser( IntPtr self, ref HSteamPipe phSteamPipe, AccountType eAccountType );
 		
 		#endregion
-		internal HSteamUser CreateLocalUser( ref HSteamPipe phSteamPipe, AccountType eAccountType )
+		public HSteamUser CreateLocalUser( ref HSteamPipe phSteamPipe, AccountType eAccountType )
 		{
 			var returnValue = _CreateLocalUser( Self, ref phSteamPipe, eAccountType );
 			return returnValue;
@@ -65,7 +65,7 @@ namespace Steamworks
 		private static extern void _ReleaseUser( IntPtr self, HSteamPipe hSteamPipe, HSteamUser hUser );
 		
 		#endregion
-		internal void ReleaseUser( HSteamPipe hSteamPipe, HSteamUser hUser )
+		public void ReleaseUser( HSteamPipe hSteamPipe, HSteamUser hUser )
 		{
 			_ReleaseUser( Self, hSteamPipe, hUser );
 		}
@@ -75,7 +75,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamUser( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamUser( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamUser( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamUser( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -86,7 +86,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamGameServer( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamGameServer( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamGameServer( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamGameServer( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -97,7 +97,7 @@ namespace Steamworks
 		private static extern void _SetLocalIPBinding( IntPtr self, ref SteamIPAddress unIP, ushort usPort );
 		
 		#endregion
-		internal void SetLocalIPBinding( ref SteamIPAddress unIP, ushort usPort )
+		public void SetLocalIPBinding( ref SteamIPAddress unIP, ushort usPort )
 		{
 			_SetLocalIPBinding( Self, ref unIP, usPort );
 		}
@@ -107,7 +107,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamFriends( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamFriends( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamFriends( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamFriends( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -118,7 +118,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamUtils( IntPtr self, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamUtils( HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamUtils( HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamUtils( Self, hSteamPipe, pchVersion );
 			return returnValue;
@@ -129,7 +129,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamMatchmaking( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamMatchmaking( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamMatchmaking( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamMatchmaking( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -140,7 +140,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamMatchmakingServers( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamMatchmakingServers( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamMatchmakingServers( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamMatchmakingServers( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -151,7 +151,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamGenericInterface( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamGenericInterface( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamGenericInterface( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamGenericInterface( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -162,7 +162,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamUserStats( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamUserStats( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamUserStats( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamUserStats( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -173,7 +173,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamGameServerStats( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamGameServerStats( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamGameServerStats( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamGameServerStats( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -184,7 +184,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamApps( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamApps( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamApps( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamApps( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -195,7 +195,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamNetworking( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamNetworking( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamNetworking( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamNetworking( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -206,7 +206,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamRemoteStorage( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamRemoteStorage( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamRemoteStorage( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamRemoteStorage( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -217,7 +217,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamScreenshots( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamScreenshots( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamScreenshots( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamScreenshots( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -228,7 +228,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamGameSearch( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamGameSearch( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamGameSearch( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamGameSearch( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -239,7 +239,7 @@ namespace Steamworks
 		private static extern uint _GetIPCCallCount( IntPtr self );
 		
 		#endregion
-		internal uint GetIPCCallCount()
+		public uint GetIPCCallCount()
 		{
 			var returnValue = _GetIPCCallCount( Self );
 			return returnValue;
@@ -250,7 +250,7 @@ namespace Steamworks
 		private static extern void _SetWarningMessageHook( IntPtr self, IntPtr pFunction );
 		
 		#endregion
-		internal void SetWarningMessageHook( IntPtr pFunction )
+		public void SetWarningMessageHook( IntPtr pFunction )
 		{
 			_SetWarningMessageHook( Self, pFunction );
 		}
@@ -261,7 +261,7 @@ namespace Steamworks
 		private static extern bool _BShutdownIfAllPipesClosed( IntPtr self );
 		
 		#endregion
-		internal bool BShutdownIfAllPipesClosed()
+		public bool BShutdownIfAllPipesClosed()
 		{
 			var returnValue = _BShutdownIfAllPipesClosed( Self );
 			return returnValue;
@@ -272,7 +272,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamHTTP( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamHTTP( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamHTTP( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamHTTP( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -283,7 +283,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamController( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamController( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamController( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamController( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -294,7 +294,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamUGC( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamUGC( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamUGC( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamUGC( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -305,7 +305,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamAppList( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamAppList( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamAppList( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamAppList( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -316,7 +316,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamMusic( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamMusic( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamMusic( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamMusic( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -327,7 +327,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamMusicRemote( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamMusicRemote( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamMusicRemote( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamMusicRemote( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -338,7 +338,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamHTMLSurface( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamHTMLSurface( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamHTMLSurface( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamHTMLSurface( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -349,7 +349,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamInventory( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamInventory( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamInventory( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamInventory( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -360,7 +360,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamVideo( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamVideo( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamVideo( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamVideo( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -371,7 +371,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamParentalSettings( IntPtr self, HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamParentalSettings( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamParentalSettings( HSteamUser hSteamuser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamParentalSettings( Self, hSteamuser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -382,7 +382,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamInput( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamInput( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamInput( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamInput( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -393,7 +393,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamParties( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamParties( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamParties( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamParties( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;
@@ -404,7 +404,7 @@ namespace Steamworks
 		private static extern IntPtr _GetISteamRemotePlay( IntPtr self, HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion );
 		
 		#endregion
-		internal IntPtr GetISteamRemotePlay( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
+		public IntPtr GetISteamRemotePlay( HSteamUser hSteamUser, HSteamPipe hSteamPipe, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchVersion )
 		{
 			var returnValue = _GetISteamRemotePlay( Self, hSteamUser, hSteamPipe, pchVersion );
 			return returnValue;

@@ -12,18 +12,18 @@ namespace Steamworks
 	/// </summary>
 	public class SteamVideo : SteamClientClass<SteamVideo>
 	{
-		internal static ISteamVideo Internal => Interface as ISteamVideo;
+		public static ISteamVideo Internal => Interface as ISteamVideo;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamVideo( server ) );
 			InstallEvents();
 		}
 
-		internal static void InstallEvents()
+		public static void InstallEvents()
 		{
-			Dispatch.Install<BroadcastUploadStart_t>( x => OnBroadcastStarted?.Invoke() );
-			Dispatch.Install<BroadcastUploadStop_t>( x => OnBroadcastStopped?.Invoke( x.Result ) );
+			//Dispatch.Install<BroadcastUploadStart_t>( x => OnBroadcastStarted?.Invoke() );
+			//Dispatch.Install<BroadcastUploadStop_t>( x => OnBroadcastStopped?.Invoke( x.Result ) );
 		}
 
 		public static event Action OnBroadcastStarted;

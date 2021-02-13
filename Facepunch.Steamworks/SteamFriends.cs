@@ -12,9 +12,9 @@ namespace Steamworks
 	/// </summary>
 	public class SteamFriends : SteamClientClass<SteamFriends>
 	{
-		internal static ISteamFriends Internal => Interface as ISteamFriends;
+		public static ISteamFriends Internal => Interface as ISteamFriends;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamFriends( server ) );
 
@@ -25,7 +25,7 @@ namespace Steamworks
 
 		static Dictionary<string, string> richPresence;
 
-		internal void InstallEvents()
+		public void InstallEvents()
 		{
 			Dispatch.Install<PersonaStateChange_t>( x => OnPersonaStateChange?.Invoke( new Friend( x.SteamID ) ) );
 			Dispatch.Install<GameRichPresenceJoinRequested_t>( x => OnGameRichPresenceJoinRequested?.Invoke( new Friend( x.SteamIDFriend), x.ConnectUTF8() ) );
@@ -248,7 +248,7 @@ namespace Steamworks
 		public static bool RequestUserInformation( SteamId steamid, bool nameonly = true ) => Internal.RequestUserInformation( steamid, nameonly );
 
 
-		internal static async Task CacheUserInformationAsync( SteamId steamid, bool nameonly )
+		public static async Task CacheUserInformationAsync( SteamId steamid, bool nameonly )
 		{
 			// Got it straight away, skip any waiting.
 			if ( !RequestUserInformation( steamid, nameonly ) )

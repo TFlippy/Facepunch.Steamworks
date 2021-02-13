@@ -145,7 +145,7 @@ public static class Cleanup
 		if ( name == "ItemPreviewType" ) return "public";
 		if ( name == "OverlayToStoreFlag" ) return "public";
 
-		return "internal";
+		return "public";
 	}
 
 	internal static bool IsDeprecated( string name )

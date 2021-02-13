@@ -8,21 +8,21 @@ namespace Steamworks.Data
 	[StructLayout( LayoutKind.Sequential, Pack = Platform.StructPlatformPackSize )]
 	public struct ConnectionStatus
 	{
-		internal ConnectionState state; // m_eState ESteamNetworkingConnectionState
-		internal int ping; // m_nPing int
-		internal float connectionQualityLocal; // m_flConnectionQualityLocal float
-		internal float connectionQualityRemote; // m_flConnectionQualityRemote float
-		internal float outPacketsPerSec; // m_flOutPacketsPerSec float
-		internal float outBytesPerSec; // m_flOutBytesPerSec float
-		internal float inPacketsPerSec; // m_flInPacketsPerSec float
-		internal float inBytesPerSec; // m_flInBytesPerSec float
-		internal int sendRateBytesPerSecond; // m_nSendRateBytesPerSecond int
-		internal int cbPendingUnreliable; // m_cbPendingUnreliable int
-		internal int cbPendingReliable; // m_cbPendingReliable int
-		internal int cbSentUnackedReliable; // m_cbSentUnackedReliable int
-		internal long ecQueueTime; // m_usecQueueTime SteamNetworkingMicroseconds
+		public ConnectionState state; // m_eState ESteamNetworkingConnectionState
+		public int ping; // m_nPing int
+		public float connectionQualityLocal; // m_flConnectionQualityLocal float
+		public float connectionQualityRemote; // m_flConnectionQualityRemote float
+		public float outPacketsPerSec; // m_flOutPacketsPerSec float
+		public float outBytesPerSec; // m_flOutBytesPerSec float
+		public float inPacketsPerSec; // m_flInPacketsPerSec float
+		public float inBytesPerSec; // m_flInBytesPerSec float
+		public int sendRateBytesPerSecond; // m_nSendRateBytesPerSecond int
+		public int cbPendingUnreliable; // m_cbPendingUnreliable int
+		public int cbPendingReliable; // m_cbPendingReliable int
+		public int cbSentUnackedReliable; // m_cbSentUnackedReliable int
+		public long ecQueueTime; // m_usecQueueTime SteamNetworkingMicroseconds
 		[MarshalAs( UnmanagedType.ByValArray, SizeConst = 16, ArraySubType = UnmanagedType.U4 )]
-		internal uint[] reserved; // reserved uint32 [16]
+		public uint[] reserved; // reserved uint32 [16]
 
 		/// <summary>
 		/// Current ping (ms)

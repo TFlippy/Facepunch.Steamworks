@@ -10,7 +10,7 @@ namespace Steamworks.Data
 		public int[] Details;
 		// UGCHandle_t m_hUGC
 
-		internal static LeaderboardEntry From( LeaderboardEntry_t e, int[] detailsBuffer )
+		public static LeaderboardEntry From( LeaderboardEntry_t e, int[] detailsBuffer )
 		{
 			var r = new LeaderboardEntry
 			{

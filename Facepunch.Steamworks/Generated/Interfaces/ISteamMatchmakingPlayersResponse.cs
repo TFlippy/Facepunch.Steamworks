@@ -7,10 +7,10 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamMatchmakingPlayersResponse : SteamInterface
+	public class ISteamMatchmakingPlayersResponse : SteamInterface
 	{
 		
-		internal ISteamMatchmakingPlayersResponse( bool IsGameServer )
+		public ISteamMatchmakingPlayersResponse( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
@@ -20,7 +20,7 @@ namespace Steamworks
 		private static extern void _AddPlayerToList( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchName, int nScore, float flTimePlayed );
 		
 		#endregion
-		internal void AddPlayerToList( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchName, int nScore, float flTimePlayed )
+		public void AddPlayerToList( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchName, int nScore, float flTimePlayed )
 		{
 			_AddPlayerToList( Self, pchName, nScore, flTimePlayed );
 		}
@@ -30,7 +30,7 @@ namespace Steamworks
 		private static extern void _PlayersFailedToRespond( IntPtr self );
 		
 		#endregion
-		internal void PlayersFailedToRespond()
+		public void PlayersFailedToRespond()
 		{
 			_PlayersFailedToRespond( Self );
 		}
@@ -40,7 +40,7 @@ namespace Steamworks
 		private static extern void _PlayersRefreshComplete( IntPtr self );
 		
 		#endregion
-		internal void PlayersRefreshComplete()
+		public void PlayersRefreshComplete()
 		{
 			_PlayersRefreshComplete( Self );
 		}

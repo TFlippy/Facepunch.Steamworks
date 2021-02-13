@@ -9,18 +9,18 @@ namespace Steamworks
 {
 	public class SteamUserStats : SteamClientClass<SteamUserStats>
 	{
-		internal static ISteamUserStats Internal => Interface as ISteamUserStats;
+		public static ISteamUserStats Internal => Interface as ISteamUserStats;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamUserStats( server ) );
 			InstallEvents();
 			RequestCurrentStats();
 		}
 
-		public static bool StatsRecieved { get; internal set; }
+		public static bool StatsRecieved { get; set; }
 
-		internal static void InstallEvents()
+		public static void InstallEvents()
 		{
 			Dispatch.Install<UserStatsReceived_t>( x =>
 			{
@@ -40,7 +40,7 @@ namespace Steamworks
 		/// <summary>
 		/// called when the achivement icon is loaded
 		/// </summary>
-		internal static event Action<string, int> OnAchievementIconFetched;
+		public static event Action<string, int> OnAchievementIconFetched;
 
 		/// <summary>
 		/// called when the latests stats and achievements have been received

@@ -12,9 +12,9 @@ namespace Steamworks
 	/// </summary>
 	public class SteamNetworkingUtils : SteamSharedClass<SteamNetworkingUtils>
 	{
-		internal static ISteamNetworkingUtils Internal => Interface as ISteamNetworkingUtils;
+		public static ISteamNetworkingUtils Internal => Interface as ISteamNetworkingUtils;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamNetworkingUtils( server ) );
 			InstallCallbacks( server );
@@ -258,7 +258,7 @@ namespace Steamworks
 		/// Called regularly from the Dispatch loop so we can provide a timely
 		/// stream of messages.
 		/// </summary>
-		internal static void OutputDebugMessages()
+		public static void OutputDebugMessages()
 		{
 			if ( debugMessages.IsEmpty )
 				return;
@@ -271,13 +271,13 @@ namespace Steamworks
 
 		#region Config Internals
 
-		internal unsafe static bool SetConfigInt( NetConfig type, int value )
+		public unsafe static bool SetConfigInt( NetConfig type, int value )
 		{
 			int* ptr = &value;
 			return Internal.SetConfigValue( type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.Int32, (IntPtr)ptr );
 		}
 
-		internal unsafe static int GetConfigInt( NetConfig type )
+		public unsafe static int GetConfigInt( NetConfig type )
 		{
 			int value = 0;
 			NetConfigType dtype = NetConfigType.Int32;
@@ -290,13 +290,13 @@ namespace Steamworks
 			return value;
 		}
 
-		internal unsafe static bool SetConfigFloat( NetConfig type, float value )
+		public unsafe static bool SetConfigFloat( NetConfig type, float value )
 		{
 			float* ptr = &value;
 			return Internal.SetConfigValue( type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.Float, (IntPtr)ptr );
 		}
 
-		internal unsafe static float GetConfigFloat( NetConfig type )
+		public unsafe static float GetConfigFloat( NetConfig type )
 		{
 			float value = 0;
 			NetConfigType dtype = NetConfigType.Float;
@@ -309,7 +309,7 @@ namespace Steamworks
 			return value;
 		}
 
-		internal unsafe static bool SetConfigString( NetConfig type, string value )
+		public unsafe static bool SetConfigString( NetConfig type, string value )
 		{
 			var bytes = Encoding.UTF8.GetBytes( value );
 
@@ -320,7 +320,7 @@ namespace Steamworks
 		}
 
 		/*
-		internal unsafe static float GetConfigString( NetConfig type )
+		public unsafe static float GetConfigString( NetConfig type )
 		{
 
 			float value = 0;
@@ -340,19 +340,19 @@ namespace Steamworks
 
 		TODO - Connection object
 
-		internal unsafe static bool SetConnectionConfig( uint con, NetConfig type, int value )
+		public unsafe static bool SetConnectionConfig( uint con, NetConfig type, int value )
 		{
 			int* ptr = &value;
 			return Internal.SetConfigValue( type, NetScope.Connection, con, NetConfigType.Int32, (IntPtr)ptr );
 		}
 
-		internal unsafe static bool SetConnectionConfig( uint con, NetConfig type, float value )
+		public unsafe static bool SetConnectionConfig( uint con, NetConfig type, float value )
 		{
 			float* ptr = &value;
 			return Internal.SetConfigValue( type, NetScope.Connection, con, NetConfigType.Float, (IntPtr)ptr );
 		}
 
-		internal unsafe static bool SetConnectionConfig( uint con, NetConfig type, string value )
+		public unsafe static bool SetConnectionConfig( uint con, NetConfig type, string value )
 		{
 			var bytes = Encoding.UTF8.GetBytes( value );
 

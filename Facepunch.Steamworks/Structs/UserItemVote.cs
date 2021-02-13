@@ -8,7 +8,7 @@ namespace Steamworks.Ugc
         public bool VotedDown;
         public bool VoteSkipped;
 
-        internal static UserItemVote? From(GetUserItemVoteResult_t result)
+        public static UserItemVote? From(GetUserItemVoteResult_t result)
         {
             return new UserItemVote
             {

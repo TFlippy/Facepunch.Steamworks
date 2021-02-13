@@ -15,15 +15,15 @@ namespace Steamworks
 	/// </summary>
 	public class SteamUGC : SteamSharedClass<SteamUGC>
 	{
-		internal static ISteamUGC Internal => Interface as ISteamUGC;
+		public static ISteamUGC Internal => Interface as ISteamUGC;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamUGC( server ) );
 			InstallEvents( server );
 		}
 
-		internal static void InstallEvents( bool server )
+		public static void InstallEvents( bool server )
 		{
 			Dispatch.Install<DownloadItemResult_t>( x => OnDownloadItemResult?.Invoke( x.Result ), server );
 		}

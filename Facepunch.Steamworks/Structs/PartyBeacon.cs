@@ -7,7 +7,7 @@ namespace Steamworks
 	{
 		static ISteamParties Internal => SteamParties.Internal;
 
-		internal PartyBeaconID_t Id;
+		public PartyBeaconID_t Id;
 
 		/// <summary>
 		/// Creator of the beacon

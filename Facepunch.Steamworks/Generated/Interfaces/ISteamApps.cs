@@ -7,19 +7,19 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamApps : SteamInterface
+	public class ISteamApps : SteamInterface
 	{
 		
-		internal ISteamApps( bool IsGameServer )
+		public ISteamApps( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamApps_v008", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamApps_v008();
+		public static extern IntPtr SteamAPI_SteamApps_v008();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamApps_v008();
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamGameServerApps_v008", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamGameServerApps_v008();
+		public static extern IntPtr SteamAPI_SteamGameServerApps_v008();
 		public override IntPtr GetServerInterfacePointer() => SteamAPI_SteamGameServerApps_v008();
 		
 		
@@ -29,7 +29,7 @@ namespace Steamworks
 		private static extern bool _BIsSubscribed( IntPtr self );
 		
 		#endregion
-		internal bool BIsSubscribed()
+		public bool BIsSubscribed()
 		{
 			var returnValue = _BIsSubscribed( Self );
 			return returnValue;
@@ -41,7 +41,7 @@ namespace Steamworks
 		private static extern bool _BIsLowViolence( IntPtr self );
 		
 		#endregion
-		internal bool BIsLowViolence()
+		public bool BIsLowViolence()
 		{
 			var returnValue = _BIsLowViolence( Self );
 			return returnValue;
@@ -53,7 +53,7 @@ namespace Steamworks
 		private static extern bool _BIsCybercafe( IntPtr self );
 		
 		#endregion
-		internal bool BIsCybercafe()
+		public bool BIsCybercafe()
 		{
 			var returnValue = _BIsCybercafe( Self );
 			return returnValue;
@@ -65,7 +65,7 @@ namespace Steamworks
 		private static extern bool _BIsVACBanned( IntPtr self );
 		
 		#endregion
-		internal bool BIsVACBanned()
+		public bool BIsVACBanned()
 		{
 			var returnValue = _BIsVACBanned( Self );
 			return returnValue;
@@ -76,7 +76,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetCurrentGameLanguage( IntPtr self );
 		
 		#endregion
-		internal string GetCurrentGameLanguage()
+		public string GetCurrentGameLanguage()
 		{
 			var returnValue = _GetCurrentGameLanguage( Self );
 			return returnValue;
@@ -87,7 +87,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetAvailableGameLanguages( IntPtr self );
 		
 		#endregion
-		internal string GetAvailableGameLanguages()
+		public string GetAvailableGameLanguages()
 		{
 			var returnValue = _GetAvailableGameLanguages( Self );
 			return returnValue;
@@ -99,7 +99,7 @@ namespace Steamworks
 		private static extern bool _BIsSubscribedApp( IntPtr self, AppId appID );
 		
 		#endregion
-		internal bool BIsSubscribedApp( AppId appID )
+		public bool BIsSubscribedApp( AppId appID )
 		{
 			var returnValue = _BIsSubscribedApp( Self, appID );
 			return returnValue;
@@ -111,7 +111,7 @@ namespace Steamworks
 		private static extern bool _BIsDlcInstalled( IntPtr self, AppId appID );
 		
 		#endregion
-		internal bool BIsDlcInstalled( AppId appID )
+		public bool BIsDlcInstalled( AppId appID )
 		{
 			var returnValue = _BIsDlcInstalled( Self, appID );
 			return returnValue;
@@ -122,7 +122,7 @@ namespace Steamworks
 		private static extern uint _GetEarliestPurchaseUnixTime( IntPtr self, AppId nAppID );
 		
 		#endregion
-		internal uint GetEarliestPurchaseUnixTime( AppId nAppID )
+		public uint GetEarliestPurchaseUnixTime( AppId nAppID )
 		{
 			var returnValue = _GetEarliestPurchaseUnixTime( Self, nAppID );
 			return returnValue;
@@ -134,7 +134,7 @@ namespace Steamworks
 		private static extern bool _BIsSubscribedFromFreeWeekend( IntPtr self );
 		
 		#endregion
-		internal bool BIsSubscribedFromFreeWeekend()
+		public bool BIsSubscribedFromFreeWeekend()
 		{
 			var returnValue = _BIsSubscribedFromFreeWeekend( Self );
 			return returnValue;
@@ -145,7 +145,7 @@ namespace Steamworks
 		private static extern int _GetDLCCount( IntPtr self );
 		
 		#endregion
-		internal int GetDLCCount()
+		public int GetDLCCount()
 		{
 			var returnValue = _GetDLCCount( Self );
 			return returnValue;
@@ -157,7 +157,7 @@ namespace Steamworks
 		private static extern bool _BGetDLCDataByIndex( IntPtr self, int iDLC, ref AppId pAppID, [MarshalAs( UnmanagedType.U1 )] ref bool pbAvailable, IntPtr pchName, int cchNameBufferSize );
 		
 		#endregion
-		internal bool BGetDLCDataByIndex( int iDLC, ref AppId pAppID, [MarshalAs( UnmanagedType.U1 )] ref bool pbAvailable, out string pchName )
+		public bool BGetDLCDataByIndex( int iDLC, ref AppId pAppID, [MarshalAs( UnmanagedType.U1 )] ref bool pbAvailable, out string pchName )
 		{
 			IntPtr mempchName = Helpers.TakeMemory();
 			var returnValue = _BGetDLCDataByIndex( Self, iDLC, ref pAppID, ref pbAvailable, mempchName, (1024 * 32) );
@@ -170,7 +170,7 @@ namespace Steamworks
 		private static extern void _InstallDLC( IntPtr self, AppId nAppID );
 		
 		#endregion
-		internal void InstallDLC( AppId nAppID )
+		public void InstallDLC( AppId nAppID )
 		{
 			_InstallDLC( Self, nAppID );
 		}
@@ -180,7 +180,7 @@ namespace Steamworks
 		private static extern void _UninstallDLC( IntPtr self, AppId nAppID );
 		
 		#endregion
-		internal void UninstallDLC( AppId nAppID )
+		public void UninstallDLC( AppId nAppID )
 		{
 			_UninstallDLC( Self, nAppID );
 		}
@@ -190,7 +190,7 @@ namespace Steamworks
 		private static extern void _RequestAppProofOfPurchaseKey( IntPtr self, AppId nAppID );
 		
 		#endregion
-		internal void RequestAppProofOfPurchaseKey( AppId nAppID )
+		public void RequestAppProofOfPurchaseKey( AppId nAppID )
 		{
 			_RequestAppProofOfPurchaseKey( Self, nAppID );
 		}
@@ -201,7 +201,7 @@ namespace Steamworks
 		private static extern bool _GetCurrentBetaName( IntPtr self, IntPtr pchName, int cchNameBufferSize );
 		
 		#endregion
-		internal bool GetCurrentBetaName( out string pchName )
+		public bool GetCurrentBetaName( out string pchName )
 		{
 			IntPtr mempchName = Helpers.TakeMemory();
 			var returnValue = _GetCurrentBetaName( Self, mempchName, (1024 * 32) );
@@ -215,7 +215,7 @@ namespace Steamworks
 		private static extern bool _MarkContentCorrupt( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bMissingFilesOnly );
 		
 		#endregion
-		internal bool MarkContentCorrupt( [MarshalAs( UnmanagedType.U1 )] bool bMissingFilesOnly )
+		public bool MarkContentCorrupt( [MarshalAs( UnmanagedType.U1 )] bool bMissingFilesOnly )
 		{
 			var returnValue = _MarkContentCorrupt( Self, bMissingFilesOnly );
 			return returnValue;
@@ -226,7 +226,7 @@ namespace Steamworks
 		private static extern uint _GetInstalledDepots( IntPtr self, AppId appID, [In,Out] DepotId_t[]  pvecDepots, uint cMaxDepots );
 		
 		#endregion
-		internal uint GetInstalledDepots( AppId appID, [In,Out] DepotId_t[]  pvecDepots, uint cMaxDepots )
+		public uint GetInstalledDepots( AppId appID, [In,Out] DepotId_t[]  pvecDepots, uint cMaxDepots )
 		{
 			var returnValue = _GetInstalledDepots( Self, appID, pvecDepots, cMaxDepots );
 			return returnValue;
@@ -237,7 +237,7 @@ namespace Steamworks
 		private static extern uint _GetAppInstallDir( IntPtr self, AppId appID, IntPtr pchFolder, uint cchFolderBufferSize );
 		
 		#endregion
-		internal uint GetAppInstallDir( AppId appID, out string pchFolder )
+		public uint GetAppInstallDir( AppId appID, out string pchFolder )
 		{
 			IntPtr mempchFolder = Helpers.TakeMemory();
 			var returnValue = _GetAppInstallDir( Self, appID, mempchFolder, (1024 * 32) );
@@ -251,7 +251,7 @@ namespace Steamworks
 		private static extern bool _BIsAppInstalled( IntPtr self, AppId appID );
 		
 		#endregion
-		internal bool BIsAppInstalled( AppId appID )
+		public bool BIsAppInstalled( AppId appID )
 		{
 			var returnValue = _BIsAppInstalled( Self, appID );
 			return returnValue;
@@ -262,7 +262,7 @@ namespace Steamworks
 		private static extern SteamId _GetAppOwner( IntPtr self );
 		
 		#endregion
-		internal SteamId GetAppOwner()
+		public SteamId GetAppOwner()
 		{
 			var returnValue = _GetAppOwner( Self );
 			return returnValue;
@@ -273,7 +273,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetLaunchQueryParam( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey );
 		
 		#endregion
-		internal string GetLaunchQueryParam( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
+		public string GetLaunchQueryParam( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
 		{
 			var returnValue = _GetLaunchQueryParam( Self, pchKey );
 			return returnValue;
@@ -285,7 +285,7 @@ namespace Steamworks
 		private static extern bool _GetDlcDownloadProgress( IntPtr self, AppId nAppID, ref ulong punBytesDownloaded, ref ulong punBytesTotal );
 		
 		#endregion
-		internal bool GetDlcDownloadProgress( AppId nAppID, ref ulong punBytesDownloaded, ref ulong punBytesTotal )
+		public bool GetDlcDownloadProgress( AppId nAppID, ref ulong punBytesDownloaded, ref ulong punBytesTotal )
 		{
 			var returnValue = _GetDlcDownloadProgress( Self, nAppID, ref punBytesDownloaded, ref punBytesTotal );
 			return returnValue;
@@ -296,7 +296,7 @@ namespace Steamworks
 		private static extern int _GetAppBuildId( IntPtr self );
 		
 		#endregion
-		internal int GetAppBuildId()
+		public int GetAppBuildId()
 		{
 			var returnValue = _GetAppBuildId( Self );
 			return returnValue;
@@ -307,7 +307,7 @@ namespace Steamworks
 		private static extern void _RequestAllProofOfPurchaseKeys( IntPtr self );
 		
 		#endregion
-		internal void RequestAllProofOfPurchaseKeys()
+		public void RequestAllProofOfPurchaseKeys()
 		{
 			_RequestAllProofOfPurchaseKeys( Self );
 		}
@@ -317,7 +317,7 @@ namespace Steamworks
 		private static extern SteamAPICall_t _GetFileDetails( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pszFileName );
 		
 		#endregion
-		internal CallResult<FileDetailsResult_t> GetFileDetails( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pszFileName )
+		public CallResult<FileDetailsResult_t> GetFileDetails( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pszFileName )
 		{
 			var returnValue = _GetFileDetails( Self, pszFileName );
 			return new CallResult<FileDetailsResult_t>( returnValue, IsServer );
@@ -328,7 +328,7 @@ namespace Steamworks
 		private static extern int _GetLaunchCommandLine( IntPtr self, IntPtr pszCommandLine, int cubCommandLine );
 		
 		#endregion
-		internal int GetLaunchCommandLine( out string pszCommandLine )
+		public int GetLaunchCommandLine( out string pszCommandLine )
 		{
 			IntPtr mempszCommandLine = Helpers.TakeMemory();
 			var returnValue = _GetLaunchCommandLine( Self, mempszCommandLine, (1024 * 32) );
@@ -342,7 +342,7 @@ namespace Steamworks
 		private static extern bool _BIsSubscribedFromFamilySharing( IntPtr self );
 		
 		#endregion
-		internal bool BIsSubscribedFromFamilySharing()
+		public bool BIsSubscribedFromFamilySharing()
 		{
 			var returnValue = _BIsSubscribedFromFamilySharing( Self );
 			return returnValue;
@@ -354,7 +354,7 @@ namespace Steamworks
 		private static extern bool _BIsTimedTrial( IntPtr self, ref uint punSecondsAllowed, ref uint punSecondsPlayed );
 		
 		#endregion
-		internal bool BIsTimedTrial( ref uint punSecondsAllowed, ref uint punSecondsPlayed )
+		public bool BIsTimedTrial( ref uint punSecondsAllowed, ref uint punSecondsPlayed )
 		{
 			var returnValue = _BIsTimedTrial( Self, ref punSecondsAllowed, ref punSecondsPlayed );
 			return returnValue;

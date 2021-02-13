@@ -78,7 +78,7 @@ namespace Generator
 
                 if ( t.StartsWith( "char " ) && t.Contains( "[" ) )
                 {
-					WriteLine( $"internal string {CleanMemberName( m.Name )}UTF8() => System.Text.Encoding.UTF8.GetString( {CleanMemberName( m.Name )}, 0, System.Array.IndexOf<byte>( {CleanMemberName( m.Name )}, 0 ) );" );
+					WriteLine( $"public string {CleanMemberName( m.Name )}UTF8() => System.Text.Encoding.UTF8.GetString( {CleanMemberName( m.Name )}, 0, System.Array.IndexOf<byte>( {CleanMemberName( m.Name )}, 0 ) );" );
 
 					var num = t.Replace( "char", "" ).Trim( '[', ']', ' ' );
 					t = "byte[]";
@@ -139,7 +139,7 @@ namespace Generator
                     WriteLine($"[MarshalAs(UnmanagedType.ByValArray, SizeConst = {num}, ArraySubType = UnmanagedType.U4)]");
                 }
 
-                WriteLine( $"internal {t} {CleanMemberName( m.Name )}; // {m.Name} {m.Type}" );
+                WriteLine( $"public {t} {CleanMemberName( m.Name )}; // {m.Name} {m.Type}" );
             }
         }
     }

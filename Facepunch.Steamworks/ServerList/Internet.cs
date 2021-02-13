@@ -8,7 +8,7 @@ namespace Steamworks.ServerList
 {
 	public class Internet : Base
 	{
-		internal override void LaunchQuery()
+		public override void LaunchQuery()
 		{
 			var filters = GetFilters();
 

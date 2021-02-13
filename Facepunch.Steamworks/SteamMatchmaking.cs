@@ -12,9 +12,9 @@ namespace Steamworks
 	/// </summary>
 	public class SteamMatchmaking : SteamClientClass<SteamMatchmaking>
 	{
-		internal static ISteamMatchmaking Internal => Interface as ISteamMatchmaking;
+		public static ISteamMatchmaking Internal => Interface as ISteamMatchmaking;
 
-		internal override void InitializeInterface( bool server )
+		public override void InitializeInterface( bool server )
 		{
 			SetInterface( server, new ISteamMatchmaking( server ) );
 
@@ -24,10 +24,10 @@ namespace Steamworks
 		/// <summary>
 		/// Maximum number of characters a lobby metadata key can be
 		/// </summary>
-		internal static int MaxLobbyKeyLength => 255;
+		public static int MaxLobbyKeyLength => 255;
 
 
-		internal static void InstallEvents()
+		public static void InstallEvents()
 		{
 			Dispatch.Install<LobbyInvite_t>( x => OnLobbyInvite?.Invoke( new Friend( x.SteamIDUser ), new Lobby( x.SteamIDLobby ) ) );
 

@@ -7,16 +7,16 @@ using Steamworks.Data;
 
 namespace Steamworks
 {
-	internal class ISteamRemotePlay : SteamInterface
+	public class ISteamRemotePlay : SteamInterface
 	{
 		
-		internal ISteamRemotePlay( bool IsGameServer )
+		public ISteamRemotePlay( bool IsGameServer )
 		{
 			SetupInterface( IsGameServer );
 		}
 		
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_SteamRemotePlay_v001", CallingConvention = Platform.CC)]
-		internal static extern IntPtr SteamAPI_SteamRemotePlay_v001();
+		public static extern IntPtr SteamAPI_SteamRemotePlay_v001();
 		public override IntPtr GetUserInterfacePointer() => SteamAPI_SteamRemotePlay_v001();
 		
 		
@@ -25,7 +25,7 @@ namespace Steamworks
 		private static extern uint _GetSessionCount( IntPtr self );
 		
 		#endregion
-		internal uint GetSessionCount()
+		public uint GetSessionCount()
 		{
 			var returnValue = _GetSessionCount( Self );
 			return returnValue;
@@ -36,7 +36,7 @@ namespace Steamworks
 		private static extern RemotePlaySessionID_t _GetSessionID( IntPtr self, int iSessionIndex );
 		
 		#endregion
-		internal RemotePlaySessionID_t GetSessionID( int iSessionIndex )
+		public RemotePlaySessionID_t GetSessionID( int iSessionIndex )
 		{
 			var returnValue = _GetSessionID( Self, iSessionIndex );
 			return returnValue;
@@ -47,7 +47,7 @@ namespace Steamworks
 		private static extern SteamId _GetSessionSteamID( IntPtr self, RemotePlaySessionID_t unSessionID );
 		
 		#endregion
-		internal SteamId GetSessionSteamID( RemotePlaySessionID_t unSessionID )
+		public SteamId GetSessionSteamID( RemotePlaySessionID_t unSessionID )
 		{
 			var returnValue = _GetSessionSteamID( Self, unSessionID );
 			return returnValue;
@@ -58,7 +58,7 @@ namespace Steamworks
 		private static extern Utf8StringPointer _GetSessionClientName( IntPtr self, RemotePlaySessionID_t unSessionID );
 		
 		#endregion
-		internal string GetSessionClientName( RemotePlaySessionID_t unSessionID )
+		public string GetSessionClientName( RemotePlaySessionID_t unSessionID )
 		{
 			var returnValue = _GetSessionClientName( Self, unSessionID );
 			return returnValue;
@@ -69,7 +69,7 @@ namespace Steamworks
 		private static extern SteamDeviceFormFactor _GetSessionClientFormFactor( IntPtr self, RemotePlaySessionID_t unSessionID );
 		
 		#endregion
-		internal SteamDeviceFormFactor GetSessionClientFormFactor( RemotePlaySessionID_t unSessionID )
+		public SteamDeviceFormFactor GetSessionClientFormFactor( RemotePlaySessionID_t unSessionID )
 		{
 			var returnValue = _GetSessionClientFormFactor( Self, unSessionID );
 			return returnValue;
@@ -81,7 +81,7 @@ namespace Steamworks
 		private static extern bool _BGetSessionClientResolution( IntPtr self, RemotePlaySessionID_t unSessionID, ref int pnResolutionX, ref int pnResolutionY );
 		
 		#endregion
-		internal bool BGetSessionClientResolution( RemotePlaySessionID_t unSessionID, ref int pnResolutionX, ref int pnResolutionY )
+		public bool BGetSessionClientResolution( RemotePlaySessionID_t unSessionID, ref int pnResolutionX, ref int pnResolutionY )
 		{
 			var returnValue = _BGetSessionClientResolution( Self, unSessionID, ref pnResolutionX, ref pnResolutionY );
 			return returnValue;
@@ -93,7 +93,7 @@ namespace Steamworks
 		private static extern bool _BSendRemotePlayTogetherInvite( IntPtr self, SteamId steamIDFriend );
 		
 		#endregion
-		internal bool BSendRemotePlayTogetherInvite( SteamId steamIDFriend )
+		public bool BSendRemotePlayTogetherInvite( SteamId steamIDFriend )
 		{
 			var returnValue = _BSendRemotePlayTogetherInvite( Self, steamIDFriend );
 			return returnValue;
