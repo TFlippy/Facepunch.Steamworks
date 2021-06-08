@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -11,7 +9,7 @@ namespace Steamworks
 {
 	public static partial class Utility
 	{
-		static public T ToMarshalledType<T>(this IntPtr ptr)
+		public static T ToMarshalledType<T>(this IntPtr ptr)
 		{
 			if (ptr == IntPtr.Zero)
 				return default;
@@ -25,7 +23,7 @@ namespace Steamworks
 			return ref *((T*)ptr);
 		}
 
-		static public object ToType(this IntPtr ptr, System.Type t)
+		public static object ToType(this IntPtr ptr, System.Type t)
 		{
 			if (ptr == IntPtr.Zero)
 				return default;
@@ -33,7 +31,7 @@ namespace Steamworks
 			return Marshal.PtrToStructure(ptr, t);
 		}
 
-		static public uint Swap(uint x)
+		public static uint Swap(uint x)
 		{
 			return ((x & 0x000000ff) << 24) +
 				   ((x & 0x0000ff00) << 8) +
@@ -41,12 +39,12 @@ namespace Steamworks
 				   ((x & 0xff000000) >> 24);
 		}
 
-		static public uint IpToInt32(this IPAddress ipAddress)
+		public static uint IpToInt32(this IPAddress ipAddress)
 		{
 			return Swap((uint)ipAddress.Address);
 		}
 
-		static public IPAddress Int32ToIp(uint ipAddress)
+		public static IPAddress Int32ToIp(uint ipAddress)
 		{
 			return new IPAddress(Swap(ipAddress));
 		}
@@ -104,14 +102,14 @@ namespace Steamworks
 			}
 		}
 
-		static readonly byte[] readBuffer = new byte[1024 * 8];
+		private static readonly byte[] readBuffer = new byte[1024 * 8];
 
 		public static string ReadNullTerminatedUTF8String(this BinaryReader br)
 		{
 			lock (readBuffer)
 			{
 				byte chr;
-				int i = 0;
+				var i = 0;
 				while ((chr = br.ReadByte()) != 0 && i < readBuffer.Length)
 				{
 					readBuffer[i] = chr;

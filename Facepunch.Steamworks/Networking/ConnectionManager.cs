@@ -1,7 +1,6 @@
 ﻿using Steamworks.Data;
 using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Steamworks
 {
@@ -27,26 +26,29 @@ namespace Steamworks
 
 		public string ConnectionName
 		{
-			get => Connection.ConnectionName;
-			set => Connection.ConnectionName = value;
+			get => this.Connection.ConnectionName;
+			set => this.Connection.ConnectionName = value;
 		}
 
 		public long UserData
 		{
-			get => Connection.UserData;
-			set => Connection.UserData = value;
+			get => this.Connection.UserData;
+			set => this.Connection.UserData = value;
 		}
 
 		public void Close(bool linger = false, int reasonCode = 0, string debugString = "Closing Connection")
 		{
-			Connection.Close(linger, reasonCode, debugString);
+			this.Connection.Close(linger, reasonCode, debugString);
 		}
 
-		public override string ToString() => Connection.ToString();
+		public override string ToString()
+		{
+			return this.Connection.ToString();
+		}
 
 		public virtual void OnConnectionChanged(ConnectionInfo info)
 		{
-			ConnectionInfo = info;
+			this.ConnectionInfo = info;
 
 			//
 			// Some notes:
@@ -56,33 +58,33 @@ namespace Steamworks
 			switch (info.State)
 			{
 				case ConnectionState.Connecting:
-					if (!Connecting && !Connected)
-					{
-						Connecting = true;
+				if (!this.Connecting && !this.Connected)
+				{
+					this.Connecting = true;
 
-						OnConnecting(info);
-					}
-					break;
+					this.OnConnecting(info);
+				}
+				break;
 				case ConnectionState.Connected:
-					if (Connecting && !Connected)
-					{
-						Connecting = false;
-						Connected = true;
+				if (this.Connecting && !this.Connected)
+				{
+					this.Connecting = false;
+					this.Connected = true;
 
-						OnConnected(info);
-					}
-					break;
+					this.OnConnected(info);
+				}
+				break;
 				case ConnectionState.ClosedByPeer:
 				case ConnectionState.ProblemDetectedLocally:
 				case ConnectionState.None:
-					if (Connecting || Connected)
-					{
-						Connecting = false;
-						Connected = false;
+				if (this.Connecting || this.Connected)
+				{
+					this.Connecting = false;
+					this.Connected = false;
 
-						OnDisconnected(info);
-					}
-					break;
+					this.OnDisconnected(info);
+				}
+				break;
 			}
 		}
 
@@ -91,7 +93,7 @@ namespace Steamworks
 		/// </summary>
 		public virtual void OnConnecting(ConnectionInfo info)
 		{
-			Interface?.OnConnecting(info);
+			this.Interface?.OnConnecting(info);
 		}
 
 		/// <summary>
@@ -99,7 +101,7 @@ namespace Steamworks
 		/// </summary>
 		public virtual void OnConnected(ConnectionInfo info)
 		{
-			Interface?.OnConnected(info);
+			this.Interface?.OnConnected(info);
 		}
 
 		/// <summary>
@@ -107,21 +109,21 @@ namespace Steamworks
 		/// </summary>
 		public virtual void OnDisconnected(ConnectionInfo info)
 		{
-			Interface?.OnDisconnected(info);
+			this.Interface?.OnDisconnected(info);
 		}
 
 		public unsafe void Receive(int bufferSize = 32)
 		{
-			int processed = 0;
+			var processed = 0;
 			var messageBuffer = stackalloc IntPtr[bufferSize]; //IntPtr messageBuffer = Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
 
 			try
 			{
-				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnConnection(Connection, (IntPtr)messageBuffer, bufferSize);
+				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnConnection(this.Connection, (IntPtr)messageBuffer, bufferSize);
 
-				for (int i = 0; i < processed; i++)
+				for (var i = 0; i < processed; i++)
 				{
-					ReceiveMessage(messageBuffer[i]);  // ReceiveMessage(Marshal.ReadIntPtr(messageBuffer, i * IntPtr.Size));
+					this.ReceiveMessage(messageBuffer[i]);  // ReceiveMessage(Marshal.ReadIntPtr(messageBuffer, i * IntPtr.Size));
 				}
 			}
 			finally
@@ -130,7 +132,7 @@ namespace Steamworks
 			}
 
 			// Overwhelmed our buffer, keep going
-			if (processed == bufferSize) Receive(bufferSize);
+			if (processed == bufferSize) this.Receive(bufferSize);
 		}
 
 		public unsafe void ReceiveMessage(IntPtr msgPtr)
@@ -138,7 +140,7 @@ namespace Steamworks
 			var msg = Unsafe.AsRef<NetMsg>(msgPtr.ToPointer()); // Marshal.PtrToStructure<NetMsg>( msgPtr );
 			try
 			{
-				OnMessage(msg.DataPtr, msg.DataSize, msg.RecvTime, msg.MessageNumber, msg.Channel);
+				this.OnMessage(msg.DataPtr, msg.DataSize, msg.RecvTime, msg.MessageNumber, msg.Channel);
 			}
 			finally
 			{
@@ -149,7 +151,7 @@ namespace Steamworks
 
 		public virtual void OnMessage(IntPtr data, int size, long messageNum, long recvTime, int channel)
 		{
-			Interface?.OnMessage(data, size, messageNum, recvTime, channel);
+			this.Interface?.OnMessage(data, size, messageNum, recvTime, channel);
 		}
 	}
 }

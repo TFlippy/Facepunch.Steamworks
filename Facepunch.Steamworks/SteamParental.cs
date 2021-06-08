@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
+﻿using Steamworks.Data;
+using System;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Undocumented Parental Settings
 	/// </summary>
-	public class SteamParental : SteamSharedClass<SteamParental>
+	public class SteamParental: SteamSharedClass<SteamParental>
 	{
 		public static ISteamParentalSettings Internal => Interface as ISteamParentalSettings;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamParentalSettings( server ) );
-			InstallEvents( server );
+			this.SetInterface(server, new ISteamParentalSettings(server));
+			InstallEvents(server);
 		}
 
-		public static void InstallEvents( bool server )
+		public static void InstallEvents(bool server)
 		{
-			Dispatch.Install<SteamParentalSettingsChanged_t>( x => OnSettingsChanged?.Invoke(), server );
+			Dispatch.Install<SteamParentalSettingsChanged_t>(x => OnSettingsChanged?.Invoke(), server);
 		}
 
 		/// <summary>
@@ -44,21 +40,33 @@ namespace Steamworks
 		/// <summary>
 		/// 
 		/// </summary>
-		public static bool IsAppBlocked( AppId app ) => Internal.BIsAppBlocked( app.Value );
+		public static bool IsAppBlocked(AppId app)
+		{
+			return Internal.BIsAppBlocked(app.Value);
+		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public static bool BIsAppInBlockList( AppId app ) => Internal.BIsAppInBlockList( app.Value );
+		public static bool BIsAppInBlockList(AppId app)
+		{
+			return Internal.BIsAppInBlockList(app.Value);
+		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public static bool IsFeatureBlocked( ParentalFeature feature ) => Internal.BIsFeatureBlocked( feature );
+		public static bool IsFeatureBlocked(ParentalFeature feature)
+		{
+			return Internal.BIsFeatureBlocked(feature);
+		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public static bool BIsFeatureInBlockList( ParentalFeature feature ) => Internal.BIsFeatureInBlockList( feature );
+		public static bool BIsFeatureInBlockList(ParentalFeature feature)
+		{
+			return Internal.BIsFeatureInBlockList(feature);
+		}
 	}
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
-
-namespace Steamworks.Data
+﻿namespace Steamworks.Data
 {
 	public struct GameId
 	{
@@ -32,14 +26,8 @@ namespace Steamworks.Data
 		*/
 		public ulong Value;
 
-		public static implicit operator GameId( ulong value )
-		{
-			return new GameId { Value = value };
-		}
+		public static implicit operator GameId(ulong value) => new GameId { Value = value };
 
-		public static implicit operator ulong( GameId value )
-		{
-			return value.Value;
-		}
+		public static implicit operator ulong(GameId value) => value.Value;
 	}
 }

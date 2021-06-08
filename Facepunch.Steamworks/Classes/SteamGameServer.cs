@@ -1,8 +1,5 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Steamworks.Data;
+using System.Runtime.InteropServices;
 
 
 namespace Steamworks
@@ -11,30 +8,30 @@ namespace Steamworks
 	{
 		public static class Native
 		{
-			[DllImport( Platform.LibraryName, EntryPoint = "SteamGameServer_RunCallbacks", CallingConvention = CallingConvention.Cdecl )]
+			[DllImport(Platform.LibraryName, EntryPoint = "SteamGameServer_RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void SteamGameServer_RunCallbacks();
-			
-			[DllImport( Platform.LibraryName, EntryPoint = "SteamGameServer_Shutdown", CallingConvention = CallingConvention.Cdecl )]
+
+			[DllImport(Platform.LibraryName, EntryPoint = "SteamGameServer_Shutdown", CallingConvention = CallingConvention.Cdecl)]
 			public static extern void SteamGameServer_Shutdown();
-			
-			[DllImport( Platform.LibraryName, EntryPoint = "SteamGameServer_GetHSteamPipe", CallingConvention = CallingConvention.Cdecl )]
+
+			[DllImport(Platform.LibraryName, EntryPoint = "SteamGameServer_GetHSteamPipe", CallingConvention = CallingConvention.Cdecl)]
 			public static extern HSteamPipe SteamGameServer_GetHSteamPipe();
-			
+
 		}
-		static public void RunCallbacks()
+		public static void RunCallbacks()
 		{
 			Native.SteamGameServer_RunCallbacks();
 		}
-		
-		static public void Shutdown()
+
+		public static void Shutdown()
 		{
 			Native.SteamGameServer_Shutdown();
 		}
-		
-		static public HSteamPipe GetHSteamPipe()
+
+		public static HSteamPipe GetHSteamPipe()
 		{
 			return Native.SteamGameServer_GetHSteamPipe();
 		}
-		
+
 	}
 }

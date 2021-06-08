@@ -1,29 +1,27 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Exposes a wide range of information and actions for applications and Downloadable Content (DLC).
 	/// </summary>
-	public class SteamApps : SteamSharedClass<SteamApps>
+	public class SteamApps: SteamSharedClass<SteamApps>
 	{
 		public static ISteamApps Internal => Interface as ISteamApps;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamApps( server ) );
+			this.SetInterface(server, new ISteamApps(server));
 		}
 
 		public static void InstallEvents()
 		{
-			Dispatch.Install<DlcInstalled_t>( x => OnDlcInstalled?.Invoke( x.AppID ) );
-			Dispatch.Install<NewUrlLaunchParameters_t>( x => OnNewLaunchParameters?.Invoke() );
+			Dispatch.Install<DlcInstalled_t>(x => OnDlcInstalled?.Invoke(x.AppID));
+			Dispatch.Install<NewUrlLaunchParameters_t>(x => OnNewLaunchParameters?.Invoke());
 		}
 
 		/// <summary>
@@ -74,28 +72,34 @@ namespace Steamworks
 		/// <summary>
 		/// Gets a list of the languages the current app supports.
 		/// </summary>
-		public static string[] AvailableLanguages => Internal.GetAvailableGameLanguages().Split( new[] { ',' }, StringSplitOptions.RemoveEmptyEntries );
+		public static string[] AvailableLanguages => Internal.GetAvailableGameLanguages().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
 		/// <summary>
 		/// Checks if the active user is subscribed to a specified AppId.
 		/// Only use this if you need to check ownership of another game related to yours, a demo for example.
 		/// </summary>
-		public static bool IsSubscribedToApp( AppId appid ) => Internal.BIsSubscribedApp( appid.Value );
+		public static bool IsSubscribedToApp(AppId appid)
+		{
+			return Internal.BIsSubscribedApp(appid.Value);
+		}
 
 		/// <summary>
 		/// Checks if the user owns a specific DLC and if the DLC is installed
 		/// </summary>
-		public static bool IsDlcInstalled( AppId appid ) => Internal.BIsDlcInstalled( appid.Value );
+		public static bool IsDlcInstalled(AppId appid)
+		{
+			return Internal.BIsDlcInstalled(appid.Value);
+		}
 
 		/// <summary>
 		/// Returns the time of the purchase of the app
 		/// </summary>
-		public static DateTime PurchaseTime( AppId appid = default )
+		public static DateTime PurchaseTime(AppId appid = default)
 		{
-			if ( appid == 0 )
+			if (appid == 0)
 				appid = SteamClient.AppId;
 
-			return Epoch.ToDateTime(Internal.GetEarliestPurchaseUnixTime(appid.Value ) );
+			return Epoch.ToDateTime(Internal.GetEarliestPurchaseUnixTime(appid.Value));
 		}
 
 		/// <summary>
@@ -110,12 +114,12 @@ namespace Steamworks
 		/// </summary>
 		public static IEnumerable<DlcInformation> DlcInformation()
 		{
-			var appid = default( AppId );
+			var appid = default(AppId);
 			var available = false;
 
-			for ( int i = 0; i < Internal.GetDLCCount(); i++ )
+			for (var i = 0; i < Internal.GetDLCCount(); i++)
 			{
-				if ( !Internal.BGetDLCDataByIndex( i, ref appid, ref available, out var strVal ) )
+				if (!Internal.BGetDLCDataByIndex(i, ref appid, ref available, out var strVal))
 					continue;
 
 				yield return new DlcInformation
@@ -130,12 +134,18 @@ namespace Steamworks
 		/// <summary>
 		/// Install/Uninstall control for optional DLC
 		/// </summary>
-		public static void InstallDlc( AppId appid ) => Internal.InstallDLC( appid.Value );
+		public static void InstallDlc(AppId appid)
+		{
+			Internal.InstallDLC(appid.Value);
+		}
 
 		/// <summary>
 		/// Install/Uninstall control for optional DLC
 		/// </summary>
-		public static void UninstallDlc( AppId appid ) => Internal.UninstallDLC( appid.Value );
+		public static void UninstallDlc(AppId appid)
+		{
+			Internal.UninstallDLC(appid.Value);
+		}
 
 		/// <summary>
 		/// Returns null if we're not on a beta branch, else the name of the branch
@@ -144,7 +154,7 @@ namespace Steamworks
 		{
 			get
 			{
-				if ( !Internal.GetCurrentBetaName( out var strVal ) )
+				if (!Internal.GetCurrentBetaName(out var strVal))
 					return null;
 
 				return strVal;
@@ -157,20 +167,23 @@ namespace Steamworks
 		/// If you detect the game is out-of-date(for example, by having the client detect a version mismatch with a server),
 		/// you can call use MarkContentCorrupt to force a verify, show a message to the user, and then quit.
 		/// </summary>
-		public static void MarkContentCorrupt( bool missingFilesOnly ) => Internal.MarkContentCorrupt( missingFilesOnly );
+		public static void MarkContentCorrupt(bool missingFilesOnly)
+		{
+			Internal.MarkContentCorrupt(missingFilesOnly);
+		}
 
 		/// <summary>
 		/// Gets a list of all installed depots for a given App ID in mount order
 		/// </summary>
-		public static IEnumerable<DepotId> InstalledDepots( AppId appid = default )
+		public static IEnumerable<DepotId> InstalledDepots(AppId appid = default)
 		{
-			if ( appid == 0 )
+			if (appid == 0)
 				appid = SteamClient.AppId;
 
 			var depots = new DepotId_t[32];
-			uint count = Internal.GetInstalledDepots( appid.Value, depots, (uint) depots.Length );
+			var count = Internal.GetInstalledDepots(appid.Value, depots, (uint)depots.Length);
 
-			for ( int i = 0; i < count; i++ )
+			for (var i = 0; i < count; i++)
 			{
 				yield return new DepotId { Value = depots[i].Value };
 			}
@@ -180,12 +193,12 @@ namespace Steamworks
 		/// Gets the install folder for a specific AppID.
 		/// This works even if the application is not installed, based on where the game would be installed with the default Steam library location.
 		/// </summary>
-		public static string AppInstallDir( AppId appid = default )
+		public static string AppInstallDir(AppId appid = default)
 		{
-			if ( appid == 0 )
+			if (appid == 0)
 				appid = SteamClient.AppId;
 
-			if ( Internal.GetAppInstallDir( appid.Value, out var strVal ) == 0 )
+			if (Internal.GetAppInstallDir(appid.Value, out var strVal) == 0)
 				return null;
 
 			return strVal;
@@ -194,7 +207,10 @@ namespace Steamworks
 		/// <summary>
 		/// The app may not actually be owned by the current user, they may have it left over from a free weekend, etc.
 		/// </summary>
-		public static bool IsAppInstalled( AppId appid ) => Internal.BIsAppInstalled( appid.Value );
+		public static bool IsAppInstalled(AppId appid)
+		{
+			return Internal.BIsAppInstalled(appid.Value);
+		}
 
 		/// <summary>
 		/// Gets the Steam ID of the original owner of the current app. If it's different from the current user then it is borrowed..
@@ -207,17 +223,20 @@ namespace Steamworks
 		/// Parameter names starting with an underscore '_' are reserved for steam features -- they can be queried by the game, 
 		/// but it is advised that you not param names beginning with an underscore for your own features.
 		/// </summary>
-		public static string GetLaunchParam( string param ) => Internal.GetLaunchQueryParam( param );
+		public static string GetLaunchParam(string param)
+		{
+			return Internal.GetLaunchQueryParam(param);
+		}
 
 		/// <summary>
 		/// Gets the download progress for optional DLC.
 		/// </summary>
-		public static DownloadProgress DlcDownloadProgress( AppId appid )
+		public static DownloadProgress DlcDownloadProgress(AppId appid)
 		{
 			ulong punBytesDownloaded = 0;
 			ulong punBytesTotal = 0;
 
-			if ( !Internal.GetDlcDownloadProgress( appid.Value, ref punBytesDownloaded, ref punBytesTotal ) )
+			if (!Internal.GetDlcDownloadProgress(appid.Value, ref punBytesDownloaded, ref punBytesTotal))
 				return default;
 
 			return new DownloadProgress { BytesDownloaded = punBytesDownloaded, BytesTotal = punBytesTotal, Active = true };
@@ -234,18 +253,18 @@ namespace Steamworks
 		/// Asynchronously retrieves metadata details about a specific file in the depot manifest.
 		/// Currently provides:
 		/// </summary>
-		public static async Task<FileDetails?> GetFileDetailsAsync( string filename )
+		public static async Task<FileDetails?> GetFileDetailsAsync(string filename)
 		{
-			var r = await Internal.GetFileDetails( filename );
+			var r = await Internal.GetFileDetails(filename);
 
-			if ( !r.HasValue || r.Value.Result != Result.OK )
+			if (!r.HasValue || r.Value.Result != Result.OK)
 				return null;
 
 			return new FileDetails
 			{
 				SizeInBytes = r.Value.FileSize,
 				Flags = r.Value.Flags,
-				Sha1 = string.Join( "", r.Value.FileSHA.Select( x => x.ToString( "x" ) ) )
+				Sha1 = string.Join("", r.Value.FileSHA.Select(x => x.ToString("x")))
 			};
 		}
 
@@ -261,7 +280,7 @@ namespace Steamworks
 		{
 			get
 			{
-				Internal.GetLaunchCommandLine( out var strVal );
+				Internal.GetLaunchCommandLine(out var strVal);
 				return strVal;
 			}
 		}
@@ -269,21 +288,21 @@ namespace Steamworks
 		/// <summary>
 		///  check if game is a timed trial with limited playtime
 		/// </summary>
-		public static bool IsTimedTrial( out int secondsAllowed, out int secondsPlayed )
-        {
+		public static bool IsTimedTrial(out int secondsAllowed, out int secondsPlayed)
+		{
 			uint a = 0;
 			uint b = 0;
 			secondsAllowed = 0;
 			secondsPlayed = 0;
 
-			if ( !Internal.BIsTimedTrial( ref a, ref b ) )
+			if (!Internal.BIsTimedTrial(ref a, ref b))
 				return false;
 
-			secondsAllowed = (int) a;
-			secondsPlayed = (int) b;
+			secondsAllowed = (int)a;
+			secondsPlayed = (int)b;
 
 			return true;
-        }
+		}
 
 	}
 }

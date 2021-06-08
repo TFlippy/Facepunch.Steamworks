@@ -3,7 +3,7 @@
 namespace Steamworks.Data
 {
 	[Flags]
-	public enum SendType : int
+	public enum SendType: int
 	{
 		/// <summary>
 		/// Send the message unreliably. Can be lost.  Messages *can* be larger than a

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Steamworks.Data;
+﻿using Steamworks.Data;
+using System.Collections.Generic;
 
 namespace Steamworks.Ugc
 {
-	public struct ResultPage : System.IDisposable
+	public struct ResultPage: System.IDisposable
 	{
 		public UGCQueryHandle_t Handle;
 
@@ -23,84 +23,84 @@ namespace Steamworks.Ugc
 			get
 			{
 
-				var details = default( SteamUGCDetails_t );
-				for ( uint i=0; i< ResultCount; i++ )
+				var details = default(SteamUGCDetails_t);
+				for (uint i = 0; i < this.ResultCount; i++)
 				{
-					if ( SteamUGC.Internal.GetQueryUGCResult( Handle, i, ref details ) )
+					if (SteamUGC.Internal.GetQueryUGCResult(this.Handle, i, ref details))
 					{
-						var item = Item.From( details );
+						var item = Item.From(details);
 
 
-						if ( ReturnsDefaultStats )
+						if (this.ReturnsDefaultStats)
 						{
-							item.NumSubscriptions = GetStat( i, ItemStatistic.NumSubscriptions );
-							item.NumFavorites = GetStat( i, ItemStatistic.NumFavorites );
-							item.NumFollowers = GetStat( i, ItemStatistic.NumFollowers );
-							item.NumUniqueSubscriptions = GetStat( i, ItemStatistic.NumUniqueSubscriptions );
-							item.NumUniqueFavorites = GetStat( i, ItemStatistic.NumUniqueFavorites );
-							item.NumUniqueFollowers = GetStat( i, ItemStatistic.NumUniqueFollowers );
-							item.NumUniqueWebsiteViews = GetStat( i, ItemStatistic.NumUniqueWebsiteViews );
-							item.ReportScore = GetStat( i, ItemStatistic.ReportScore );
-							item.NumSecondsPlayed = GetStat( i, ItemStatistic.NumSecondsPlayed );
-							item.NumPlaytimeSessions = GetStat( i, ItemStatistic.NumPlaytimeSessions );
-							item.NumComments = GetStat( i, ItemStatistic.NumComments );
-							item.NumSecondsPlayedDuringTimePeriod = GetStat( i, ItemStatistic.NumSecondsPlayedDuringTimePeriod );
-							item.NumPlaytimeSessionsDuringTimePeriod = GetStat( i, ItemStatistic.NumPlaytimeSessionsDuringTimePeriod );
+							item.NumSubscriptions = this.GetStat(i, ItemStatistic.NumSubscriptions);
+							item.NumFavorites = this.GetStat(i, ItemStatistic.NumFavorites);
+							item.NumFollowers = this.GetStat(i, ItemStatistic.NumFollowers);
+							item.NumUniqueSubscriptions = this.GetStat(i, ItemStatistic.NumUniqueSubscriptions);
+							item.NumUniqueFavorites = this.GetStat(i, ItemStatistic.NumUniqueFavorites);
+							item.NumUniqueFollowers = this.GetStat(i, ItemStatistic.NumUniqueFollowers);
+							item.NumUniqueWebsiteViews = this.GetStat(i, ItemStatistic.NumUniqueWebsiteViews);
+							item.ReportScore = this.GetStat(i, ItemStatistic.ReportScore);
+							item.NumSecondsPlayed = this.GetStat(i, ItemStatistic.NumSecondsPlayed);
+							item.NumPlaytimeSessions = this.GetStat(i, ItemStatistic.NumPlaytimeSessions);
+							item.NumComments = this.GetStat(i, ItemStatistic.NumComments);
+							item.NumSecondsPlayedDuringTimePeriod = this.GetStat(i, ItemStatistic.NumSecondsPlayedDuringTimePeriod);
+							item.NumPlaytimeSessionsDuringTimePeriod = this.GetStat(i, ItemStatistic.NumPlaytimeSessionsDuringTimePeriod);
 						}
 
-						if ( SteamUGC.Internal.GetQueryUGCPreviewURL( Handle, i, out string preview ) )
+						if (SteamUGC.Internal.GetQueryUGCPreviewURL(this.Handle, i, out var preview))
 						{
 							item.PreviewImageUrl = preview;
 						}
 
-						if ( ReturnsKeyValueTags )
+						if (this.ReturnsKeyValueTags)
 						{
-							var keyValueTagsCount = SteamUGC.Internal.GetQueryUGCNumKeyValueTags( Handle, i );
+							var keyValueTagsCount = SteamUGC.Internal.GetQueryUGCNumKeyValueTags(this.Handle, i);
 
-							item.KeyValueTags = new Dictionary<string, string>( (int)keyValueTagsCount );
-							for ( uint j = 0; j < keyValueTagsCount; j++ )
+							item.KeyValueTags = new Dictionary<string, string>((int)keyValueTagsCount);
+							for (uint j = 0; j < keyValueTagsCount; j++)
 							{
 								string key, value;
-								if ( SteamUGC.Internal.GetQueryUGCKeyValueTag( Handle, i, j, out key, out value ) )
+								if (SteamUGC.Internal.GetQueryUGCKeyValueTag(this.Handle, i, j, out key, out value))
 									item.KeyValueTags[key] = value;
 							}
 						}
 
-						if (ReturnsMetadata)
+						if (this.ReturnsMetadata)
 						{
 							string metadata;
-							if (SteamUGC.Internal.GetQueryUGCMetadata(Handle, i, out metadata))
+							if (SteamUGC.Internal.GetQueryUGCMetadata(this.Handle, i, out metadata))
 							{
 								item.Metadata = metadata;
 							}
 						}
 
-						uint numChildren = item.details.NumChildren;
-						if ( ReturnsChildren && numChildren > 0 )
+						var numChildren = item.details.NumChildren;
+						if (this.ReturnsChildren && numChildren > 0)
 						{
 							var children = new PublishedFileId[numChildren];
-							if ( SteamUGC.Internal.GetQueryUGCChildren( Handle, i, children, numChildren ) )
+							if (SteamUGC.Internal.GetQueryUGCChildren(this.Handle, i, children, numChildren))
 							{
 								item.Children = children;
 							}
 						}
 
-						if ( ReturnsAdditionalPreviews )
+						if (this.ReturnsAdditionalPreviews)
 						{
-							var previewsCount = SteamUGC.Internal.GetQueryUGCNumAdditionalPreviews( Handle, i );
-							if ( previewsCount > 0 )
+							var previewsCount = SteamUGC.Internal.GetQueryUGCNumAdditionalPreviews(this.Handle, i);
+							if (previewsCount > 0)
 							{
 								item.AdditionalPreviews = new UgcAdditionalPreview[previewsCount];
-								for ( uint j = 0; j < previewsCount; j++ )
+								for (uint j = 0; j < previewsCount; j++)
 								{
 									string previewUrlOrVideo;
 									string originalFileName; //what is this???
 									ItemPreviewType previewType = default;
-									if ( SteamUGC.Internal.GetQueryUGCAdditionalPreview(
-										Handle, i, j, out previewUrlOrVideo, out originalFileName, ref previewType ) )
+									if (SteamUGC.Internal.GetQueryUGCAdditionalPreview(
+										this.Handle, i, j, out previewUrlOrVideo, out originalFileName, ref previewType))
 									{
-										item.AdditionalPreviews[j] = new UgcAdditionalPreview( 
-											previewUrlOrVideo, originalFileName, previewType );
+										item.AdditionalPreviews[j] = new UgcAdditionalPreview(
+											previewUrlOrVideo, originalFileName, previewType);
 									}
 								}
 							}
@@ -112,11 +112,11 @@ namespace Steamworks.Ugc
 			}
 		}
 
-		private ulong GetStat( uint index, ItemStatistic stat )
+		private ulong GetStat(uint index, ItemStatistic stat)
 		{
 			ulong val = 0;
 
-			if ( !SteamUGC.Internal.GetQueryUGCStatistic( Handle, index, stat, ref val ) )
+			if (!SteamUGC.Internal.GetQueryUGCStatistic(this.Handle, index, stat, ref val))
 				return 0;
 
 			return val;
@@ -124,10 +124,10 @@ namespace Steamworks.Ugc
 
 		public void Dispose()
 		{
-			if ( Handle > 0 )
+			if (this.Handle > 0)
 			{
-				SteamUGC.Internal.ReleaseQueryUGCRequest( Handle );
-				Handle = 0;
+				SteamUGC.Internal.ReleaseQueryUGCRequest(this.Handle);
+				this.Handle = 0;
 			}
 		}
 	}

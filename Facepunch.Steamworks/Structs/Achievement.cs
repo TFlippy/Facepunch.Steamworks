@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Steamworks.Data
@@ -10,12 +7,15 @@ namespace Steamworks.Data
 	{
 		public string Value;
 
-		public Achievement( string name )
+		public Achievement(string name)
 		{
-			Value = name;
+			this.Value = name;
 		}
 
-		public override string ToString() => Value;
+		public override string ToString()
+		{
+			return this.Value;
+		}
 
 		/// <summary>
 		/// True if unlocked
@@ -25,16 +25,16 @@ namespace Steamworks.Data
 			get
 			{
 				var state = false;
-				SteamUserStats.Internal.GetAchievement( Value, ref state );
+				SteamUserStats.Internal.GetAchievement(this.Value, ref state);
 				return state;
 			}
 		}
 
-		public string Identifier => Value;
+		public string Identifier => this.Value;
 
-		public string Name => SteamUserStats.Internal.GetAchievementDisplayAttribute( Value, "name" );
+		public string Name => SteamUserStats.Internal.GetAchievementDisplayAttribute(this.Value, "name");
 
-		public string Description => SteamUserStats.Internal.GetAchievementDisplayAttribute( Value, "desc" );
+		public string Description => SteamUserStats.Internal.GetAchievementDisplayAttribute(this.Value, "desc");
 
 
 		/// <summary>
@@ -47,10 +47,10 @@ namespace Steamworks.Data
 				var state = false;
 				uint time = 0;
 
-				if ( !SteamUserStats.Internal.GetAchievementAndUnlockTime( Value, ref state, ref time ) || !state )
+				if (!SteamUserStats.Internal.GetAchievementAndUnlockTime(this.Value, ref state, ref time) || !state)
 					return null;
 
-				return Epoch.ToDateTime( time );
+				return Epoch.ToDateTime(time);
 			}
 		}
 
@@ -60,24 +60,24 @@ namespace Steamworks.Data
 		/// </summary>
 		public Image? GetIcon()
 		{
-			return SteamUtils.GetImage( SteamUserStats.Internal.GetAchievementIcon( Value ) );
+			return SteamUtils.GetImage(SteamUserStats.Internal.GetAchievementIcon(this.Value));
 		}
 
 
 		/// <summary>
 		/// Gets the icon of the achievement, waits for it to load if we have to
 		/// </summary>
-		public async Task<Image?> GetIconAsync( int timeout = 5000 )
+		public async Task<Image?> GetIconAsync(int timeout = 5000)
 		{
-			var i = SteamUserStats.Internal.GetAchievementIcon( Value );
-			if ( i != 0 ) return SteamUtils.GetImage( i );
+			var i = SteamUserStats.Internal.GetAchievementIcon(this.Value);
+			if (i != 0) return SteamUtils.GetImage(i);
 
-			var ident = Identifier;
-			bool gotCallback = false;
+			var ident = this.Identifier;
+			var gotCallback = false;
 
-			void f( string x, int icon )
+			void f(string x, int icon)
 			{
-				if ( x != ident ) return;
+				if (x != ident) return;
 				i = icon;
 				gotCallback = true;
 			}
@@ -86,19 +86,19 @@ namespace Steamworks.Data
 			{
 				SteamUserStats.OnAchievementIconFetched += f;
 
-				int waited = 0;
-				while ( !gotCallback )
+				var waited = 0;
+				while (!gotCallback)
 				{
-					await Task.Delay( 10 );
+					await Task.Delay(10);
 					waited += 10;
 
 					// Time out after x milliseconds
-					if ( waited > timeout )
+					if (waited > timeout)
 						return null;
 				}
 
-				if ( i == 0 ) return null;
-				return SteamUtils.GetImage( i );
+				if (i == 0) return null;
+				return SteamUtils.GetImage(i);
 			}
 			finally
 			{
@@ -115,7 +115,7 @@ namespace Steamworks.Data
 			{
 				float pct = 0;
 
-				if ( !SteamUserStats.Internal.GetAchievementAchievedPercent( Value, ref pct ) )
+				if (!SteamUserStats.Internal.GetAchievementAchievedPercent(this.Value, ref pct))
 					return -1.0f;
 
 				return pct / 100.0f;
@@ -125,11 +125,11 @@ namespace Steamworks.Data
 		/// <summary>
 		/// Make this achievement earned
 		/// </summary>
-		public bool Trigger( bool apply = true )
+		public bool Trigger(bool apply = true)
 		{
-			var r = SteamUserStats.Internal.SetAchievement( Value );
+			var r = SteamUserStats.Internal.SetAchievement(this.Value);
 
-			if ( apply && r )
+			if (apply && r)
 			{
 				SteamUserStats.Internal.StoreStats();
 			}
@@ -142,7 +142,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public bool Clear()
 		{
-			return SteamUserStats.Internal.ClearAchievement( Value );
+			return SteamUserStats.Internal.ClearAchievement(this.Value);
 		}
 	}
 }

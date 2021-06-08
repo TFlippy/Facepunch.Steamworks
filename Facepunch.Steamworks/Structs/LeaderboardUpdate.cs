@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Steamworks.Data
+﻿namespace Steamworks.Data
 {
 	public struct LeaderboardUpdate
 	{
@@ -8,15 +6,17 @@ namespace Steamworks.Data
 		public bool Changed;
 		public int NewGlobalRank;
 		public int OldGlobalRank;
-		public int RankChange => NewGlobalRank - OldGlobalRank;
+		public int RankChange => this.NewGlobalRank - this.OldGlobalRank;
 
-		public static LeaderboardUpdate From( LeaderboardScoreUploaded_t e ) =>
-			new LeaderboardUpdate
+		public static LeaderboardUpdate From(LeaderboardScoreUploaded_t e)
+		{
+			return new LeaderboardUpdate
 			{
 				Score = e.Score,
 				Changed = e.ScoreChanged == 1,
 				NewGlobalRank = e.GlobalRankNew,
 				OldGlobalRank = e.GlobalRankPrevious
 			};
+		}
 	}
 }

@@ -1,10 +1,6 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
@@ -33,13 +29,13 @@ namespace Steamworks
 
 		public override void InitializeInterface(bool server)
 		{
-			SetInterface(server, new ISteamNetworkingSockets(server));
-			InstallEvents(server);
+			this.SetInterface(server, new ISteamNetworkingSockets(server));
+			this.InstallEvents(server);
 		}
 
 		#region SocketInterface
 
-		static readonly Dictionary<uint, SocketManager> SocketInterfaces = new Dictionary<uint, SocketManager>();
+		private static readonly Dictionary<uint, SocketManager> SocketInterfaces = new Dictionary<uint, SocketManager>();
 
 		public static SocketManager GetSocketManager(uint id)
 		{
@@ -60,7 +56,7 @@ namespace Steamworks
 		#endregion
 
 		#region ConnectionInterface
-		static readonly Dictionary<uint, ConnectionManager> ConnectionInterfaces = new Dictionary<uint, ConnectionManager>();
+		private static readonly Dictionary<uint, ConnectionManager> ConnectionInterfaces = new Dictionary<uint, ConnectionManager>();
 
 		public static ConnectionManager GetConnectionManager(uint id)
 		{

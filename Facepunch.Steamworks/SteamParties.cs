@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
@@ -13,20 +10,20 @@ namespace Steamworks
 	/// will show a beacon in the selected group and allow that many users to “follow” the beacon to your party. 
 	/// Adjust the number of open slots if other players join through alternate matchmaking methods.
 	/// </summary>
-	public class SteamParties : SteamClientClass<SteamParties>
+	public class SteamParties: SteamClientClass<SteamParties>
 	{
 		public static ISteamParties Internal => Interface as ISteamParties;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamParties( server ) );
-			InstallEvents( server );
+			this.SetInterface(server, new ISteamParties(server));
+			this.InstallEvents(server);
 		}
 
-		public void InstallEvents( bool server )
+		public void InstallEvents(bool server)
 		{
-			Dispatch.Install<AvailableBeaconLocationsUpdated_t>( x => OnBeaconLocationsUpdated?.Invoke(), server );
-			Dispatch.Install<ActiveBeaconsUpdated_t>( x => OnActiveBeaconsUpdated?.Invoke(), server );
+			Dispatch.Install<AvailableBeaconLocationsUpdated_t>(x => OnBeaconLocationsUpdated?.Invoke(), server);
+			Dispatch.Install<ActiveBeaconsUpdated_t>(x => OnActiveBeaconsUpdated?.Invoke(), server);
 		}
 
 		/// <summary>
@@ -40,17 +37,17 @@ namespace Steamworks
 		public static event Action OnActiveBeaconsUpdated;
 
 
-		public static int ActiveBeaconCount => (int) Internal.GetNumActiveBeacons();
+		public static int ActiveBeaconCount => (int)Internal.GetNumActiveBeacons();
 
 		public static IEnumerable<PartyBeacon> ActiveBeacons
 		{
 			get
 			{
-				for ( uint i = 0; i < ActiveBeaconCount; i++ )
+				for (uint i = 0; i < ActiveBeaconCount; i++)
 				{
 					yield return new PartyBeacon
 					{
-						Id = Internal.GetBeaconByIndex( i )
+						Id = Internal.GetBeaconByIndex(i)
 					};
 				}
 			}

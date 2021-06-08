@@ -1,30 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
-
-namespace Steamworks
+﻿namespace Steamworks
 {
 	public struct AppId
 	{
 		public uint Value;
 
-		public override string ToString() => Value.ToString();
-
-		public static implicit operator AppId( uint value )
+		public override string ToString()
 		{
-			return new AppId{ Value = value };
+			return this.Value.ToString();
 		}
 
-		public static implicit operator AppId( int value )
-		{
-			return new AppId { Value = (uint) value };
-		}
+		public static implicit operator AppId(uint value) => new AppId { Value = value };
 
-		public static implicit operator uint( AppId value )
-		{
-			return value.Value;
-		}
+		public static implicit operator AppId(int value) => new AppId { Value = (uint)value };
+
+		public static implicit operator uint(AppId value) => value.Value;
 	}
 }

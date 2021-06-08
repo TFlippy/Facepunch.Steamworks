@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
+﻿using System.Threading.Tasks;
 
 namespace Steamworks
 {
-	public class SteamServerStats : SteamServerClass<SteamServerStats>
+	public class SteamServerStats: SteamServerClass<SteamServerStats>
 	{
 		public static ISteamGameServerStats Internal => Interface as ISteamGameServerStats;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamGameServerStats( server ) );
+			this.SetInterface(server, new ISteamGameServerStats(server));
 		}
-		
+
 
 		/// <summary>
 		/// Downloads stats for the user
 		/// If the user has no stats will return fail
 		/// these stats will only be auto-updated for clients playing on the server
 		/// </summary>
-		public static async Task<Result> RequestUserStatsAsync( SteamId steamid )
+		public static async Task<Result> RequestUserStatsAsync(SteamId steamid)
 		{
-			var r = await Internal.RequestUserStats( steamid );
-			if ( !r.HasValue ) return Result.Fail;
+			var r = await Internal.RequestUserStats(steamid);
+			if (!r.HasValue) return Result.Fail;
 			return r.Value.Result;
 		}
 
@@ -33,18 +28,18 @@ namespace Steamworks
 		/// Set the named stat for this user. Setting stats should follow the rules
 		/// you defined in Steamworks.
 		/// </summary>
-		public static bool SetInt( SteamId steamid, string name, int stat )
+		public static bool SetInt(SteamId steamid, string name, int stat)
 		{
-			return Internal.SetUserStat( steamid, name, stat );
+			return Internal.SetUserStat(steamid, name, stat);
 		}
 
 		/// <summary>
 		/// Set the named stat for this user. Setting stats should follow the rules
 		/// you defined in Steamworks.
 		/// </summary>
-		public static bool SetFloat( SteamId steamid, string name, float stat )
+		public static bool SetFloat(SteamId steamid, string name, float stat)
 		{
-			return Internal.SetUserStat( steamid, name, stat );
+			return Internal.SetUserStat(steamid, name, stat);
 		}
 
 		/// <summary>
@@ -52,11 +47,11 @@ namespace Steamworks
 		/// defaultValue. You should have called Refresh for this userid - which downloads
 		/// the stats from the backend. If you didn't call it this will always return defaultValue.
 		/// </summary>
-		public static int GetInt( SteamId steamid, string name, int defaultValue = 0 )
+		public static int GetInt(SteamId steamid, string name, int defaultValue = 0)
 		{
-			int data = defaultValue;
+			var data = defaultValue;
 
-			if ( !Internal.GetUserStat( steamid, name, ref data ) )
+			if (!Internal.GetUserStat(steamid, name, ref data))
 				return defaultValue;
 
 			return data;
@@ -67,11 +62,11 @@ namespace Steamworks
 		/// defaultValue. You should have called Refresh for this userid - which downloads
 		/// the stats from the backend. If you didn't call it this will always return defaultValue.
 		/// </summary>
-		public static float GetFloat( SteamId steamid, string name, float defaultValue = 0 )
+		public static float GetFloat(SteamId steamid, string name, float defaultValue = 0)
 		{
-			float data = defaultValue;
+			var data = defaultValue;
 
-			if ( !Internal.GetUserStat( steamid, name, ref data ) )
+			if (!Internal.GetUserStat(steamid, name, ref data))
 				return defaultValue;
 
 			return data;
@@ -81,28 +76,28 @@ namespace Steamworks
 		/// Unlocks the specified achievement for the specified user. Must have called Refresh on a steamid first.
 		/// Remember to use Commit after use.
 		/// </summary>
-		public static bool SetAchievement( SteamId steamid, string name )
+		public static bool SetAchievement(SteamId steamid, string name)
 		{
-			return Internal.SetUserAchievement( steamid, name );
+			return Internal.SetUserAchievement(steamid, name);
 		}
 
 		/// <summary>
 		/// Resets the unlock status of an achievement for the specified user. Must have called Refresh on a steamid first.
 		/// Remember to use Commit after use.
 		/// </summary>
-		public static bool ClearAchievement( SteamId steamid, string name )
+		public static bool ClearAchievement(SteamId steamid, string name)
 		{
-			return Internal.ClearUserAchievement( steamid, name );
+			return Internal.ClearUserAchievement(steamid, name);
 		}
 
 		/// <summary>
 		/// Return true if available, exists and unlocked
 		/// </summary>
-		public static bool GetAchievement( SteamId steamid, string name )
+		public static bool GetAchievement(SteamId steamid, string name)
 		{
-			bool achieved = false;
+			var achieved = false;
 
-			if ( !Internal.GetUserAchievement( steamid, name, ref achieved ) )
+			if (!Internal.GetUserAchievement(steamid, name, ref achieved))
 				return false;
 
 			return achieved;
@@ -113,10 +108,10 @@ namespace Steamworks
 		/// You can do that using this function. The callback will let you know if
 		/// your action succeeded, but most of the time you can fire and forget.
 		/// </summary>
-		public static async Task<Result> StoreUserStats( SteamId steamid )
+		public static async Task<Result> StoreUserStats(SteamId steamid)
 		{
-			var r = await Internal.StoreUserStats( steamid );
-			if ( !r.HasValue ) return Result.Fail;
+			var r = await Internal.StoreUserStats(steamid);
+			if (!r.HasValue) return Result.Fail;
 			return r.Value.Result;
 		}
 	}

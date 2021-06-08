@@ -3,13 +3,17 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks.Data
 {
-	[StructLayout( LayoutKind.Sequential )]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct Socket
 	{
 		public uint Id;
-		public override string ToString() => Id.ToString();
-		public static implicit operator Socket( uint value ) => new Socket() { Id = value };
-		public static implicit operator uint( Socket value ) => value.Id;
+		public override string ToString()
+		{
+			return this.Id.ToString();
+		}
+
+		public static implicit operator Socket(uint value) => new Socket() { Id = value };
+		public static implicit operator uint(Socket value) => value.Id;
 
 		/// <summary>
 		/// Destroy a listen socket.  All the connections that were accepting on the listen
@@ -17,13 +21,13 @@ namespace Steamworks.Data
 		/// </summary>
 		public bool Close()
 		{
-			return SteamNetworkingSockets.Internal.CloseListenSocket( Id );
+			return SteamNetworkingSockets.Internal.CloseListenSocket(this.Id);
 		}
 
 		public SocketManager Manager
 		{
-			get => SteamNetworkingSockets.GetSocketManager( Id );
-			set => SteamNetworkingSockets.SetSocketManager( Id, value );
+			get => SteamNetworkingSockets.GetSocketManager(this.Id);
+			set => SteamNetworkingSockets.SetSocketManager(this.Id, value);
 		}
 	}
 }

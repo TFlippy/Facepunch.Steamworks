@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
+﻿using Steamworks.Data;
+using System;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Undocumented Parental Settings
 	/// </summary>
-	public class SteamScreenshots : SteamClientClass<SteamScreenshots>
+	public class SteamScreenshots: SteamClientClass<SteamScreenshots>
 	{
 		public static ISteamScreenshots Internal => Interface as ISteamScreenshots;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamScreenshots( server ) );
+			this.SetInterface(server, new ISteamScreenshots(server));
 			InstallEvents();
 		}
 
 		public static void InstallEvents()
 		{
-			Dispatch.Install<ScreenshotRequested_t>( x => OnScreenshotRequested?.Invoke() );
-			Dispatch.Install<ScreenshotReady_t>( x =>
-			{
-				if ( x.Result != Result.OK )
-					OnScreenshotFailed?.Invoke( x.Result );
-				else
-					OnScreenshotReady?.Invoke( new Screenshot { Value = x.Local } );
-			} );
+			Dispatch.Install<ScreenshotRequested_t>(x => OnScreenshotRequested?.Invoke());
+			Dispatch.Install<ScreenshotReady_t>(x =>
+		   {
+			   if (x.Result != Result.OK)
+				   OnScreenshotFailed?.Invoke(x.Result);
+			   else
+				   OnScreenshotReady?.Invoke(new Screenshot { Value = x.Local });
+		   });
 		}
 
 		/// <summary>
@@ -53,12 +49,12 @@ namespace Steamworks
 		/// Writes a screenshot to the user's screenshot library given the raw image data, which must be in RGB format.
 		/// The return value is a handle that is valid for the duration of the game process and can be used to apply tags.
 		/// </summary>
-		public unsafe static Screenshot? WriteScreenshot( byte[] data, int width, int height )
+		public static unsafe Screenshot? WriteScreenshot(byte[] data, int width, int height)
 		{
-			fixed ( byte* ptr = data )
+			fixed (byte* ptr = data)
 			{
-				var handle = Internal.WriteScreenshot( (IntPtr)ptr, (uint)data.Length, width, height );
-				if ( handle.Value == 0 ) return null;
+				var handle = Internal.WriteScreenshot((IntPtr)ptr, (uint)data.Length, width, height);
+				if (handle.Value == 0) return null;
 
 				return new Screenshot { Value = handle };
 			}
@@ -70,10 +66,10 @@ namespace Steamworks
 		/// The return value is a handle that is valid for the duration of the game process and can be used to apply tags.
 		/// JPEG, TGA, and PNG formats are supported.
 		/// </summary>
-		public unsafe static Screenshot? AddScreenshot( string filename, string thumbnail, int width, int height )
+		public static unsafe Screenshot? AddScreenshot(string filename, string thumbnail, int width, int height)
 		{
-			var handle = Internal.AddScreenshotToLibrary( filename, thumbnail, width, height );
-			if ( handle.Value == 0 ) return null;
+			var handle = Internal.AddScreenshotToLibrary(filename, thumbnail, width, height);
+			if (handle.Value == 0) return null;
 
 			return new Screenshot { Value = handle };
 		}
@@ -83,7 +79,10 @@ namespace Steamworks
 		/// If screenshots are being hooked by the game then a 
 		/// ScreenshotRequested callback is sent back to the game instead. 
 		/// </summary>
-		public static void TriggerScreenshot() => Internal.TriggerScreenshot();
+		public static void TriggerScreenshot()
+		{
+			Internal.TriggerScreenshot();
+		}
 
 		/// <summary>
 		/// Toggles whether the overlay handles screenshots when the user presses the screenshot hotkey, or if the game handles them.
@@ -94,7 +93,7 @@ namespace Steamworks
 		public static bool Hooked
 		{
 			get => Internal.IsScreenshotsHooked();
-			set => Internal.HookScreenshots( value );
+			set => Internal.HookScreenshots(value);
 		}
 	}
 }

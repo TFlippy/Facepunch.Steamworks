@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using Steamworks.Data;
+using System;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Interface which provides access to a range of miscellaneous utility functions
 	/// </summary>
-	public class SteamUtils : SteamSharedClass<SteamUtils>
+	public class SteamUtils: SteamSharedClass<SteamUtils>
 	{
 		public static ISteamUtils Internal => Interface as ISteamUtils;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamUtils( server ) );
-			InstallEvents( server );
+			this.SetInterface(server, new ISteamUtils(server));
+			InstallEvents(server);
 		}
 
-		public static void InstallEvents( bool server )
+		public static void InstallEvents(bool server)
 		{
-			Dispatch.Install<IPCountry_t>( x => OnIpCountryChanged?.Invoke(), server );
-			Dispatch.Install<LowBatteryPower_t>( x => OnLowBatteryPower?.Invoke( x.MinutesBatteryLeft ), server );
-			Dispatch.Install<SteamShutdown_t>( x => SteamClosed(), server );
-			Dispatch.Install<GamepadTextInputDismissed_t>( x => OnGamepadTextInputDismissed?.Invoke( x.Submitted ), server );
+			Dispatch.Install<IPCountry_t>(x => OnIpCountryChanged?.Invoke(), server);
+			Dispatch.Install<LowBatteryPower_t>(x => OnLowBatteryPower?.Invoke(x.MinutesBatteryLeft), server);
+			Dispatch.Install<SteamShutdown_t>(x => SteamClosed(), server);
+			Dispatch.Install<GamepadTextInputDismissed_t>(x => OnGamepadTextInputDismissed?.Invoke(x.Submitted), server);
 		}
 
 		private static void SteamClosed()
@@ -72,7 +69,7 @@ namespace Steamworks
 		/// <summary>
 		/// Steam server time.  Number of seconds since January 1, 1970, GMT (i.e unix time)
 		/// </summary>
-		public static DateTime SteamServerTime => Epoch.ToDateTime( Internal.GetServerRealTime() );
+		public static DateTime SteamServerTime => Epoch.ToDateTime(Internal.GetServerRealTime());
 
 		/// <summary>
 		/// returns the 2 digit ISO 3166-1-alpha-2 format country code this client is running in (as looked up via an IP-to-location database)
@@ -85,35 +82,35 @@ namespace Steamworks
 		/// results are returned in RGBA format
 		/// the destination buffer size should be 4 * height * width * sizeof(char)
 		/// </summary>
-		public static bool GetImageSize( int image, out uint width, out uint height )
+		public static bool GetImageSize(int image, out uint width, out uint height)
 		{
 			width = 0;
 			height = 0;
-			return Internal.GetImageSize( image, ref width, ref height );
+			return Internal.GetImageSize(image, ref width, ref height);
 		}
 
 		/// <summary>
 		/// returns the image in RGBA format
 		/// </summary>
-		public static Data.Image? GetImage( int image )
+		public static Data.Image? GetImage(int image)
 		{
-			if ( image == -1 ) return null;
-			if ( image == 0 ) return null;
+			if (image == -1) return null;
+			if (image == 0) return null;
 
 			var i = new Data.Image();
 
-			if ( !GetImageSize( image, out i.Width, out i.Height ) )
+			if (!GetImageSize(image, out i.Width, out i.Height))
 				return null;
 
 			var size = i.Width * i.Height * 4;
 
-			var buf = Helpers.TakeBuffer( (int) size );
+			var buf = Helpers.TakeBuffer((int)size);
 
-			if ( !Internal.GetImageRGBA( image, buf, (int)size ) )
+			if (!Internal.GetImageRGBA(image, buf, (int)size))
 				return null;
 
 			i.Data = new byte[size];
-			Array.Copy( buf, 0, i.Data, 0, size );
+			Array.Copy(buf, 0, i.Data, 0, size);
 			return i;
 		}
 
@@ -125,9 +122,9 @@ namespace Steamworks
 		/// <summary>
 		/// Returns battery power [0-1]
 		/// </summary>
-		public static float CurrentBatteryPower => Math.Min( Internal.GetCurrentBatteryPower() / 100, 1.0f );
+		public static float CurrentBatteryPower => Math.Min(Internal.GetCurrentBatteryPower() / 100, 1.0f);
 
-		static NotificationPosition overlayNotificationPosition = NotificationPosition.BottomRight;
+		private static NotificationPosition overlayNotificationPosition = NotificationPosition.BottomRight;
 
 		/// <summary>
 		/// Sets the position where the overlay instance for the currently calling game should show notifications.
@@ -140,7 +137,7 @@ namespace Steamworks
 			set
 			{
 				overlayNotificationPosition = value;
-				Internal.SetOverlayNotificationPosition( value );
+				Internal.SetOverlayNotificationPosition(value);
 			}
 		}
 
@@ -167,13 +164,13 @@ namespace Steamworks
 		/// Asynchronous call to check if an executable file has been signed using the public key set on the signing tab
 		/// of the partner site, for example to refuse to load modified executable files.  
 		/// </summary>
-		public static async Task<CheckFileSignature> CheckFileSignatureAsync( string filename )
+		public static async Task<CheckFileSignature> CheckFileSignatureAsync(string filename)
 		{
-			var r = await Internal.CheckFileSignature( filename );
+			var r = await Internal.CheckFileSignature(filename);
 
-			if ( !r.HasValue )
+			if (!r.HasValue)
 			{
-				throw new System.Exception( "Something went wrong" );
+				throw new System.Exception("Something went wrong");
 			}
 
 			return r.Value.CheckFileSignature;
@@ -182,9 +179,9 @@ namespace Steamworks
 		/// <summary>
 		/// Activates the Big Picture text input dialog which only supports gamepad input
 		/// </summary>
-		public static bool ShowGamepadTextInput( GamepadTextInputMode inputMode, GamepadTextInputLineMode lineInputMode, string description, int maxChars, string existingText = "" )
+		public static bool ShowGamepadTextInput(GamepadTextInputMode inputMode, GamepadTextInputLineMode lineInputMode, string description, int maxChars, string existingText = "")
 		{
-			return Internal.ShowGamepadTextInput( inputMode, lineInputMode, description, (uint)maxChars, existingText );
+			return Internal.ShowGamepadTextInput(inputMode, lineInputMode, description, (uint)maxChars, existingText);
 		}
 
 		/// <summary>
@@ -193,9 +190,9 @@ namespace Steamworks
 		public static string GetEnteredGamepadText()
 		{
 			var len = Internal.GetEnteredGamepadTextLength();
-			if ( len == 0 ) return string.Empty;
+			if (len == 0) return string.Empty;
 
-			if ( !Internal.GetEnteredGamepadTextInput( out var strVal ) )
+			if (!Internal.GetEnteredGamepadTextInput(out var strVal))
 				return string.Empty;
 
 			return strVal;
@@ -215,9 +212,9 @@ namespace Steamworks
 		/// <summary>
 		/// Sets the inset of the overlay notification from the corner specified by SetOverlayNotificationPosition
 		/// </summary>
-		public static void SetOverlayNotificationInset( int x, int y )
+		public static void SetOverlayNotificationInset(int x, int y)
 		{
-			Internal.SetOverlayNotificationInset( x, y );
+			Internal.SetOverlayNotificationInset(x, y);
 		}
 
 		/// <summary>
@@ -231,7 +228,10 @@ namespace Steamworks
 		/// <summary>
 		/// ask SteamUI to create and render its OpenVR dashboard
 		/// </summary>
-		public static void StartVRDashboard() => Internal.StartVRDashboard();
+		public static void StartVRDashboard()
+		{
+			Internal.StartVRDashboard();
+		}
 
 		/// <summary>
 		/// Set whether the HMD content will be streamed via Steam In-Home Streaming
@@ -243,17 +243,14 @@ namespace Steamworks
 		public static bool VrHeadsetStreaming
 		{
 			get => Internal.IsVRHeadsetStreamingEnabled();
-			
-			set
-			{
-				Internal.SetVRHeadsetStreamingEnabled( value );
-			}
+
+			set => Internal.SetVRHeadsetStreamingEnabled(value);
 		}
 
-		public static bool IsCallComplete( SteamAPICall_t call, out bool failed )
+		public static bool IsCallComplete(SteamAPICall_t call, out bool failed)
 		{
 			failed = false;
-			return Internal.IsAPICallCompleted( call, ref failed );
+			return Internal.IsAPICallCompleted(call, ref failed);
 		}
 
 

@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using Steamworks.Data;
+﻿using Steamworks.Data;
+using System.Threading.Tasks;
 
 namespace Steamworks
 {
 	public struct PartyBeacon
 	{
-		static ISteamParties Internal => SteamParties.Internal;
+		private static ISteamParties Internal => SteamParties.Internal;
 
 		public PartyBeaconID_t Id;
 
@@ -16,9 +16,9 @@ namespace Steamworks
 		{
 			get
 			{
-				var owner = default( SteamId );
-				var location = default( SteamPartyBeaconLocation_t );
-				Internal.GetBeaconDetails( Id, ref owner, ref location, out _ );
+				var owner = default(SteamId);
+				var location = default(SteamPartyBeaconLocation_t);
+				Internal.GetBeaconDetails(this.Id, ref owner, ref location, out _);
 				return owner;
 			}
 		}
@@ -30,9 +30,9 @@ namespace Steamworks
 		{
 			get
 			{
-				var owner = default( SteamId );
-				var location = default( SteamPartyBeaconLocation_t );
-				_ = Internal.GetBeaconDetails( Id, ref owner, ref location, out var strVal );
+				var owner = default(SteamId);
+				var location = default(SteamPartyBeaconLocation_t);
+				_ = Internal.GetBeaconDetails(this.Id, ref owner, ref location, out var strVal);
 				return strVal;
 			}
 		}
@@ -43,8 +43,8 @@ namespace Steamworks
 		/// </summary>
 		public async Task<string> JoinAsync()
 		{
-			var result = await Internal.JoinParty( Id );
-			if ( !result.HasValue || result.Value.Result != Result.OK )
+			var result = await Internal.JoinParty(this.Id);
+			if (!result.HasValue || result.Value.Result != Result.OK)
 				return null;
 
 			return result.Value.ConnectStringUTF8();
@@ -54,9 +54,9 @@ namespace Steamworks
 		/// When a user follows your beacon, Steam will reserve one of the open party slots for them, and send your game a ReservationNotification callback. 
 		/// When that user joins your party, call OnReservationCompleted to notify Steam that the user has joined successfully
 		/// </summary>
-		public void OnReservationCompleted( SteamId steamid )
+		public void OnReservationCompleted(SteamId steamid)
 		{
-			Internal.OnReservationCompleted( Id, steamid );
+			Internal.OnReservationCompleted(this.Id, steamid);
 		}
 
 		/// <summary>
@@ -64,9 +64,9 @@ namespace Steamworks
 		/// Steam will open a new reservation slot.
 		/// Note: The user may already be in-flight to your game, so it's possible they will still connect and try to join your party.
 		/// </summary>
-		public void CancelReservation( SteamId steamid )
+		public void CancelReservation(SteamId steamid)
 		{
-			Internal.CancelReservation( Id, steamid );
+			Internal.CancelReservation(this.Id, steamid);
 		}
 
 		/// <summary>
@@ -74,7 +74,7 @@ namespace Steamworks
 		/// </summary>
 		public bool Destroy()
 		{
-			return Internal.DestroyBeacon( Id );
+			return Internal.DestroyBeacon(this.Id);
 		}
 	}
 }

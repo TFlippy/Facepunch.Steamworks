@@ -2,19 +2,19 @@
 
 namespace Steamworks.Data
 {
-	[StructLayout( LayoutKind.Explicit, Size = 136, Pack = 1 )]
+	[StructLayout(LayoutKind.Explicit, Size = 136, Pack = 1)]
 	public partial struct NetIdentity
 	{
-		[FieldOffset( 0 )]
+		[FieldOffset(0)]
 		public IdentityType type;
 
-		[FieldOffset( 4 )]
+		[FieldOffset(4)]
 		public int size;
 
-		[FieldOffset( 8 )]
+		[FieldOffset(8)]
 		public ulong steamid;
 
-		[FieldOffset( 8 )]
+		[FieldOffset(8)]
 		public NetAddress netaddress;
 
 		/// <summary>
@@ -25,14 +25,14 @@ namespace Steamworks.Data
 			get
 			{
 				NetIdentity id = default;
-				InternalSetLocalHost( ref id );
+				InternalSetLocalHost(ref id);
 				return id;
 			}
 		}
 
 
-		public bool IsSteamId => type == IdentityType.SteamID;
-		public bool IsIpAddress => type == IdentityType.IPAddress;
+		public bool IsSteamId => this.type == IdentityType.SteamID;
+		public bool IsIpAddress => this.type == IdentityType.IPAddress;
 
 		/// <summary>
 		/// Return true if this identity is localhost
@@ -42,7 +42,7 @@ namespace Steamworks.Data
 			get
 			{
 				NetIdentity id = default;
-				return InternalIsLocalHost( ref id );
+				return InternalIsLocalHost(ref id);
 			}
 		}
 
@@ -50,20 +50,20 @@ namespace Steamworks.Data
 		/// Convert to a SteamId
 		/// </summary>
 		/// <param name="value"></param>
-		public static implicit operator NetIdentity( SteamId value )
+		public static implicit operator NetIdentity(SteamId value)
 		{
 			NetIdentity id = default;
-			InternalSetSteamID( ref id, value );
+			InternalSetSteamID(ref id, value);
 			return id;
 		}
 
 		/// <summary>
 		/// Set the specified Address
 		/// </summary>
-		public static implicit operator NetIdentity( NetAddress address )
+		public static implicit operator NetIdentity(NetAddress address)
 		{
 			NetIdentity id = default;
-			InternalSetIPAddr( ref id, ref address );
+			InternalSetIPAddr(ref id, ref address);
 			return id;
 		}
 
@@ -71,10 +71,7 @@ namespace Steamworks.Data
 		/// Automatically convert to a SteamId
 		/// </summary>
 		/// <param name="value"></param>
-		public static implicit operator SteamId( NetIdentity value )
-		{
-			return value.SteamId;
-		}
+		public static implicit operator SteamId(NetIdentity value) => value.SteamId;
 
 		/// <summary>
 		/// Returns NULL if we're not a SteamId
@@ -83,9 +80,9 @@ namespace Steamworks.Data
 		{
 			get
 			{
-				if ( type != IdentityType.SteamID ) return default;
+				if (this.type != IdentityType.SteamID) return default;
 				var id = this;
-				return InternalGetSteamID( ref id );
+				return InternalGetSteamID(ref id);
 			}
 		}
 
@@ -96,10 +93,10 @@ namespace Steamworks.Data
 		{
 			get
 			{
-				if ( type != IdentityType.IPAddress ) return default;
+				if (this.type != IdentityType.IPAddress) return default;
 				var id = this;
 
-				var addrptr = InternalGetIPAddr( ref id );
+				var addrptr = InternalGetIPAddr(ref id);
 				return addrptr.ToType<NetAddress>();
 			}
 		}
@@ -110,7 +107,7 @@ namespace Steamworks.Data
 		public override string ToString()
 		{
 			var id = this;
-			SteamNetworkingUtils.Internal.SteamNetworkingIdentity_ToString( ref id, out var str );
+			SteamNetworkingUtils.Internal.SteamNetworkingIdentity_ToString(ref id, out var str);
 			return str;
 		}
 

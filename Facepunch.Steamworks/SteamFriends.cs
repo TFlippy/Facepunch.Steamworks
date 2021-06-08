@@ -1,41 +1,39 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Undocumented Parental Settings
 	/// </summary>
-	public class SteamFriends : SteamClientClass<SteamFriends>
+	public class SteamFriends: SteamClientClass<SteamFriends>
 	{
 		public static ISteamFriends Internal => Interface as ISteamFriends;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamFriends( server ) );
+			this.SetInterface(server, new ISteamFriends(server));
 
 			richPresence = new Dictionary<string, string>();
 
-			InstallEvents();
+			this.InstallEvents();
 		}
 
-		static Dictionary<string, string> richPresence;
+		private static Dictionary<string, string> richPresence;
 
 		public void InstallEvents()
 		{
-			Dispatch.Install<PersonaStateChange_t>( x => OnPersonaStateChange?.Invoke( new Friend( x.SteamID ) ) );
-			Dispatch.Install<GameRichPresenceJoinRequested_t>( x => OnGameRichPresenceJoinRequested?.Invoke( new Friend( x.SteamIDFriend), x.ConnectUTF8() ) );
-			Dispatch.Install<GameConnectedFriendChatMsg_t>( OnFriendChatMessage );
-			Dispatch.Install<GameConnectedClanChatMsg_t>( OnGameConnectedClanChatMessage );
-			Dispatch.Install<GameOverlayActivated_t>( x => OnGameOverlayActivated?.Invoke( x.Active != 0 ) );
-			Dispatch.Install<GameServerChangeRequested_t>( x => OnGameServerChangeRequested?.Invoke( x.ServerUTF8(), x.PasswordUTF8() ) );
-			Dispatch.Install<GameLobbyJoinRequested_t>( x => OnGameLobbyJoinRequested?.Invoke( new Lobby( x.SteamIDLobby ), x.SteamIDFriend ) );
-			Dispatch.Install<FriendRichPresenceUpdate_t>( x => OnFriendRichPresenceUpdate?.Invoke( new Friend( x.SteamIDFriend ) ) );
-			Dispatch.Install<OverlayBrowserProtocolNavigation_t>( x => OnOverlayBrowserProtocol?.Invoke( x.RgchURIUTF8() ) );
+			Dispatch.Install<PersonaStateChange_t>(x => OnPersonaStateChange?.Invoke(new Friend(x.SteamID)));
+			Dispatch.Install<GameRichPresenceJoinRequested_t>(x => OnGameRichPresenceJoinRequested?.Invoke(new Friend(x.SteamIDFriend), x.ConnectUTF8()));
+			Dispatch.Install<GameConnectedFriendChatMsg_t>(OnFriendChatMessage);
+			Dispatch.Install<GameConnectedClanChatMsg_t>(OnGameConnectedClanChatMessage);
+			Dispatch.Install<GameOverlayActivated_t>(x => OnGameOverlayActivated?.Invoke(x.Active != 0));
+			Dispatch.Install<GameServerChangeRequested_t>(x => OnGameServerChangeRequested?.Invoke(x.ServerUTF8(), x.PasswordUTF8()));
+			Dispatch.Install<GameLobbyJoinRequested_t>(x => OnGameLobbyJoinRequested?.Invoke(new Lobby(x.SteamIDLobby), x.SteamIDFriend));
+			Dispatch.Install<FriendRichPresenceUpdate_t>(x => OnFriendRichPresenceUpdate?.Invoke(new Friend(x.SteamIDFriend)));
+			Dispatch.Install<OverlayBrowserProtocolNavigation_t>(x => OnOverlayBrowserProtocol?.Invoke(x.RgchURIUTF8()));
 		}
 
 		/// <summary>
@@ -90,53 +88,52 @@ namespace Steamworks
 		/// </summary>
 		public static event Action<string> OnOverlayBrowserProtocol;
 
-
-		static unsafe void OnFriendChatMessage( GameConnectedFriendChatMsg_t data )
+		private static unsafe void OnFriendChatMessage(GameConnectedFriendChatMsg_t data)
 		{
-			if ( OnChatMessage == null ) return;
+			if (OnChatMessage == null) return;
 
-			var friend = new Friend( data.SteamIDUser );
+			var friend = new Friend(data.SteamIDUser);
 
 			var buffer = Helpers.TakeMemory();
 			var type = ChatEntryType.ChatMsg;
 
-			var len = Internal.GetFriendMessage( data.SteamIDUser, data.MessageID, buffer, Helpers.MemoryBufferSize, ref type );
+			var len = Internal.GetFriendMessage(data.SteamIDUser, data.MessageID, buffer, Helpers.MemoryBufferSize, ref type);
 
-			if ( len == 0 && type == ChatEntryType.Invalid )
+			if (len == 0 && type == ChatEntryType.Invalid)
 				return;
 
 			var typeName = type.ToString();
-			var message = Helpers.MemoryToString( buffer );
+			var message = Helpers.MemoryToString(buffer);
 
-			OnChatMessage( friend, typeName, message );
+			OnChatMessage(friend, typeName, message);
 		}
 
-		static unsafe void OnGameConnectedClanChatMessage( GameConnectedClanChatMsg_t data )
+		private static unsafe void OnGameConnectedClanChatMessage(GameConnectedClanChatMsg_t data)
 		{
-			if ( OnClanChatMessage == null ) return;
+			if (OnClanChatMessage == null) return;
 
-			var friend = new Friend( data.SteamIDUser );
+			var friend = new Friend(data.SteamIDUser);
 
 			var buffer = Helpers.TakeMemory();
 			var type = ChatEntryType.ChatMsg;
 			SteamId chatter = data.SteamIDUser;
 
-			var len = Internal.GetClanChatMessage( data.SteamIDClanChat, data.MessageID, buffer, Helpers.MemoryBufferSize, ref type, ref chatter );
+			var len = Internal.GetClanChatMessage(data.SteamIDClanChat, data.MessageID, buffer, Helpers.MemoryBufferSize, ref type, ref chatter);
 
-			if ( len == 0 && type == ChatEntryType.Invalid )
+			if (len == 0 && type == ChatEntryType.Invalid)
 				return;
 
 			var typeName = type.ToString();
-			var message = Helpers.MemoryToString( buffer );
+			var message = Helpers.MemoryToString(buffer);
 
-			OnClanChatMessage( friend, typeName, message );
+			OnClanChatMessage(friend, typeName, message);
 		}
 
 		private static IEnumerable<Friend> GetFriendsWithFlag(FriendFlags flag)
 		{
-			for ( int i=0; i<Internal.GetFriendCount( (int)flag); i++ )
+			for (var i = 0; i < Internal.GetFriendCount((int)flag); i++)
 			{
-				yield return new Friend( Internal.GetFriendByIndex( i, (int)flag ) );
+				yield return new Friend(Internal.GetFriendByIndex(i, (int)flag));
 			}
 		}
 
@@ -152,45 +149,45 @@ namespace Steamworks
 
 		public static IEnumerable<Friend> GetFriendsRequested()
 		{
-			return GetFriendsWithFlag( FriendFlags.FriendshipRequested );
+			return GetFriendsWithFlag(FriendFlags.FriendshipRequested);
 		}
 
 		public static IEnumerable<Friend> GetFriendsClanMembers()
 		{
-			return GetFriendsWithFlag( FriendFlags.ClanMember );
+			return GetFriendsWithFlag(FriendFlags.ClanMember);
 		}
 
 		public static IEnumerable<Friend> GetFriendsOnGameServer()
 		{
-			return GetFriendsWithFlag( FriendFlags.OnGameServer );
+			return GetFriendsWithFlag(FriendFlags.OnGameServer);
 		}
 
 		public static IEnumerable<Friend> GetFriendsRequestingFriendship()
 		{
-			return GetFriendsWithFlag( FriendFlags.RequestingFriendship );
+			return GetFriendsWithFlag(FriendFlags.RequestingFriendship);
 		}
 
 		public static IEnumerable<Friend> GetPlayedWith()
 		{
-			for ( int i = 0; i < Internal.GetCoplayFriendCount(); i++ )
+			for (var i = 0; i < Internal.GetCoplayFriendCount(); i++)
 			{
-				yield return new Friend( Internal.GetCoplayFriend( i ) );
+				yield return new Friend(Internal.GetCoplayFriend(i));
 			}
 		}
 
-		public static IEnumerable<Friend> GetFromSource( SteamId steamid )
+		public static IEnumerable<Friend> GetFromSource(SteamId steamid)
 		{
-		    for ( int i = 0; i < Internal.GetFriendCountFromSource( steamid ); i++ )
-		    {
-		        yield return new Friend( Internal.GetFriendFromSourceByIndex( steamid, i ) );
-		    }
+			for (var i = 0; i < Internal.GetFriendCountFromSource(steamid); i++)
+			{
+				yield return new Friend(Internal.GetFriendFromSourceByIndex(steamid, i));
+			}
 		}
 
 		public static IEnumerable<Clan> GetClans()
 		{
-			for (int i = 0; i < Internal.GetClanCount(); i++)
+			for (var i = 0; i < Internal.GetClanCount(); i++)
 			{
-				yield return new Clan( Internal.GetClanByIndex( i ) );
+				yield return new Clan(Internal.GetClanByIndex(i));
 			}
 		}
 
@@ -204,7 +201,10 @@ namespace Steamworks
 		/// "stats", 
 		/// "achievements".
 		/// </summary>
-		public static void OpenOverlay( string type ) => Internal.ActivateGameOverlay( type );
+		public static void OpenOverlay(string type)
+		{
+			Internal.ActivateGameOverlay(type);
+		}
 
 		/// <summary>
 		/// "steamid" - Opens the overlay web browser to the specified user or groups profile.
@@ -217,90 +217,107 @@ namespace Steamworks
 		/// "friendrequestaccept" - Opens the overlay in minimal mode prompting the user to accept an incoming friend invite.
 		/// "friendrequestignore" - Opens the overlay in minimal mode prompting the user to ignore an incoming friend invite.
 		/// </summary>
-		public static void OpenUserOverlay( SteamId id, string type ) => Internal.ActivateGameOverlayToUser( type, id );
+		public static void OpenUserOverlay(SteamId id, string type)
+		{
+			Internal.ActivateGameOverlayToUser(type, id);
+		}
 
 		/// <summary>
 		/// Activates the Steam Overlay to the Steam store page for the provided app.
 		/// </summary>
-		public static void OpenStoreOverlay( AppId id, OverlayToStoreFlag overlayToStoreFlag = OverlayToStoreFlag.None ) => Internal.ActivateGameOverlayToStore( id.Value, overlayToStoreFlag );
+		public static void OpenStoreOverlay(AppId id, OverlayToStoreFlag overlayToStoreFlag = OverlayToStoreFlag.None)
+		{
+			Internal.ActivateGameOverlayToStore(id.Value, overlayToStoreFlag);
+		}
 
 		/// <summary>
 		/// Activates Steam Overlay web browser directly to the specified URL.
 		/// </summary>
-		public static void OpenWebOverlay( string url, bool modal = false ) => Internal.ActivateGameOverlayToWebPage( url, modal ? ActivateGameOverlayToWebPageMode.Modal : ActivateGameOverlayToWebPageMode.Default );
+		public static void OpenWebOverlay(string url, bool modal = false)
+		{
+			Internal.ActivateGameOverlayToWebPage(url, modal ? ActivateGameOverlayToWebPageMode.Modal : ActivateGameOverlayToWebPageMode.Default);
+		}
 
 		/// <summary>
 		/// Activates the Steam Overlay to open the invite dialog. Invitations sent from this dialog will be for the provided lobby.
 		/// </summary>
-		public static void OpenGameInviteOverlay( SteamId lobby ) => Internal.ActivateGameOverlayInviteDialog( lobby );
+		public static void OpenGameInviteOverlay(SteamId lobby)
+		{
+			Internal.ActivateGameOverlayInviteDialog(lobby);
+		}
 
 		/// <summary>
 		/// Mark a target user as 'played with'.
 		/// NOTE: The current user must be in game with the other player for the association to work.
 		/// </summary>
-		public static void SetPlayedWith( SteamId steamid ) => Internal.SetPlayedWith( steamid );
+		public static void SetPlayedWith(SteamId steamid)
+		{
+			Internal.SetPlayedWith(steamid);
+		}
 
 		/// <summary>
 		/// Requests the persona name and optionally the avatar of a specified user.
 		/// NOTE: It's a lot slower to download avatars and churns the local cache, so if you don't need avatars, don't request them.
 		/// returns true if we're fetching the data, false if we already have it
 		/// </summary>
-		public static bool RequestUserInformation( SteamId steamid, bool nameonly = true ) => Internal.RequestUserInformation( steamid, nameonly );
+		public static bool RequestUserInformation(SteamId steamid, bool nameonly = true)
+		{
+			return Internal.RequestUserInformation(steamid, nameonly);
+		}
 
-
-		public static async Task CacheUserInformationAsync( SteamId steamid, bool nameonly )
+		public static async Task CacheUserInformationAsync(SteamId steamid, bool nameonly)
 		{
 			// Got it straight away, skip any waiting.
-			if ( !RequestUserInformation( steamid, nameonly ) )
+			if (!RequestUserInformation(steamid, nameonly))
 				return;
 
-			await Task.Delay( 100 );
+			await Task.Delay(100);
 
-			while ( RequestUserInformation( steamid, nameonly ) )
+			while (RequestUserInformation(steamid, nameonly))
 			{
-				await Task.Delay( 50 );
+				await Task.Delay(50);
 			}
 
 			//
 			// And extra wait here seems to solve avatars loading as [?]
 			//
-			await Task.Delay( 500 );
+			await Task.Delay(500);
 		}
 
-		public static async Task<Data.Image?> GetSmallAvatarAsync( SteamId steamid )
+		public static async Task<Data.Image?> GetSmallAvatarAsync(SteamId steamid)
 		{
-			await CacheUserInformationAsync( steamid, false );
-			return SteamUtils.GetImage( Internal.GetSmallFriendAvatar( steamid ) );
+			await CacheUserInformationAsync(steamid, false);
+			return SteamUtils.GetImage(Internal.GetSmallFriendAvatar(steamid));
 		}
 
-		public static async Task<Data.Image?> GetMediumAvatarAsync( SteamId steamid )
+		public static async Task<Data.Image?> GetMediumAvatarAsync(SteamId steamid)
 		{
-			await CacheUserInformationAsync( steamid, false );
-			return SteamUtils.GetImage( Internal.GetMediumFriendAvatar( steamid ) );
+			await CacheUserInformationAsync(steamid, false);
+			return SteamUtils.GetImage(Internal.GetMediumFriendAvatar(steamid));
 		}
 
-		public static async Task<Data.Image?> GetLargeAvatarAsync( SteamId steamid )
+		public static async Task<Data.Image?> GetLargeAvatarAsync(SteamId steamid)
 		{
-			await CacheUserInformationAsync( steamid, false );
+			await CacheUserInformationAsync(steamid, false);
 
-			var imageid = Internal.GetLargeFriendAvatar( steamid );
+			var imageid = Internal.GetLargeFriendAvatar(steamid);
 
 			// Wait for the image to download
-			while ( imageid == -1 )
+			while (imageid == -1)
 			{
-				await Task.Delay( 50 );
-				imageid = Internal.GetLargeFriendAvatar( steamid );
+				await Task.Delay(50);
+				imageid = Internal.GetLargeFriendAvatar(steamid);
 			}
 
-			return SteamUtils.GetImage( imageid );
+			return SteamUtils.GetImage(imageid);
 		}
 
 		/// <summary>
 		/// Find a rich presence value by key for current user. Will be null if not found.
 		/// </summary>
-		public static string GetRichPresence( string key )
+		public static string GetRichPresence(string key)
 		{
-			if ( richPresence.TryGetValue( key, out var val ) )
+			if (richPresence.TryGetValue(key, out var val))
 				return val;
 
 			return null;
@@ -309,11 +326,11 @@ namespace Steamworks
 		/// <summary>
 		/// Sets a rich presence value by key for current user.
 		/// </summary>
-		public static bool SetRichPresence( string key, string value )
+		public static bool SetRichPresence(string key, string value)
 		{
-			bool success = Internal.SetRichPresence( key, value );
+			var success = Internal.SetRichPresence(key, value);
 
-			if ( success ) 
+			if (success)
 				richPresence[key] = value;
 
 			return success;
@@ -328,7 +345,7 @@ namespace Steamworks
 			Internal.ClearRichPresence();
 		}
 
-		static bool _listenForFriendsMessages;
+		private static bool _listenForFriendsMessages;
 
 		/// <summary>
 		/// Listens for Steam friends chat messages.
@@ -338,11 +355,11 @@ namespace Steamworks
 		public static bool ListenForFriendsMessages
 		{
 			get => _listenForFriendsMessages;
-				
+
 			set
 			{
 				_listenForFriendsMessages = value;
-				Internal.SetListenForFriendsMessages( value );
+				Internal.SetListenForFriendsMessages(value);
 			}
 		}
 
@@ -358,47 +375,47 @@ namespace Steamworks
 			return r.Value.Count;
 		}
 
-        public static async Task<SteamId[]> GetFollowingList()
-        {
-            int resultCount = 0;
-            var steamIds = new List<SteamId>();
+		public static async Task<SteamId[]> GetFollowingList()
+		{
+			var resultCount = 0;
+			var steamIds = new List<SteamId>();
 
-            FriendsEnumerateFollowingList_t? result;
+			FriendsEnumerateFollowingList_t? result;
 
-            do
-            {
-                if ( (result = await Internal.EnumerateFollowingList((uint)resultCount)) != null)
-                {
-                    resultCount += result.Value.ResultsReturned;
+			do
+			{
+				if ((result = await Internal.EnumerateFollowingList((uint)resultCount)) != null)
+				{
+					resultCount += result.Value.ResultsReturned;
 
-                    Array.ForEach(result.Value.GSteamID, id => { if (id > 0) steamIds.Add(id); });
-                }
-            } while (result != null && resultCount < result.Value.TotalResultCount);
+					Array.ForEach(result.Value.GSteamID, id => { if (id > 0) steamIds.Add(id); });
+				}
+			} while (result != null && resultCount < result.Value.TotalResultCount);
 
-            return steamIds.ToArray();
-        }
+			return steamIds.ToArray();
+		}
 
 		/// <summary>
 		/// Call this before calling ActivateGameOverlayToWebPage() to have the Steam Overlay Browser block navigations
 		///  to your specified protocol (scheme) uris and instead dispatch a OverlayBrowserProtocolNavigation callback to your game.
 		/// </summary>
-		public static bool RegisterProtocolInOverlayBrowser( string protocol )
-        {
-			return Internal.RegisterProtocolInOverlayBrowser( protocol );
-        }
-
-		public static async Task<bool> JoinClanChatRoom( SteamId chatId )
+		public static bool RegisterProtocolInOverlayBrowser(string protocol)
 		{
-			var result = await Internal.JoinClanChatRoom( chatId );
-			if ( !result.HasValue )
-				return false;
-
-			return result.Value.ChatRoomEnterResponse == RoomEnter.Success ;
+			return Internal.RegisterProtocolInOverlayBrowser(protocol);
 		}
 
-		public static bool SendClanChatRoomMessage( SteamId chatId, string message )
+		public static async Task<bool> JoinClanChatRoom(SteamId chatId)
 		{
-			return Internal.SendClanChatMessage( chatId, message );
+			var result = await Internal.JoinClanChatRoom(chatId);
+			if (!result.HasValue)
+				return false;
+
+			return result.Value.ChatRoomEnterResponse == RoomEnter.Success;
+		}
+
+		public static bool SendClanChatRoomMessage(SteamId chatId, string message)
+		{
+			return Internal.SendClanChatMessage(chatId, message);
 		}
 	}
 }

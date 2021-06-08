@@ -1,10 +1,9 @@
-﻿using Steamworks.Data;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 namespace Steamworks.Data
 {
-	[StructLayout( LayoutKind.Sequential )]
+	[StructLayout(LayoutKind.Sequential)]
 	public partial struct NetMsg
 	{
 		public IntPtr DataPtr;

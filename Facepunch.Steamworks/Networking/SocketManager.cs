@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Steamworks.Data;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Steamworks.Data;
 
 namespace Steamworks
 {
@@ -24,25 +21,28 @@ namespace Steamworks
 
 		public Socket Socket { get; set; }
 
-		public override string ToString() => Socket.ToString();
+		public override string ToString()
+		{
+			return this.Socket.ToString();
+		}
 
 		public HSteamNetPollGroup pollGroup;
 
 		public void Initialize()
 		{
-			pollGroup = SteamNetworkingSockets.Internal.CreatePollGroup();
+			this.pollGroup = SteamNetworkingSockets.Internal.CreatePollGroup();
 		}
 
 		public bool Close()
 		{
 			if (SteamNetworkingSockets.Internal.IsValid)
 			{
-				SteamNetworkingSockets.Internal.DestroyPollGroup(pollGroup);
-				Socket.Close();
+				SteamNetworkingSockets.Internal.DestroyPollGroup(this.pollGroup);
+				this.Socket.Close();
 			}
 
-			pollGroup = 0;
-			Socket = 0;
+			this.pollGroup = 0;
+			this.Socket = 0;
 			return true;
 		}
 
@@ -58,31 +58,31 @@ namespace Steamworks
 				switch (info.State)
 				{
 					case ConnectionState.Connecting:
-					if (!Connecting.Contains(connection) && !Connected.Contains(connection))
+					if (!this.Connecting.Contains(connection) && !this.Connected.Contains(connection))
 					{
-						Connecting.Add(connection);
+						this.Connecting.Add(connection);
 
-						OnConnecting(connection, info);
+						this.OnConnecting(connection, info);
 					}
 					break;
 					case ConnectionState.Connected:
-					if (Connecting.Contains(connection) && !Connected.Contains(connection))
+					if (this.Connecting.Contains(connection) && !this.Connected.Contains(connection))
 					{
-						Connecting.Remove(connection);
-						Connected.Add(connection);
+						this.Connecting.Remove(connection);
+						this.Connected.Add(connection);
 
-						OnConnected(connection, info);
+						this.OnConnected(connection, info);
 					}
 					break;
 					case ConnectionState.ClosedByPeer:
 					case ConnectionState.ProblemDetectedLocally:
 					case ConnectionState.None:
-					if (Connecting.Contains(connection) || Connected.Contains(connection))
+					if (this.Connecting.Contains(connection) || this.Connected.Contains(connection))
 					{
-						Connecting.Remove(connection);
-						Connected.Remove(connection);
+						this.Connecting.Remove(connection);
+						this.Connected.Remove(connection);
 
-						OnDisconnected(connection, info);
+						this.OnDisconnected(connection, info);
 					}
 					break;
 				}
@@ -94,9 +94,9 @@ namespace Steamworks
 		/// </summary>
 		public virtual void OnConnecting(Connection connection, ConnectionInfo info)
 		{
-			if (Interface != null)
+			if (this.Interface != null)
 			{
-				Interface.OnConnecting(connection, info);
+				this.Interface.OnConnecting(connection, info);
 			}
 			else
 			{
@@ -109,9 +109,9 @@ namespace Steamworks
 		/// </summary>
 		public virtual void OnConnected(Connection connection, ConnectionInfo info)
 		{
-			SteamNetworkingSockets.Internal.SetConnectionPollGroup(connection, pollGroup);
+			SteamNetworkingSockets.Internal.SetConnectionPollGroup(connection, this.pollGroup);
 
-			Interface?.OnConnected(connection, info);
+			this.Interface?.OnConnected(connection, info);
 		}
 
 		/// <summary>
@@ -119,9 +119,9 @@ namespace Steamworks
 		/// </summary>
 		public virtual void OnDisconnected(Connection connection, ConnectionInfo info)
 		{
-			if (Interface != null)
+			if (this.Interface != null)
 			{
-				Interface.OnDisconnected(connection, info);
+				this.Interface.OnDisconnected(connection, info);
 			}
 			else
 			{

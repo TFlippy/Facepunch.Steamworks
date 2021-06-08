@@ -1,5 +1,5 @@
 ﻿namespace Steamworks.Data
-{ 
+{
 	/// <summary>
 	/// A server query packet.
 	/// </summary>
@@ -26,5 +26,5 @@
 		/// </summary>
 		public int Size { get; set; }
 	}
-	
+
 }

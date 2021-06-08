@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
-
-namespace Steamworks.Data
+﻿namespace Steamworks.Data
 {
 	public struct Screenshot
 	{
@@ -13,25 +7,25 @@ namespace Steamworks.Data
 		/// <summary>
 		/// Tags a user as being visible in the screenshot
 		/// </summary>
-		public bool TagUser( SteamId user )
+		public bool TagUser(SteamId user)
 		{
-			return SteamScreenshots.Internal.TagUser( Value, user );
+			return SteamScreenshots.Internal.TagUser(this.Value, user);
 		}
 
 		/// <summary>
 		/// Tags a user as being visible in the screenshot
 		/// </summary>
-		public bool SetLocation( string location )
+		public bool SetLocation(string location)
 		{
-			return SteamScreenshots.Internal.SetLocation( Value, location );
+			return SteamScreenshots.Internal.SetLocation(this.Value, location);
 		}
 
 		/// <summary>
 		/// Tags a user as being visible in the screenshot
 		/// </summary>
-		public bool TagPublishedFile( PublishedFileId file )
+		public bool TagPublishedFile(PublishedFileId file)
 		{
-			return SteamScreenshots.Internal.TagPublishedFile( Value, file );
+			return SteamScreenshots.Internal.TagPublishedFile(this.Value, file);
 		}
 	}
 }

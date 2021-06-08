@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Steamworks
 {
 	public static class Platform
-    {
+	{
 #if PLATFORM_WIN64
 		public const int StructPlatformPackSize = 8;
 		public const string LibraryName = "steam_api64";

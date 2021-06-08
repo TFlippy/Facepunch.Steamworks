@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-#pragma warning disable 649 
+﻿#pragma warning disable 649
 
 namespace Steamworks.Data
 {

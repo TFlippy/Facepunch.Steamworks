@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
@@ -13,33 +12,33 @@ namespace Steamworks
 	/// Functions for accessing and manipulating Steam user information.
 	/// This is also where the APIs for Steam Voice are exposed.
 	/// </summary>
-	public class SteamUser : SteamClientClass<SteamUser>
+	public class SteamUser: SteamClientClass<SteamUser>
 	{
 		public static ISteamUser Internal => Interface as ISteamUser;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamUser( server ) );
+			this.SetInterface(server, new ISteamUser(server));
 			InstallEvents();
 
 			richPresence = new Dictionary<string, string>();
 			SampleRate = OptimalSampleRate;
 		}
 
-		static Dictionary<string, string> richPresence;
+		private static Dictionary<string, string> richPresence;
 
 		public static void InstallEvents()
 		{
-			Dispatch.Install<SteamServersConnected_t>( x => OnSteamServersConnected?.Invoke() );
-			Dispatch.Install<SteamServerConnectFailure_t>( x => OnSteamServerConnectFailure?.Invoke() );
-			Dispatch.Install<SteamServersDisconnected_t>( x => OnSteamServersDisconnected?.Invoke() );
-			Dispatch.Install<ClientGameServerDeny_t>( x => OnClientGameServerDeny?.Invoke() );
-			Dispatch.Install<LicensesUpdated_t>( x => OnLicensesUpdated?.Invoke() );
-			Dispatch.Install<ValidateAuthTicketResponse_t>( x => OnValidateAuthTicketResponse?.Invoke( x.SteamID, x.OwnerSteamID, x.AuthSessionResponse ) );
-			Dispatch.Install<MicroTxnAuthorizationResponse_t>( x => OnMicroTxnAuthorizationResponse?.Invoke( x.AppID, x.OrderID, x.Authorized != 0 ) );
-			Dispatch.Install<GameWebCallback_t>( x => OnGameWebCallback?.Invoke( x.URLUTF8() ) );
-			Dispatch.Install<GetAuthSessionTicketResponse_t>( x => OnGetAuthSessionTicketResponse?.Invoke( x ) );
-			Dispatch.Install<DurationControl_t>( x => OnDurationControl?.Invoke( new DurationControl { _inner = x } ) );
+			Dispatch.Install<SteamServersConnected_t>(x => OnSteamServersConnected?.Invoke());
+			Dispatch.Install<SteamServerConnectFailure_t>(x => OnSteamServerConnectFailure?.Invoke());
+			Dispatch.Install<SteamServersDisconnected_t>(x => OnSteamServersDisconnected?.Invoke());
+			Dispatch.Install<ClientGameServerDeny_t>(x => OnClientGameServerDeny?.Invoke());
+			Dispatch.Install<LicensesUpdated_t>(x => OnLicensesUpdated?.Invoke());
+			Dispatch.Install<ValidateAuthTicketResponse_t>(x => OnValidateAuthTicketResponse?.Invoke(x.SteamID, x.OwnerSteamID, x.AuthSessionResponse));
+			Dispatch.Install<MicroTxnAuthorizationResponse_t>(x => OnMicroTxnAuthorizationResponse?.Invoke(x.AppID, x.OrderID, x.Authorized != 0));
+			Dispatch.Install<GameWebCallback_t>(x => OnGameWebCallback?.Invoke(x.URLUTF8()));
+			Dispatch.Install<GetAuthSessionTicketResponse_t>(x => OnGetAuthSessionTicketResponse?.Invoke(x));
+			Dispatch.Install<DurationControl_t>(x => OnDurationControl?.Invoke(new DurationControl { _inner = x }));
 		}
 
 		/// <summary>
@@ -110,10 +109,7 @@ namespace Steamworks
 		/// </summary>
 		public static event Action<DurationControl> OnDurationControl;
 
-
-
-
-		static bool _recordingVoice;
+		private static bool _recordingVoice;
 
 		/// <summary>
 		/// Starts/Stops voice recording.
@@ -127,7 +123,7 @@ namespace Steamworks
 			set
 			{
 				_recordingVoice = value;
-				if ( value ) Internal.StartVoiceRecording();
+				if (value) Internal.StartVoiceRecording();
 				else Internal.StopVoiceRecording();
 			}
 		}
@@ -142,14 +138,14 @@ namespace Steamworks
 			{
 				uint szCompressed = 0, deprecated = 0;
 
-				if ( Internal.GetAvailableVoice( ref szCompressed, ref deprecated, 0 ) != VoiceResult.OK )
+				if (Internal.GetAvailableVoice(ref szCompressed, ref deprecated, 0) != VoiceResult.OK)
 					return false;
 
 				return szCompressed > 0;
 			}
 		}
 
-		static byte[] readBuffer = new byte[1024*128];
+		private static byte[] readBuffer = new byte[1024 * 128];
 
 		/// <summary>
 		/// Reads the voice data and returns the number of bytes written.
@@ -158,26 +154,26 @@ namespace Steamworks
 		/// This should be called once per frame, and at worst no more than four times a second to keep the microphone input delay as low as 
 		/// possible. Calling this any less may result in gaps in the returned stream.
 		/// </summary>
-		public static unsafe int ReadVoiceData( System.IO.Stream stream )
+		public static unsafe int ReadVoiceData(System.IO.Stream stream)
 		{
-			if ( !HasVoiceData )
+			if (!HasVoiceData)
 				return 0;
 
 			uint szWritten = 0;
 			uint deprecated = 0;
 
-			fixed ( byte* b = readBuffer )
+			fixed (byte* b = readBuffer)
 			{
-				if ( Internal.GetVoice( true, (IntPtr)b, (uint)readBuffer.Length, ref szWritten, false, IntPtr.Zero, 0, ref deprecated, 0 ) != VoiceResult.OK )
+				if (Internal.GetVoice(true, (IntPtr)b, (uint)readBuffer.Length, ref szWritten, false, IntPtr.Zero, 0, ref deprecated, 0) != VoiceResult.OK)
 					return 0;
 			}
 
-			if ( szWritten == 0 )
+			if (szWritten == 0)
 				return 0;
 
-			stream.Write( readBuffer, 0, (int) szWritten );
+			stream.Write(readBuffer, 0, (int)szWritten);
 
-			return (int) szWritten;
+			return (int)szWritten;
 		}
 
 		/// <summary>
@@ -187,36 +183,36 @@ namespace Steamworks
 		/// </summary>
 		public static unsafe byte[] ReadVoiceDataBytes()
 		{
-			if ( !HasVoiceData )
+			if (!HasVoiceData)
 				return null;
 
 			uint szWritten = 0;
 			uint deprecated = 0;
 
-			fixed ( byte* b = readBuffer )
+			fixed (byte* b = readBuffer)
 			{
-				if ( Internal.GetVoice( true, (IntPtr)b, (uint)readBuffer.Length, ref szWritten, false, IntPtr.Zero, 0, ref deprecated, 0 ) != VoiceResult.OK )
+				if (Internal.GetVoice(true, (IntPtr)b, (uint)readBuffer.Length, ref szWritten, false, IntPtr.Zero, 0, ref deprecated, 0) != VoiceResult.OK)
 					return null;
 			}
 
-			if ( szWritten == 0 )
+			if (szWritten == 0)
 				return null;
 
 			var arry = new byte[szWritten];
-			Array.Copy( readBuffer, 0, arry, 0, szWritten );
+			Array.Copy(readBuffer, 0, arry, 0, szWritten);
 			return arry;
 		}
 
-		static uint sampleRate = 48000;
+		private static uint sampleRate = 48000;
 
 		public static uint SampleRate
 		{
 			get => sampleRate;
-			
+
 			set
 			{
-				if ( SampleRate < 11025 ) throw new System.Exception( "Sample Rate must be between 11025 and 48000" );
-				if ( SampleRate > 48000 ) throw new System.Exception( "Sample Rate must be between 11025 and 48000" );
+				if (SampleRate < 11025) throw new System.Exception("Sample Rate must be between 11025 and 48000");
+				if (SampleRate > 48000) throw new System.Exception("Sample Rate must be between 11025 and 48000");
 
 				sampleRate = value;
 			}
@@ -229,77 +225,77 @@ namespace Steamworks
 		/// Decodes the compressed voice data returned by GetVoice.
 		/// The output data is raw single-channel 16-bit PCM audio.The decoder supports any sample rate from 11025 to 48000.
 		/// </summary>
-		public static unsafe int DecompressVoice( System.IO.Stream input, int length, System.IO.Stream output )
+		public static unsafe int DecompressVoice(System.IO.Stream input, int length, System.IO.Stream output)
 		{
-			var from = Helpers.TakeBuffer( length );
-			var to = Helpers.TakeBuffer( 1024 * 64 );
+			var from = Helpers.TakeBuffer(length);
+			var to = Helpers.TakeBuffer(1024 * 64);
 
 			//
 			// Copy from input stream to a pinnable buffer
 			//
-			using ( var s = new System.IO.MemoryStream( from ) )
+			using (var s = new System.IO.MemoryStream(from))
 			{
-				input.CopyTo( s );
+				input.CopyTo(s);
 			}
 
 			uint szWritten = 0;
 
-			fixed ( byte* frm = from )
-			fixed ( byte* dst = to )
+			fixed (byte* frm = from)
+			fixed (byte* dst = to)
 			{
-				if ( Internal.DecompressVoice( (IntPtr) frm, (uint) length, (IntPtr)dst, (uint)to.Length, ref szWritten, SampleRate ) != VoiceResult.OK )
+				if (Internal.DecompressVoice((IntPtr)frm, (uint)length, (IntPtr)dst, (uint)to.Length, ref szWritten, SampleRate) != VoiceResult.OK)
 					return 0;
 			}
 
-			if ( szWritten == 0 )
+			if (szWritten == 0)
 				return 0;
 
 			//
 			// Copy to output buffer
 			//
-			output.Write( to, 0, (int)szWritten );
+			output.Write(to, 0, (int)szWritten);
 			return (int)szWritten;
 		}
 
 		/// <summary>
 		/// Lazy version
 		/// </summary>
-		public static unsafe int DecompressVoice( byte[] from, System.IO.Stream output )
+		public static unsafe int DecompressVoice(byte[] from, System.IO.Stream output)
 		{
-			var to = Helpers.TakeBuffer( 1024 * 64 );
+			var to = Helpers.TakeBuffer(1024 * 64);
 
 			uint szWritten = 0;
 
-			fixed ( byte* frm = from )
-			fixed ( byte* dst = to )
+			fixed (byte* frm = from)
+			fixed (byte* dst = to)
 			{
-				if ( Internal.DecompressVoice( (IntPtr)frm, (uint)from.Length, (IntPtr)dst, (uint)to.Length, ref szWritten, SampleRate ) != VoiceResult.OK )
+				if (Internal.DecompressVoice((IntPtr)frm, (uint)from.Length, (IntPtr)dst, (uint)to.Length, ref szWritten, SampleRate) != VoiceResult.OK)
 					return 0;
 			}
 
-			if ( szWritten == 0 )
+			if (szWritten == 0)
 				return 0;
 
 			//
 			// Copy to output buffer
 			//
-			output.Write( to, 0, (int)szWritten );
+			output.Write(to, 0, (int)szWritten);
 			return (int)szWritten;
 		}
 
 		/// <summary>
 		/// Advanced and potentially fastest version - incase you know what you're doing
 		/// </summary>
-		public static unsafe int DecompressVoice( IntPtr from, int length, IntPtr to, int bufferSize )
+		public static unsafe int DecompressVoice(IntPtr from, int length, IntPtr to, int bufferSize)
 		{
-			if ( length <= 0 ) throw new ArgumentException( $"length should be > 0 " );
-			if ( bufferSize <= 0 ) throw new ArgumentException( $"bufferSize should be > 0 " );
+			if (length <= 0) throw new ArgumentException($"length should be > 0 ");
+			if (bufferSize <= 0) throw new ArgumentException($"bufferSize should be > 0 ");
 
 			uint szWritten = 0;
 
-			if ( Internal.DecompressVoice( from, (uint) length, to, (uint)bufferSize, ref szWritten, SampleRate ) != VoiceResult.OK )
+			if (Internal.DecompressVoice(from, (uint)length, to, (uint)bufferSize, ref szWritten, SampleRate) != VoiceResult.OK)
 				return 0;
-			
+
 			return (int)szWritten;
 		}
 
@@ -308,19 +304,19 @@ namespace Steamworks
 		/// </summary>
 		public static unsafe AuthTicket GetAuthSessionTicket()
 		{
-			var data = Helpers.TakeBuffer( 1024 );
+			var data = Helpers.TakeBuffer(1024);
 
-			fixed ( byte* b = data )
+			fixed (byte* b = data)
 			{
 				uint ticketLength = 0;
-				uint ticket = Internal.GetAuthSessionTicket( (IntPtr)b, data.Length, ref ticketLength );
+				uint ticket = Internal.GetAuthSessionTicket((IntPtr)b, data.Length, ref ticketLength);
 
-				if ( ticket == 0 )
+				if (ticket == 0)
 					return null;
 
 				return new AuthTicket()
 				{
-					Data = data.Take( (int)ticketLength ).ToArray(),
+					Data = data.Take((int)ticketLength).ToArray(),
 					Handle = ticket
 				};
 			}
@@ -332,15 +328,15 @@ namespace Steamworks
 		/// the ticket is definitely ready to go as soon as it returns. Will return null if the callback
 		/// times out or returns negatively.
 		/// </summary>
-		public static async Task<AuthTicket> GetAuthSessionTicketAsync( double timeoutSeconds = 10.0f )
+		public static async Task<AuthTicket> GetAuthSessionTicketAsync(double timeoutSeconds = 10.0f)
 		{
 			var result = Result.Pending;
 			AuthTicket ticket = null;
 			var stopwatch = Stopwatch.StartNew();
 
-			void f( GetAuthSessionTicketResponse_t t )
+			void f(GetAuthSessionTicketResponse_t t)
 			{
-				if ( t.AuthTicket != ticket.Handle ) return;
+				if (t.AuthTicket != ticket.Handle) return;
 				result = t.Result;
 			}
 
@@ -349,21 +345,21 @@ namespace Steamworks
 			try
 			{
 				ticket = GetAuthSessionTicket();
-				if ( ticket == null )
+				if (ticket == null)
 					return null;
 
-				while ( result == Result.Pending )
+				while (result == Result.Pending)
 				{
-					await Task.Delay( 10 );
+					await Task.Delay(10);
 
-					if ( stopwatch.Elapsed.TotalSeconds > timeoutSeconds )
+					if (stopwatch.Elapsed.TotalSeconds > timeoutSeconds)
 					{
 						ticket.Cancel();
 						return null;
 					}
 				}
 
-				if ( result == Result.OK )
+				if (result == Result.OK)
 					return ticket;
 
 				ticket.Cancel();
@@ -375,15 +371,18 @@ namespace Steamworks
 			}
 		}
 
-		public static unsafe BeginAuthResult BeginAuthSession( byte[] ticketData, SteamId steamid )
+		public static unsafe BeginAuthResult BeginAuthSession(byte[] ticketData, SteamId steamid)
 		{
-			fixed ( byte* ptr = ticketData )
+			fixed (byte* ptr = ticketData)
 			{
-				return Internal.BeginAuthSession( (IntPtr) ptr, ticketData.Length, steamid );
+				return Internal.BeginAuthSession((IntPtr)ptr, ticketData.Length, steamid);
 			}
 		}
 
-		public static void EndAuthSession( SteamId steamid ) => Internal.EndAuthSession( steamid );
+		public static void EndAuthSession(SteamId steamid)
+		{
+			Internal.EndAuthSession(steamid);
+		}
 
 
 		// UserHasLicenseForApp - SERVER VERSION ( DLC CHECKING )
@@ -405,10 +404,10 @@ namespace Steamworks
 		/// NOTE: The URL has a very short lifetime to prevent history-snooping attacks, so you should only call this API when you are about to launch the browser, or else immediately navigate to the result URL using a hidden browser window.
 		/// NOTE: The resulting authorization cookie has an expiration time of one day, so it would be a good idea to request and visit a new auth URL every 12 hours.
 		/// </summary>
-		public static async Task<string> GetStoreAuthUrlAsync( string url )
+		public static async Task<string> GetStoreAuthUrlAsync(string url)
 		{
-			var response = await Internal.RequestStoreAuthURL( url );
-			if ( !response.HasValue )
+			var response = await Internal.RequestStoreAuthURL(url);
+			if (!response.HasValue)
 				return null;
 
 			return response.Value.URLUTF8();
@@ -441,33 +440,33 @@ namespace Steamworks
 		/// If you get a null result from this it's probably because you're calling it too often.
 		/// This can fail if you don't have an encrypted ticket set for your app here https://partner.steamgames.com/apps/sdkauth/
 		/// </summary>
-		public static async Task<byte[]> RequestEncryptedAppTicketAsync( byte[] dataToInclude )
+		public static async Task<byte[]> RequestEncryptedAppTicketAsync(byte[] dataToInclude)
 		{
-			var dataPtr = Marshal.AllocHGlobal( dataToInclude.Length );
-			Marshal.Copy( dataToInclude, 0, dataPtr, dataToInclude.Length );
+			var dataPtr = Marshal.AllocHGlobal(dataToInclude.Length);
+			Marshal.Copy(dataToInclude, 0, dataPtr, dataToInclude.Length);
 
 			try
 			{
-				var result = await Internal.RequestEncryptedAppTicket( dataPtr, dataToInclude.Length );
-				if ( !result.HasValue || result.Value.Result != Result.OK ) return null;
+				var result = await Internal.RequestEncryptedAppTicket(dataPtr, dataToInclude.Length);
+				if (!result.HasValue || result.Value.Result != Result.OK) return null;
 
-				var ticketData = Marshal.AllocHGlobal( 1024 );
+				var ticketData = Marshal.AllocHGlobal(1024);
 				uint outSize = 0;
 				byte[] data = null;
 
-				if ( Internal.GetEncryptedAppTicket( ticketData, 1024, ref outSize ) )
+				if (Internal.GetEncryptedAppTicket(ticketData, 1024, ref outSize))
 				{
 					data = new byte[outSize];
-					Marshal.Copy( ticketData, data, 0, (int) outSize );
+					Marshal.Copy(ticketData, data, 0, (int)outSize);
 				}
 
-				Marshal.FreeHGlobal( ticketData );
+				Marshal.FreeHGlobal(ticketData);
 
 				return data;
 			}
 			finally
 			{
-				Marshal.FreeHGlobal( dataPtr );
+				Marshal.FreeHGlobal(dataPtr);
 			}
 		}
 
@@ -479,20 +478,20 @@ namespace Steamworks
 		/// </summary>
 		public static async Task<byte[]> RequestEncryptedAppTicketAsync()
 		{
-			var result = await Internal.RequestEncryptedAppTicket( IntPtr.Zero, 0 );
-			if ( !result.HasValue || result.Value.Result != Result.OK ) return null;
+			var result = await Internal.RequestEncryptedAppTicket(IntPtr.Zero, 0);
+			if (!result.HasValue || result.Value.Result != Result.OK) return null;
 
-			var ticketData = Marshal.AllocHGlobal( 1024 );
+			var ticketData = Marshal.AllocHGlobal(1024);
 			uint outSize = 0;
 			byte[] data = null;
 
-			if ( Internal.GetEncryptedAppTicket( ticketData, 1024, ref outSize ) )
+			if (Internal.GetEncryptedAppTicket(ticketData, 1024, ref outSize))
 			{
 				data = new byte[outSize];
-				Marshal.Copy( ticketData, data, 0, (int)outSize );
+				Marshal.Copy(ticketData, data, 0, (int)outSize);
 			}
 
-			Marshal.FreeHGlobal( ticketData );
+			Marshal.FreeHGlobal(ticketData);
 
 			return data;
 
@@ -505,7 +504,7 @@ namespace Steamworks
 		public static async Task<DurationControl> GetDurationControl()
 		{
 			var response = await Internal.GetDurationControl();
-			if ( !response.HasValue ) return default;
+			if (!response.HasValue) return default;
 
 			return new DurationControl { _inner = response.Value };
 		}

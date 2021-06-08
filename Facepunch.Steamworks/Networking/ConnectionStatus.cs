@@ -5,7 +5,7 @@ namespace Steamworks.Data
 	/// <summary>
 	/// Describe the status of a connection
 	/// </summary>
-	[StructLayout( LayoutKind.Sequential, Pack = Platform.StructPlatformPackSize )]
+	[StructLayout(LayoutKind.Sequential, Pack = Platform.StructPlatformPackSize)]
 	public struct ConnectionStatus
 	{
 		public ConnectionState state; // m_eState ESteamNetworkingConnectionState
@@ -21,57 +21,57 @@ namespace Steamworks.Data
 		public int cbPendingReliable; // m_cbPendingReliable int
 		public int cbSentUnackedReliable; // m_cbSentUnackedReliable int
 		public long ecQueueTime; // m_usecQueueTime SteamNetworkingMicroseconds
-		[MarshalAs( UnmanagedType.ByValArray, SizeConst = 16, ArraySubType = UnmanagedType.U4 )]
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16, ArraySubType = UnmanagedType.U4)]
 		public uint[] reserved; // reserved uint32 [16]
 
 		/// <summary>
 		/// Current ping (ms)
 		/// </summary>
-		public int Ping => ping;
+		public int Ping => this.ping;
 
 		/// <summary>
 		/// Outgoing packets per second
 		/// </summary>
-		public float OutPacketsPerSec => outPacketsPerSec;
+		public float OutPacketsPerSec => this.outPacketsPerSec;
 
 		/// <summary>
 		/// Outgoing bytes per second
 		/// </summary>
-		public float OutBytesPerSec => outBytesPerSec;
+		public float OutBytesPerSec => this.outBytesPerSec;
 
 		/// <summary>
 		/// Incoming packets per second
 		/// </summary>
-		public float InPacketsPerSec => inPacketsPerSec;
+		public float InPacketsPerSec => this.inPacketsPerSec;
 
 		/// <summary>
 		/// Incoming bytes per second
 		/// </summary>
-		public float InBytesPerSec => inBytesPerSec;
+		public float InBytesPerSec => this.inBytesPerSec;
 
 		/// <summary>
 		/// Connection quality measured locally, 0...1 (percentage of packets delivered end-to-end in order).
 		/// </summary>
-		public float ConnectionQualityLocal => connectionQualityLocal;
+		public float ConnectionQualityLocal => this.connectionQualityLocal;
 
 		/// <summary>
 		/// Packet delivery success rate as observed from remote host, 0...1 (percentage of packets delivered end-to-end in order).
 		/// </summary>
-		public float ConnectionQualityRemote => connectionQualityRemote;
+		public float ConnectionQualityRemote => this.connectionQualityRemote;
 
 		/// <summary>
 		/// Number of bytes unreliable data pending to be sent. This is data that you have recently requested to be sent but has not yet actually been put on the wire.
 		/// </summary>
-		public int PendingUnreliable => cbPendingUnreliable;
+		public int PendingUnreliable => this.cbPendingUnreliable;
 
 		/// <summary>
 		/// Number of bytes reliable data pending to be sent. This is data that you have recently requested to be sent but has not yet actually been put on the wire.
 		/// </summary>
-		public int PendingReliable => cbPendingReliable;
+		public int PendingReliable => this.cbPendingReliable;
 
 		/// <summary>
 		/// Number of bytes of reliable data that has been placed the wire, but for which we have not yet received an acknowledgment, and thus we may have to re-transmit.
 		/// </summary>
-		public int SentUnackedReliable => cbSentUnackedReliable;
+		public int SentUnackedReliable => this.cbSentUnackedReliable;
 	}
 }

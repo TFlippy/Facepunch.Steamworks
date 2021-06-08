@@ -10,19 +10,19 @@ namespace Steamworks.Data
 		public int[] Details;
 		// UGCHandle_t m_hUGC
 
-		public static LeaderboardEntry From( LeaderboardEntry_t e, int[] detailsBuffer )
+		public static LeaderboardEntry From(LeaderboardEntry_t e, int[] detailsBuffer)
 		{
 			var r = new LeaderboardEntry
 			{
-				User = new Friend( e.SteamIDUser ),
+				User = new Friend(e.SteamIDUser),
 				GlobalRank = e.GlobalRank,
 				Score = e.Score,
 				Details = null
 			};
 
-			if ( e.CDetails > 0 )
+			if (e.CDetails > 0)
 			{
-				r.Details = detailsBuffer.Take( e.CDetails ).ToArray();
+				r.Details = detailsBuffer.Take(e.CDetails).ToArray();
 			}
 
 			return r;

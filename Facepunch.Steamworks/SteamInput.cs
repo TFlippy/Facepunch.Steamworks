@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Steamworks
 {
-	public class SteamInput : SteamClientClass<SteamInput>
+	public class SteamInput: SteamClientClass<SteamInput>
 	{
 		public static ISteamInput Internal => Interface as ISteamInput;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamInput( server ) );
+			this.SetInterface(server, new ISteamInput(server));
 		}
 
 		public const int STEAM_CONTROLLER_MAX_COUNT = 16;
@@ -25,7 +25,7 @@ namespace Steamworks
 			Internal.RunFrame();
 		}
 
-		static readonly InputHandle_t[] queryArray = new InputHandle_t[STEAM_CONTROLLER_MAX_COUNT];
+		private static readonly InputHandle_t[] queryArray = new InputHandle_t[STEAM_CONTROLLER_MAX_COUNT];
 
 		/// <summary>
 		/// Return a list of connected controllers.
@@ -34,68 +34,68 @@ namespace Steamworks
 		{
 			get
 			{
-				var num = Internal.GetConnectedControllers( queryArray );
+				var num = Internal.GetConnectedControllers(queryArray);
 
-				for ( int i = 0; i < num; i++ )
+				for (var i = 0; i < num; i++)
 				{
-					yield return new Controller( queryArray[i] );
+					yield return new Controller(queryArray[i]);
 				}
 			}
 		}
 
 
-        /// <summary>
-        /// Return an absolute path to the PNG image glyph for the provided digital action name. The current
-        /// action set in use for the controller will be used for the lookup. You should cache the result and
-        /// maintain your own list of loaded PNG assets.
-        /// </summary>
-        /// <param name="controller"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static string GetDigitalActionGlyph( Controller controller, string action )
-        {
-            InputActionOrigin origin = InputActionOrigin.None;
-
-            Internal.GetDigitalActionOrigins(
-                controller.Handle,
-                Internal.GetCurrentActionSet(controller.Handle),
-                GetDigitalActionHandle(action),
-                ref origin
-            );
-
-            return Internal.GetGlyphForActionOrigin(origin);
-        }
-
-        public static Dictionary<string, InputDigitalActionHandle_t> DigitalHandles = new Dictionary<string, InputDigitalActionHandle_t>();
-		public static InputDigitalActionHandle_t GetDigitalActionHandle( string name )
+		/// <summary>
+		/// Return an absolute path to the PNG image glyph for the provided digital action name. The current
+		/// action set in use for the controller will be used for the lookup. You should cache the result and
+		/// maintain your own list of loaded PNG assets.
+		/// </summary>
+		/// <param name="controller"></param>
+		/// <param name="action"></param>
+		/// <returns></returns>
+		public static string GetDigitalActionGlyph(Controller controller, string action)
 		{
-			if ( DigitalHandles.TryGetValue( name, out var val ) )
+			var origin = InputActionOrigin.None;
+
+			Internal.GetDigitalActionOrigins(
+				controller.Handle,
+				Internal.GetCurrentActionSet(controller.Handle),
+				GetDigitalActionHandle(action),
+				ref origin
+			);
+
+			return Internal.GetGlyphForActionOrigin(origin);
+		}
+
+		public static Dictionary<string, InputDigitalActionHandle_t> DigitalHandles = new Dictionary<string, InputDigitalActionHandle_t>();
+		public static InputDigitalActionHandle_t GetDigitalActionHandle(string name)
+		{
+			if (DigitalHandles.TryGetValue(name, out var val))
 				return val;
 
-			val = Internal.GetDigitalActionHandle( name );
-			DigitalHandles.Add( name, val );
+			val = Internal.GetDigitalActionHandle(name);
+			DigitalHandles.Add(name, val);
 			return val;
 		}
 
 		public static Dictionary<string, InputAnalogActionHandle_t> AnalogHandles = new Dictionary<string, InputAnalogActionHandle_t>();
-		public static InputAnalogActionHandle_t GetAnalogActionHandle( string name )
+		public static InputAnalogActionHandle_t GetAnalogActionHandle(string name)
 		{
-			if ( AnalogHandles.TryGetValue( name, out var val ) )
+			if (AnalogHandles.TryGetValue(name, out var val))
 				return val;
 
-			val = Internal.GetAnalogActionHandle( name );
-			AnalogHandles.Add( name, val );
+			val = Internal.GetAnalogActionHandle(name);
+			AnalogHandles.Add(name, val);
 			return val;
 		}
 
 		public static Dictionary<string, InputActionSetHandle_t> ActionSets = new Dictionary<string, InputActionSetHandle_t>();
-		public static InputActionSetHandle_t GetActionSetHandle( string name )
+		public static InputActionSetHandle_t GetActionSetHandle(string name)
 		{
-			if ( ActionSets.TryGetValue( name, out var val ) )
+			if (ActionSets.TryGetValue(name, out var val))
 				return val;
 
-			val = Internal.GetActionSetHandle( name );
-			ActionSets.Add( name, val );
+			val = Internal.GetActionSetHandle(name);
+			ActionSets.Add(name, val);
 			return val;
 		}
 	}

@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks.ServerList
 {
-	public abstract class Base : IDisposable
+	public abstract class Base: IDisposable
 	{
 
 		#region ISteamMatchmakingServers
@@ -44,56 +42,59 @@ namespace Steamworks.ServerList
 
 		public Base()
 		{
-			AppId = SteamClient.AppId; // Default AppId is this 
+			this.AppId = SteamClient.AppId; // Default AppId is this 
 		}
 
 		/// <summary>
 		/// Query the server list. Task result will be true when finished
 		/// </summary>
 		/// <returns></returns>
-		public virtual async Task<bool> RunQueryAsync( float timeoutSeconds = 10 )
+		public virtual async Task<bool> RunQueryAsync(float timeoutSeconds = 10)
 		{
 			var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
-			Reset();
-			LaunchQuery();
+			this.Reset();
+			this.LaunchQuery();
 
-			var thisRequest = request;
+			var thisRequest = this.request;
 
-			while ( IsRefreshing )
+			while (this.IsRefreshing)
 			{
-				await Task.Delay( 33 );
+				await Task.Delay(33);
 
 				//
 				// The request has been cancelled or changed in some way
 				//
-				if ( request.Value == IntPtr.Zero || thisRequest.Value != request.Value )
+				if (this.request.Value == IntPtr.Zero || thisRequest.Value != this.request.Value)
 					return false;
 
-				if ( !SteamClient.IsValid )
+				if (!SteamClient.IsValid)
 					return false;
 
-				var r = Responsive.Count;
+				var r = this.Responsive.Count;
 
-				UpdatePending();
-				UpdateResponsive();
+				this.UpdatePending();
+				this.UpdateResponsive();
 
-				if ( r != Responsive.Count )
+				if (r != this.Responsive.Count)
 				{
-					InvokeChanges();
+					this.InvokeChanges();
 				}
 
-				if ( stopwatch.Elapsed.TotalSeconds > timeoutSeconds )
+				if (stopwatch.Elapsed.TotalSeconds > timeoutSeconds)
 					break;
 			}
 
-			MovePendingToUnresponsive();
-			InvokeChanges();
+			this.MovePendingToUnresponsive();
+			this.InvokeChanges();
 
 			return true;
 		}
 
-		public virtual void Cancel() => Internal.CancelQuery( request );
+		public virtual void Cancel()
+		{
+			Internal.CancelQuery(this.request);
+		}
 
 		// Overrides
 		public abstract void LaunchQuery();
@@ -103,40 +104,43 @@ namespace Steamworks.ServerList
 		#region Filters
 
 		public List<MatchMakingKeyValuePair> filters = new List<MatchMakingKeyValuePair>();
-		public virtual MatchMakingKeyValuePair[] GetFilters() => filters.ToArray();
-
-		public void AddFilter( string key, string value )
+		public virtual MatchMakingKeyValuePair[] GetFilters()
 		{
-			filters.Add( new MatchMakingKeyValuePair { Key = key, Value = value } );
+			return this.filters.ToArray();
+		}
+
+		public void AddFilter(string key, string value)
+		{
+			this.filters.Add(new MatchMakingKeyValuePair { Key = key, Value = value });
 		}
 
 		#endregion
 
-		public int Count => Internal.GetServerCount( request );
-		public bool IsRefreshing => request.Value != IntPtr.Zero && Internal.IsRefreshing( request );
+		public int Count => Internal.GetServerCount(this.request);
+		public bool IsRefreshing => this.request.Value != IntPtr.Zero && Internal.IsRefreshing(this.request);
 		public List<int> watchList = new List<int>();
 		public int LastCount = 0;
 
-		void Reset()
+		private void Reset()
 		{
-			ReleaseQuery();
-			LastCount = 0;
-			watchList.Clear();
+			this.ReleaseQuery();
+			this.LastCount = 0;
+			this.watchList.Clear();
 		}
 
-		void ReleaseQuery()
+		private void ReleaseQuery()
 		{
-			if ( request.Value != IntPtr.Zero )
+			if (this.request.Value != IntPtr.Zero)
 			{
-				Cancel();
-				Internal.ReleaseRequest( request );
-				request = IntPtr.Zero;
+				this.Cancel();
+				Internal.ReleaseRequest(this.request);
+				this.request = IntPtr.Zero;
 			}
 		}
 
 		public void Dispose()
 		{
-			ReleaseQuery();
+			this.ReleaseQuery();
 		}
 
 		public void InvokeChanges()
@@ -144,54 +148,54 @@ namespace Steamworks.ServerList
 			OnChanges?.Invoke();
 		}
 
-		void UpdatePending()
+		private void UpdatePending()
 		{
-			var count = Count;
-			if ( count == LastCount ) return;
-			
-			for ( int i = LastCount; i < count; i++ )
+			var count = this.Count;
+			if (count == this.LastCount) return;
+
+			for (var i = this.LastCount; i < count; i++)
 			{
-				watchList.Add( i );
+				this.watchList.Add(i);
 			}
-			
-			LastCount = count;
+
+			this.LastCount = count;
 		}
 
 		public void UpdateResponsive()
 		{
-			watchList.RemoveAll( x =>
-			{
-				var info = Internal.GetServerDetails( request, x );
-				if ( info.HadSuccessfulResponse )
-				{
-					OnServer( ServerInfo.From( info ), info.HadSuccessfulResponse );
-					return true;
-				}
+			this.watchList.RemoveAll(x =>
+		   {
+			   var info = Internal.GetServerDetails(this.request, x);
+			   if (info.HadSuccessfulResponse)
+			   {
+				   this.OnServer(ServerInfo.From(info), info.HadSuccessfulResponse);
+				   return true;
+			   }
 
-				return false;
-			} );
+			   return false;
+		   });
 		}
 
-		void MovePendingToUnresponsive()
+		private void MovePendingToUnresponsive()
 		{
-			watchList.RemoveAll( x =>
-			{
-				var info = Internal.GetServerDetails( request, x );
-				OnServer( ServerInfo.From( info ), info.HadSuccessfulResponse );
-				return true;
-			} );
+			this.watchList.RemoveAll(x =>
+		   {
+			   var info = Internal.GetServerDetails(this.request, x);
+			   this.OnServer(ServerInfo.From(info), info.HadSuccessfulResponse);
+			   return true;
+		   });
 		}
 
-		private void OnServer( ServerInfo serverInfo, bool responded )
+		private void OnServer(ServerInfo serverInfo, bool responded)
 		{
-			if ( responded )
+			if (responded)
 			{
-				Responsive.Add( serverInfo );
-				OnResponsiveServer?.Invoke( serverInfo );
+				this.Responsive.Add(serverInfo);
+				OnResponsiveServer?.Invoke(serverInfo);
 				return;
 			}
-			
-			Unresponsive.Add( serverInfo );
+
+			this.Unresponsive.Add(serverInfo);
 		}
 	}
 }

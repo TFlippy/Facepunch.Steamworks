@@ -1,5 +1,4 @@
-﻿using System;
-using Steamworks.Data;
+﻿using Steamworks.Data;
 
 namespace Steamworks
 {
@@ -8,16 +7,16 @@ namespace Steamworks
 		/// <summary>
 		/// Must call Accept or Close on the connection within a second or so
 		/// </summary>
-		void OnConnecting( Connection connection, ConnectionInfo info );
+		void OnConnecting(Connection connection, ConnectionInfo info);
 
 		/// <summary>
 		/// Called when the connection is fully connected and can start being communicated with
 		/// </summary>
-		void OnConnected( Connection connection, ConnectionInfo info );			
-			
+		void OnConnected(Connection connection, ConnectionInfo info);
+
 		/// <summary>
 		/// Called when the connection leaves. Must call Close on the connection
 		/// </summary>
-		void OnDisconnected( Connection connection, ConnectionInfo info );
+		void OnDisconnected(Connection connection, ConnectionInfo info);
 	}
 }

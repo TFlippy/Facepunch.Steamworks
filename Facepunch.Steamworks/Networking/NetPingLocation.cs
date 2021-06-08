@@ -19,13 +19,13 @@ namespace Steamworks.Data
 	/// ISteamNetworkingUtils().
 	///
 	/// </summary>
-	[StructLayout( LayoutKind.Explicit, Size = 512 )]
+	[StructLayout(LayoutKind.Explicit, Size = 512)]
 	public struct NetPingLocation
 	{
-		public static NetPingLocation? TryParseFromString( string str )
+		public static NetPingLocation? TryParseFromString(string str)
 		{
-			var result = default( NetPingLocation );
-			if ( !SteamNetworkingUtils.Internal.ParsePingLocationString( str, ref result ) )
+			var result = default(NetPingLocation);
+			if (!SteamNetworkingUtils.Internal.ParsePingLocationString(str, ref result))
 				return null;
 
 			return result;
@@ -33,7 +33,7 @@ namespace Steamworks.Data
 
 		public override string ToString()
 		{
-			SteamNetworkingUtils.Internal.ConvertPingLocationToString( ref this, out var strVal );
+			SteamNetworkingUtils.Internal.ConvertPingLocationToString(ref this, out var strVal);
 			return strVal;
 		}
 
@@ -59,9 +59,9 @@ namespace Steamworks.Data
 		///
 		/// Do you need to be able to do this from a backend/matchmaking server?
 		/// You are looking for the "ticketgen" library.
-		public int EstimatePingTo( NetPingLocation target )
+		public int EstimatePingTo(NetPingLocation target)
 		{
-			return SteamNetworkingUtils.Internal.EstimatePingTimeBetweenTwoLocations( ref this, ref target );
+			return SteamNetworkingUtils.Internal.EstimatePingTimeBetweenTwoLocations(ref this, ref target);
 		}
 	}
 }

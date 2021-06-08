@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Steamworks.ServerList
 {
-	public class Internet : Base
+	public class Internet: Base
 	{
 		public override void LaunchQuery()
 		{
-			var filters = GetFilters();
+			var filters = this.GetFilters();
 
-			request = Internal.RequestInternetServerList( AppId.Value, ref filters, (uint)filters.Length, IntPtr.Zero );
+			this.request = Internal.RequestInternetServerList(this.AppId.Value, ref filters, (uint)filters.Length, IntPtr.Zero);
 		}
 	}
 }

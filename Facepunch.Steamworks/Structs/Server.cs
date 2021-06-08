@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Steamworks.Data
 {
-	public struct ServerInfo : IEquatable<ServerInfo>
+	public struct ServerInfo: IEquatable<ServerInfo>
 	{
 		public string Name { get; set; }
 		public int Ping { get; set; }
@@ -29,7 +27,7 @@ namespace Steamworks.Data
 		public int ConnectionPort { get; set; }
 		public int QueryPort { get; set; }
 
-		string[] _tags;
+		private string[] _tags;
 
 		/// <summary>
 		/// Gets the individual tags for this server
@@ -38,24 +36,24 @@ namespace Steamworks.Data
 		{
 			get
 			{
-				if ( _tags == null )
+				if (this._tags == null)
 				{
-					if ( !string.IsNullOrEmpty( TagString ) )
+					if (!string.IsNullOrEmpty(this.TagString))
 					{
-						_tags = TagString.Split( ',' );
+						this._tags = this.TagString.Split(',');
 					}
 				}
 
-				return _tags;
+				return this._tags;
 			}
 		}
 
-		public static ServerInfo From( gameserveritem_t item )
+		public static ServerInfo From(gameserveritem_t item)
 		{
 			return new ServerInfo()
 			{
 				AddressRaw = item.NetAdr.IP,
-				Address = Utility.Int32ToIp( item.NetAdr.IP ),
+				Address = Utility.Int32ToIp(item.NetAdr.IP),
 				ConnectionPort = item.NetAdr.ConnectionPort,
 				QueryPort = item.NetAdr.QueryPort,
 				Name = item.ServerNameUTF8(),
@@ -76,13 +74,13 @@ namespace Steamworks.Data
 			};
 		}
 
-		public ServerInfo( uint ip, ushort cport, ushort qport, uint timeplayed ) : this()
+		public ServerInfo(uint ip, ushort cport, ushort qport, uint timeplayed) : this()
 		{
-			AddressRaw = ip;
-			Address = Utility.Int32ToIp( ip );
-			ConnectionPort = cport;
-			QueryPort = qport;
-			LastTimePlayed = timeplayed;
+			this.AddressRaw = ip;
+			this.Address = Utility.Int32ToIp(ip);
+			this.ConnectionPort = cport;
+			this.QueryPort = qport;
+			this.LastTimePlayed = timeplayed;
 		}
 
 		public const uint k_unFavoriteFlagNone = 0x00;
@@ -97,7 +95,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public void AddToHistory()
 		{
-			SteamMatchmaking.Internal.AddFavoriteGame( SteamClient.AppId, AddressRaw, (ushort)ConnectionPort, (ushort)QueryPort, k_unFavoriteFlagHistory, (uint)Epoch.Current );
+			SteamMatchmaking.Internal.AddFavoriteGame(SteamClient.AppId, this.AddressRaw, (ushort)this.ConnectionPort, (ushort)this.QueryPort, k_unFavoriteFlagHistory, (uint)Epoch.Current);
 		}
 
 		/// <summary>
@@ -105,7 +103,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public async Task<Dictionary<string, string>> QueryRulesAsync()
 		{
-			return await SourceServerQuery.GetRules( this );
+			return await SourceServerQuery.GetRules(this);
 		}
 
 		/// <summary>
@@ -113,7 +111,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public void RemoveFromHistory()
 		{
-			SteamMatchmaking.Internal.RemoveFavoriteGame( SteamClient.AppId, AddressRaw, (ushort)ConnectionPort, (ushort)QueryPort, k_unFavoriteFlagHistory );
+			SteamMatchmaking.Internal.RemoveFavoriteGame(SteamClient.AppId, this.AddressRaw, (ushort)this.ConnectionPort, (ushort)this.QueryPort, k_unFavoriteFlagHistory);
 		}
 
 		/// <summary>
@@ -121,7 +119,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public void AddToFavourites()
 		{
-			SteamMatchmaking.Internal.AddFavoriteGame( SteamClient.AppId, AddressRaw, (ushort)ConnectionPort, (ushort)QueryPort, k_unFavoriteFlagFavorite, (uint)Epoch.Current );
+			SteamMatchmaking.Internal.AddFavoriteGame(SteamClient.AppId, this.AddressRaw, (ushort)this.ConnectionPort, (ushort)this.QueryPort, k_unFavoriteFlagFavorite, (uint)Epoch.Current);
 		}
 
 		/// <summary>
@@ -129,17 +127,17 @@ namespace Steamworks.Data
 		/// </summary>
 		public void RemoveFromFavourites()
 		{
-			SteamMatchmaking.Internal.RemoveFavoriteGame( SteamClient.AppId, AddressRaw, (ushort)ConnectionPort, (ushort)QueryPort, k_unFavoriteFlagFavorite );
+			SteamMatchmaking.Internal.RemoveFavoriteGame(SteamClient.AppId, this.AddressRaw, (ushort)this.ConnectionPort, (ushort)this.QueryPort, k_unFavoriteFlagFavorite);
 		}
 
-		public bool Equals( ServerInfo other )
+		public bool Equals(ServerInfo other)
 		{
 			return this.GetHashCode() == other.GetHashCode();
 		}
 
 		public override int GetHashCode()
 		{
-			return Address.GetHashCode() + SteamId.GetHashCode() + ConnectionPort.GetHashCode() + QueryPort.GetHashCode();
+			return this.Address.GetHashCode() + this.SteamId.GetHashCode() + this.ConnectionPort.GetHashCode() + this.QueryPort.GetHashCode();
 		}
 	}
 }

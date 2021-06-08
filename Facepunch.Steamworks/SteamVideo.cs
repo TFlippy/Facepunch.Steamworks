@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Undocumented Parental Settings
 	/// </summary>
-	public class SteamVideo : SteamClientClass<SteamVideo>
+	public class SteamVideo: SteamClientClass<SteamVideo>
 	{
 		public static ISteamVideo Internal => Interface as ISteamVideo;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamVideo( server ) );
+			this.SetInterface(server, new ISteamVideo(server));
 			InstallEvents();
 		}
 
@@ -36,8 +31,8 @@ namespace Steamworks
 		{
 			get
 			{
-				int viewers = 0;
-				return Internal.IsBroadcasting( ref viewers );
+				var viewers = 0;
+				return Internal.IsBroadcasting(ref viewers);
 			}
 		}
 
@@ -48,9 +43,9 @@ namespace Steamworks
 		{
 			get
 			{
-				int viewers = 0;
+				var viewers = 0;
 
-				if ( !Internal.IsBroadcasting( ref viewers ) )
+				if (!Internal.IsBroadcasting(ref viewers))
 					return 0;
 
 				return viewers;

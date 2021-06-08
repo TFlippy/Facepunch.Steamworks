@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// A structured description of an item exchange
 	/// </summary>
-	public struct InventoryRecipe : IEquatable<InventoryRecipe>
+	public struct InventoryRecipe: IEquatable<InventoryRecipe>
 	{
 		public struct Ingredient
 		{
@@ -29,29 +26,29 @@ namespace Steamworks
 			/// </summary>
 			public int Count;
 
-			public static Ingredient FromString( string part )
+			public static Ingredient FromString(string part)
 			{
 				var i = new Ingredient();
 				i.Count = 1;
 
 				try
 				{
-					if ( part.Contains( "x" ) )
+					if (part.Contains("x"))
 					{
-						var idx = part.IndexOf( 'x' );
+						var idx = part.IndexOf('x');
 
-						int count = 0;
-						if ( int.TryParse( part.Substring( idx + 1 ), out count ) )
+						var count = 0;
+						if (int.TryParse(part.Substring(idx + 1), out count))
 							i.Count = count;
 
-						part = part.Substring( 0, idx );
+						part = part.Substring(0, idx);
 					}
 
-					i.DefinitionId = int.Parse( part );
-					i.Definition = SteamInventory.FindDefinition( i.DefinitionId );
+					i.DefinitionId = int.Parse(part);
+					i.Definition = SteamInventory.FindDefinition(i.DefinitionId);
 
 				}
-				catch ( System.Exception )
+				catch (System.Exception)
 				{
 					return i;
 				}
@@ -72,7 +69,7 @@ namespace Steamworks
 
 		public string Source;
 
-		public static InventoryRecipe FromString( string part, InventoryDef Result )
+		public static InventoryRecipe FromString(string part, InventoryDef Result)
 		{
 			var r = new InventoryRecipe
 			{
@@ -80,25 +77,32 @@ namespace Steamworks
 				Source = part
 			};
 
-			var parts = part.Split( new[] { ',' }, StringSplitOptions.RemoveEmptyEntries );
+			var parts = part.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-			r.Ingredients = parts.Select( x => Ingredient.FromString( x ) ).Where( x => x.DefinitionId != 0 ).ToArray();
+			r.Ingredients = parts.Select(x => Ingredient.FromString(x)).Where(x => x.DefinitionId != 0).ToArray();
 			return r;
 		}
 
-		public bool ContainsIngredient( InventoryDef inventoryDef )
+		public bool ContainsIngredient(InventoryDef inventoryDef)
 		{
-			return Ingredients.Any( x => x.DefinitionId == inventoryDef.Id );
+			return this.Ingredients.Any(x => x.DefinitionId == inventoryDef.Id);
 		}
 
-		public static bool operator ==( InventoryRecipe a, InventoryRecipe b ) => a.GetHashCode() == b.GetHashCode();
-		public static bool operator !=( InventoryRecipe a, InventoryRecipe b ) => a.GetHashCode() != b.GetHashCode();
-		public override bool Equals( object p ) => this.Equals( (InventoryRecipe)p );
+		public static bool operator ==(InventoryRecipe a, InventoryRecipe b) => a.GetHashCode() == b.GetHashCode();
+		public static bool operator !=(InventoryRecipe a, InventoryRecipe b) => a.GetHashCode() != b.GetHashCode();
+		public override bool Equals(object p)
+		{
+			return this.Equals((InventoryRecipe)p);
+		}
+
 		public override int GetHashCode()
 		{
-			return Source.GetHashCode();
+			return this.Source.GetHashCode();
 		}
 
-		public bool Equals( InventoryRecipe p ) => p.GetHashCode() == GetHashCode();
+		public bool Equals(InventoryRecipe p)
+		{
+			return p.GetHashCode() == this.GetHashCode();
+		}
 	}
 }

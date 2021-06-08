@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Steamworks.Data;
+using System;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
-	public struct InventoryResult : IDisposable
+	public struct InventoryResult: IDisposable
 	{
 		public SteamInventoryResult_t _id;
-		
+
 		public bool Expired { get; set; }
 
-		public InventoryResult( SteamInventoryResult_t id, bool expired )
+		public InventoryResult(SteamInventoryResult_t id, bool expired)
 		{
-			_id = id;
-			Expired = expired;
+			this._id = id;
+			this.Expired = expired;
 		}
 
 		public int ItemCount
@@ -23,10 +22,10 @@ namespace Steamworks
 			{
 				uint cnt = 0;
 
-				if ( !SteamInventory.Internal.GetResultItems( _id, null, ref cnt ) )
+				if (!SteamInventory.Internal.GetResultItems(this._id, null, ref cnt))
 					return 0;
 
-				return (int) cnt;
+				return (int)cnt;
 			}
 		}
 
@@ -34,57 +33,57 @@ namespace Steamworks
 		/// Checks whether an inventory result handle belongs to the specified Steam ID.
 		/// This is important when using Deserialize, to verify that a remote player is not pretending to have a different user's inventory
 		/// </summary>
-		public bool BelongsTo( SteamId steamId )
+		public bool BelongsTo(SteamId steamId)
 		{
-			return SteamInventory.Internal.CheckResultSteamID( _id, steamId );
+			return SteamInventory.Internal.CheckResultSteamID(this._id, steamId);
 		}
 
-		public InventoryItem[] GetItems( bool includeProperties = false )
+		public InventoryItem[] GetItems(bool includeProperties = false)
 		{
-			uint cnt = (uint) ItemCount;
-			if ( cnt <= 0 ) return null;
+			var cnt = (uint)this.ItemCount;
+			if (cnt <= 0) return null;
 
 			var pOutItemsArray = new SteamItemDetails_t[cnt];
 
-			if ( !SteamInventory.Internal.GetResultItems( _id, pOutItemsArray, ref cnt ) )
+			if (!SteamInventory.Internal.GetResultItems(this._id, pOutItemsArray, ref cnt))
 				return null;
 
 			var items = new InventoryItem[cnt];
 
-			for( int i=0; i< cnt; i++ )
+			for (var i = 0; i < cnt; i++)
 			{
-				var item = InventoryItem.From( pOutItemsArray[i] );
+				var item = InventoryItem.From(pOutItemsArray[i]);
 
-				if ( includeProperties )
-					item._properties = InventoryItem.GetProperties( _id, i );
+				if (includeProperties)
+					item._properties = InventoryItem.GetProperties(this._id, i);
 
 				items[i] = item;
 			}
 
 
-			return items;			
+			return items;
 		}
 
 		public void Dispose()
 		{
-			if ( _id.Value == -1 ) return;
+			if (this._id.Value == -1) return;
 
-			SteamInventory.Internal.DestroyResult( _id );
+			SteamInventory.Internal.DestroyResult(this._id);
 		}
 
-		public static async Task<InventoryResult?> GetAsync( SteamInventoryResult_t sresult )
+		public static async Task<InventoryResult?> GetAsync(SteamInventoryResult_t sresult)
 		{
 			var _result = Result.Pending;
-			while ( _result == Result.Pending )
+			while (_result == Result.Pending)
 			{
-				_result = SteamInventory.Internal.GetResultStatus( sresult );
-				await Task.Delay( 10 );
+				_result = SteamInventory.Internal.GetResultStatus(sresult);
+				await Task.Delay(10);
 			}
 
-			if ( _result != Result.OK && _result != Result.Expired )
+			if (_result != Result.OK && _result != Result.Expired)
 				return null;
 
-			return new InventoryResult( sresult, _result == Result.Expired );
+			return new InventoryResult(sresult, _result == Result.Expired);
 		}
 
 		/// <summary>
@@ -101,14 +100,14 @@ namespace Steamworks
 		{
 			uint size = 0;
 
-			if ( !SteamInventory.Internal.SerializeResult( _id, IntPtr.Zero, ref size ) )
+			if (!SteamInventory.Internal.SerializeResult(this._id, IntPtr.Zero, ref size))
 				return null;
 
 			var data = new byte[size];
 
-			fixed ( byte* ptr = data )
+			fixed (byte* ptr = data)
 			{
-				if ( !SteamInventory.Internal.SerializeResult( _id, (IntPtr)ptr, ref size ) )
+				if (!SteamInventory.Internal.SerializeResult(this._id, (IntPtr)ptr, ref size))
 					return null;
 			}
 

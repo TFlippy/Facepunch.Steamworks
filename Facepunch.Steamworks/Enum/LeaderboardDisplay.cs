@@ -1,6 +1,6 @@
 ﻿namespace Steamworks.Data
 {
-	public enum LeaderboardDisplay : int
+	public enum LeaderboardDisplay: int
 	{
 		/// <summary>
 		/// The score is just a simple numerical value

@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Steamworks.Data
 {
@@ -17,7 +17,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public LobbyQuery FilterDistanceClose()
 		{
-			distance = LobbyDistanceFilter.Close;
+			this.distance = LobbyDistanceFilter.Close;
 			return this;
 		}
 
@@ -26,7 +26,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public LobbyQuery FilterDistanceFar()
 		{
-			distance = LobbyDistanceFilter.Far;
+			this.distance = LobbyDistanceFilter.Far;
 			return this;
 		}
 
@@ -35,7 +35,7 @@ namespace Steamworks.Data
 		/// </summary>
 		public LobbyQuery FilterDistanceWorldwide()
 		{
-			distance = LobbyDistanceFilter.Worldwide;
+			this.distance = LobbyDistanceFilter.Worldwide;
 			return this;
 		}
 		#endregion
@@ -46,18 +46,18 @@ namespace Steamworks.Data
 		/// <summary>
 		/// Filter by specified key/value pair; string parameters
 		/// </summary>
-		public LobbyQuery WithKeyValue( string key, string value )
+		public LobbyQuery WithKeyValue(string key, string value)
 		{
-			if ( string.IsNullOrEmpty( key ) )
-				throw new System.ArgumentException( "Key string provided for LobbyQuery filter is null or empty", nameof( key ) );
+			if (string.IsNullOrEmpty(key))
+				throw new System.ArgumentException("Key string provided for LobbyQuery filter is null or empty", nameof(key));
 
-			if ( key.Length > SteamMatchmaking.MaxLobbyKeyLength )
-				throw new System.ArgumentException( $"Key length is longer than {SteamMatchmaking.MaxLobbyKeyLength}", nameof( key ) );
+			if (key.Length > SteamMatchmaking.MaxLobbyKeyLength)
+				throw new System.ArgumentException($"Key length is longer than {SteamMatchmaking.MaxLobbyKeyLength}", nameof(key));
 
-			if ( stringFilters == null )
-				stringFilters = new Dictionary<string, string>();
+			if (this.stringFilters == null)
+				this.stringFilters = new Dictionary<string, string>();
 
-			stringFilters.Add( key, value );
+			this.stringFilters.Add(key, value);
 
 			return this;
 		}
@@ -69,54 +69,54 @@ namespace Steamworks.Data
 		/// <summary>
 		/// Numerical filter where value is less than the value provided
 		/// </summary>
-		public LobbyQuery WithLower( string key, int value )
+		public LobbyQuery WithLower(string key, int value)
 		{
-			AddNumericalFilter( key, value, LobbyComparison.LessThan );
+			this.AddNumericalFilter(key, value, LobbyComparison.LessThan);
 			return this;
 		}
 
 		/// <summary>
 		/// Numerical filter where value is greater than the value provided
 		/// </summary>
-		public LobbyQuery WithHigher( string key, int value )
+		public LobbyQuery WithHigher(string key, int value)
 		{
-			AddNumericalFilter( key, value, LobbyComparison.GreaterThan );
+			this.AddNumericalFilter(key, value, LobbyComparison.GreaterThan);
 			return this;
 		}
 
 		/// <summary>
 		/// Numerical filter where value must be equal to the value provided
 		/// </summary>
-		public LobbyQuery WithEqual( string key, int value )
+		public LobbyQuery WithEqual(string key, int value)
 		{
-			AddNumericalFilter( key, value, LobbyComparison.Equal );
+			this.AddNumericalFilter(key, value, LobbyComparison.Equal);
 			return this;
 		}
 
 		/// <summary>
 		/// Numerical filter where value must not equal the value provided
 		/// </summary>
-		public LobbyQuery WithNotEqual( string key, int value )
+		public LobbyQuery WithNotEqual(string key, int value)
 		{
-			AddNumericalFilter( key, value, LobbyComparison.NotEqual );
+			this.AddNumericalFilter(key, value, LobbyComparison.NotEqual);
 			return this;
 		}
 
 		/// <summary>
 		/// Test key, initialize numerical filter list if necessary, then add new numerical filter
 		/// </summary>
-		public void AddNumericalFilter( string key, int value, LobbyComparison compare )
+		public void AddNumericalFilter(string key, int value, LobbyComparison compare)
 		{
-			if ( string.IsNullOrEmpty( key ) )
-				throw new System.ArgumentException( "Key string provided for LobbyQuery filter is null or empty", nameof( key ) );
+			if (string.IsNullOrEmpty(key))
+				throw new System.ArgumentException("Key string provided for LobbyQuery filter is null or empty", nameof(key));
 
-			if ( key.Length > SteamMatchmaking.MaxLobbyKeyLength )
-				throw new System.ArgumentException( $"Key length is longer than {SteamMatchmaking.MaxLobbyKeyLength}", nameof( key ) );
+			if (key.Length > SteamMatchmaking.MaxLobbyKeyLength)
+				throw new System.ArgumentException($"Key length is longer than {SteamMatchmaking.MaxLobbyKeyLength}", nameof(key));
 
-			if ( numericalFilters == null )
-				numericalFilters = new List<NumericalFilter>();
+			if (this.numericalFilters == null)
+				this.numericalFilters = new List<NumericalFilter>();
 
-			numericalFilters.Add( new NumericalFilter( key, value, compare ) );
+			this.numericalFilters.Add(new NumericalFilter(key, value, compare));
 		}
 		#endregion
 
@@ -127,18 +127,18 @@ namespace Steamworks.Data
 		/// Order filtered results according to key/values nearest the provided key/value pair.
 		/// Can specify multiple near value filters; each successive filter is lower priority than the previous.
 		/// </summary>
-		public LobbyQuery OrderByNear( string key, int value )
+		public LobbyQuery OrderByNear(string key, int value)
 		{
-			if ( string.IsNullOrEmpty( key ) )
-				throw new System.ArgumentException( "Key string provided for LobbyQuery filter is null or empty", nameof( key ) );
+			if (string.IsNullOrEmpty(key))
+				throw new System.ArgumentException("Key string provided for LobbyQuery filter is null or empty", nameof(key));
 
-			if ( key.Length > SteamMatchmaking.MaxLobbyKeyLength )
-				throw new System.ArgumentException( $"Key length is longer than {SteamMatchmaking.MaxLobbyKeyLength}", nameof( key ) );
+			if (key.Length > SteamMatchmaking.MaxLobbyKeyLength)
+				throw new System.ArgumentException($"Key length is longer than {SteamMatchmaking.MaxLobbyKeyLength}", nameof(key));
 
-			if ( nearValFilters == null )
-				nearValFilters = new Dictionary<string, int>();
+			if (this.nearValFilters == null)
+				this.nearValFilters = new Dictionary<string, int>();
 
-			nearValFilters.Add( key, value );
+			this.nearValFilters.Add(key, value);
 
 			return this;
 		}
@@ -150,9 +150,9 @@ namespace Steamworks.Data
 		/// <summary>
 		/// returns only lobbies with the specified number of slots available
 		/// </summary>
-		public LobbyQuery WithSlotsAvailable( int minSlots )
+		public LobbyQuery WithSlotsAvailable(int minSlots)
 		{
-			slotsAvailable = minSlots;
+			this.slotsAvailable = minSlots;
 			return this;
 		}
 
@@ -164,52 +164,52 @@ namespace Steamworks.Data
 		/// <summary>
 		/// sets how many results to return, the lower the count the faster it is to download the lobby results
 		/// </summary>
-		public LobbyQuery WithMaxResults( int max )
+		public LobbyQuery WithMaxResults(int max)
 		{
-			maxResults = max;
+			this.maxResults = max;
 			return this;
 		}
 
 		#endregion
 
-		void ApplyFilters()
+		private void ApplyFilters()
 		{
-			if ( distance.HasValue )
+			if (this.distance.HasValue)
 			{
-				SteamMatchmaking.Internal.AddRequestLobbyListDistanceFilter( distance.Value );
+				SteamMatchmaking.Internal.AddRequestLobbyListDistanceFilter(this.distance.Value);
 			}
 
-			if ( slotsAvailable.HasValue )
+			if (this.slotsAvailable.HasValue)
 			{
-				SteamMatchmaking.Internal.AddRequestLobbyListFilterSlotsAvailable( slotsAvailable.Value );
+				SteamMatchmaking.Internal.AddRequestLobbyListFilterSlotsAvailable(this.slotsAvailable.Value);
 			}
 
-			if ( maxResults.HasValue )
+			if (this.maxResults.HasValue)
 			{
-				SteamMatchmaking.Internal.AddRequestLobbyListResultCountFilter( maxResults.Value );
+				SteamMatchmaking.Internal.AddRequestLobbyListResultCountFilter(this.maxResults.Value);
 			}
 
-			if ( stringFilters != null )
+			if (this.stringFilters != null)
 			{
-				foreach ( var k in stringFilters )
+				foreach (var k in this.stringFilters)
 				{
-					SteamMatchmaking.Internal.AddRequestLobbyListStringFilter( k.Key, k.Value, LobbyComparison.Equal );
+					SteamMatchmaking.Internal.AddRequestLobbyListStringFilter(k.Key, k.Value, LobbyComparison.Equal);
 				}
 			}
 
-			if( numericalFilters != null )
+			if (this.numericalFilters != null)
 			{
-				foreach ( var n in numericalFilters )
+				foreach (var n in this.numericalFilters)
 				{
-					SteamMatchmaking.Internal.AddRequestLobbyListNumericalFilter( n.Key, n.Value, n.Comparer );
+					SteamMatchmaking.Internal.AddRequestLobbyListNumericalFilter(n.Key, n.Value, n.Comparer);
 				}
 			}
 
-			if( nearValFilters != null )
+			if (this.nearValFilters != null)
 			{
-				foreach (var v in nearValFilters )
+				foreach (var v in this.nearValFilters)
 				{
-					SteamMatchmaking.Internal.AddRequestLobbyListNearValueFilter( v.Key, v.Value );
+					SteamMatchmaking.Internal.AddRequestLobbyListNearValueFilter(v.Key, v.Value);
 				}
 			}
 		}
@@ -219,19 +219,19 @@ namespace Steamworks.Data
 		/// </summary>
 		public async Task<Lobby[]> RequestAsync()
 		{
-			ApplyFilters();
+			this.ApplyFilters();
 
-			LobbyMatchList_t? list = await SteamMatchmaking.Internal.RequestLobbyList();
-			if ( !list.HasValue || list.Value.LobbiesMatching == 0 )
+			var list = await SteamMatchmaking.Internal.RequestLobbyList();
+			if (!list.HasValue || list.Value.LobbiesMatching == 0)
 			{
 				return null;
 			}
 
-			Lobby[] lobbies = new Lobby[list.Value.LobbiesMatching];
+			var lobbies = new Lobby[list.Value.LobbiesMatching];
 
-			for ( int i = 0; i < list.Value.LobbiesMatching; i++ )
+			for (var i = 0; i < list.Value.LobbiesMatching; i++)
 			{
-				lobbies[i] = new Lobby { Id = SteamMatchmaking.Internal.GetLobbyByIndex( i ) };
+				lobbies[i] = new Lobby { Id = SteamMatchmaking.Internal.GetLobbyByIndex(i) };
 			}
 
 			return lobbies;

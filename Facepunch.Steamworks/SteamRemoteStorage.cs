@@ -1,49 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Undocumented Parental Settings
 	/// </summary>
-	public class SteamRemoteStorage : SteamClientClass<SteamRemoteStorage>
+	public class SteamRemoteStorage: SteamClientClass<SteamRemoteStorage>
 	{
 		public static ISteamRemoteStorage Internal => Interface as ISteamRemoteStorage;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamRemoteStorage( server ) );
+			this.SetInterface(server, new ISteamRemoteStorage(server));
 		}
-		
+
 
 		/// <summary>
 		/// Creates a new file, writes the bytes to the file, and then closes the file.
 		/// If the target file already exists, it is overwritten
 		/// </summary>
-		public unsafe static bool FileWrite( string filename, byte[] data )
+		public static unsafe bool FileWrite(string filename, byte[] data)
 		{
-			fixed ( byte* ptr = data )
+			fixed (byte* ptr = data)
 			{
-				return Internal.FileWrite( filename, (IntPtr) ptr, data.Length );
+				return Internal.FileWrite(filename, (IntPtr)ptr, data.Length);
 			}
 		}
 
 		/// <summary>
 		/// Opens a binary file, reads the contents of the file into a byte array, and then closes the file.
 		/// </summary>
-		public unsafe static byte[] FileRead( string filename )
+		public static unsafe byte[] FileRead(string filename)
 		{
-			var size = FileSize( filename );
-			if ( size <= 0 ) return null;
+			var size = FileSize(filename);
+			if (size <= 0) return null;
 			var buffer = new byte[size];
 
-			fixed ( byte* ptr = buffer )
+			fixed (byte* ptr = buffer)
 			{
-				var readsize = Internal.FileRead( filename, (IntPtr)ptr, size );
+				var readsize = Internal.FileRead(filename, (IntPtr)ptr, size);
 				return buffer;
 			}
 		}
@@ -51,32 +47,50 @@ namespace Steamworks
 		/// <summary>
 		/// Checks whether the specified file exists.
 		/// </summary>
-		public static bool FileExists( string filename ) => Internal.FileExists( filename );
+		public static bool FileExists(string filename)
+		{
+			return Internal.FileExists(filename);
+		}
 
 		/// <summary>
 		/// Checks if a specific file is persisted in the steam cloud.
 		/// </summary>
-		public static bool FilePersisted( string filename ) => Internal.FilePersisted( filename );
+		public static bool FilePersisted(string filename)
+		{
+			return Internal.FilePersisted(filename);
+		}
 
 		/// <summary>
 		/// Gets the specified file's last modified date/time.
 		/// </summary>
-		public static DateTime FileTime( string filename ) => Epoch.ToDateTime( Internal.GetFileTimestamp( filename ) );
+		public static DateTime FileTime(string filename)
+		{
+			return Epoch.ToDateTime(Internal.GetFileTimestamp(filename));
+		}
 
 		/// <summary>
 		/// Gets the specified files size in bytes. 0 if not exists.
 		/// </summary>
-		public static int FileSize( string filename ) => Internal.GetFileSize( filename );
+		public static int FileSize(string filename)
+		{
+			return Internal.GetFileSize(filename);
+		}
 
 		/// <summary>
 		/// Deletes the file from remote storage, but leaves it on the local disk and remains accessible from the API.
 		/// </summary>
-		public static bool FileForget( string filename ) => Internal.FileForget( filename );
+		public static bool FileForget(string filename)
+		{
+			return Internal.FileForget(filename);
+		}
 
 		/// <summary>
 		/// Deletes a file from the local disk, and propagates that delete to the cloud.
 		/// </summary>
-		public static bool FileDelete( string filename ) => Internal.FileDelete( filename );
+		public static bool FileDelete(string filename)
+		{
+			return Internal.FileDelete(filename);
+		}
 
 
 		/// <summary>
@@ -87,7 +101,7 @@ namespace Steamworks
 			get
 			{
 				ulong t = 0, a = 0;
-				Internal.GetQuota( ref t, ref a );
+				Internal.GetQuota(ref t, ref a);
 				return t;
 			}
 		}
@@ -100,7 +114,7 @@ namespace Steamworks
 			get
 			{
 				ulong t = 0, a = 0;
-				Internal.GetQuota( ref t, ref a );
+				Internal.GetQuota(ref t, ref a);
 				return t - a;
 			}
 		}
@@ -113,7 +127,7 @@ namespace Steamworks
 			get
 			{
 				ulong t = 0, a = 0;
-				Internal.GetQuota( ref t, ref a );
+				Internal.GetQuota(ref t, ref a);
 				return a;
 			}
 		}
@@ -140,7 +154,7 @@ namespace Steamworks
 		public static bool IsCloudEnabledForApp
 		{
 			get => Internal.IsCloudEnabledForApp();
-			set => Internal.SetCloudEnabledForApp( value );
+			set => Internal.SetCloudEnabledForApp(value);
 		}
 
 		/// <summary>
@@ -155,10 +169,10 @@ namespace Steamworks
 		{
 			get
 			{
-				int _ = 0;
-				for( int i=0; i<FileCount; i++ )
+				var _ = 0;
+				for (var i = 0; i < FileCount; i++)
 				{
-					var filename = Internal.GetFileNameAndSize( i, ref _ );
+					var filename = Internal.GetFileNameAndSize(i, ref _);
 					yield return filename;
 				}
 			}

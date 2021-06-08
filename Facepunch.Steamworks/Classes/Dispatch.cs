@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Steamworks.Data;
-using Steamworks;
-using System.Linq;
 
 namespace Steamworks
 {
@@ -76,7 +75,7 @@ namespace Steamworks
 		/// <summary>
 		/// Make sure we don't call Frame in a callback - because that'll cause some issues for everyone.
 		/// </summary>
-		static bool runningFrame = false;
+		private static bool runningFrame = false;
 
 		/// <summary>
 		/// Calls RunFrame and processes events from this Steam Pipe
@@ -123,7 +122,7 @@ namespace Steamworks
 		/// could be an issue is if the callback list is modified in the continuation
 		/// which would only happen if starting or shutting down in the callback.
 		/// </summary>
-		static List<Action<IntPtr>> actionsToCall = new List<Action<IntPtr>>();
+		private static List<Action<IntPtr>> actionsToCall = new List<Action<IntPtr>>();
 
 		/// <summary>
 		/// A callback is a general global message
@@ -189,7 +188,7 @@ namespace Steamworks
 				var spaces = (columnSize - field.Name.Length);
 				if (spaces < 0) spaces = 0;
 
-				str += $"{new String(' ', spaces)}{field.Name}: {field.GetValue(strct)}\n";
+				str += $"{new string(' ', spaces)}{field.Name}: {field.GetValue(strct)}\n";
 			}
 
 			return str.Trim('\n');
@@ -256,13 +255,13 @@ namespace Steamworks
 			}
 		}
 
-		struct ResultCallback
+		private struct ResultCallback
 		{
 			public Action continuation;
 			public bool server;
 		}
 
-		static Dictionary<ulong, ResultCallback> ResultCallbacks = new Dictionary<ulong, ResultCallback>();
+		private static Dictionary<ulong, ResultCallback> ResultCallbacks = new Dictionary<ulong, ResultCallback>();
 
 		/// <summary>
 		/// Watch for a steam api call
@@ -276,13 +275,13 @@ namespace Steamworks
 			};
 		}
 
-		struct Callback
+		private struct Callback
 		{
 			public Action<IntPtr> action;
 			public bool server;
 		}
 
-		static Dictionary<CallbackType, List<Callback>> Callbacks = new Dictionary<CallbackType, List<Callback>>();
+		private static Dictionary<CallbackType, List<Callback>> Callbacks = new Dictionary<CallbackType, List<Callback>>();
 
 		/// <summary>
 		/// Install a global callback. The passed function will get called if it's all good.

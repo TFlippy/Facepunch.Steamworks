@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
@@ -16,7 +13,7 @@ namespace Steamworks
 
 		public override void InitializeInterface(bool server)
 		{
-			SetInterface(server, new ISteamGameServer(server));
+			this.SetInterface(server, new ISteamGameServer(server));
 			InstallEvents();
 		}
 
@@ -134,7 +131,7 @@ namespace Steamworks
 			openInterfaces.Add(t);
 		}
 
-		static readonly List<SteamClass> openInterfaces = new List<SteamClass>();
+		private static readonly List<SteamClass> openInterfaces = new List<SteamClass>();
 
 		public static void ShutdownInterfaces()
 		{
@@ -312,7 +309,7 @@ namespace Steamworks
 		/// </summary>
 		public static bool AutomaticHeartbeats
 		{
-			set { Internal.EnableHeartbeats(value); }
+			set => Internal.EnableHeartbeats(value);
 		}
 
 		/// <summary>
@@ -321,7 +318,7 @@ namespace Steamworks
 		/// </summary>
 		public static int AutomaticHeartbeatRate
 		{
-			set { Internal.SetHeartbeatInterval(value); }
+			set => Internal.SetHeartbeatInterval(value);
 		}
 
 		/// <summary>
@@ -343,7 +340,7 @@ namespace Steamworks
 			Internal.BUpdateUserData(steamid, name, (uint)score);
 		}
 
-		static Dictionary<string, string> KeyValue = new Dictionary<string, string>();
+		private static Dictionary<string, string> KeyValue = new Dictionary<string, string>();
 
 		/// <summary>
 		/// Sets a Key Value. These can be anything you like, and are accessible

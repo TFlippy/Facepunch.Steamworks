@@ -3,13 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks.Data
 {
-	[StructLayout( LayoutKind.Explicit, Size = 18, Pack = 1 )]
+	[StructLayout(LayoutKind.Explicit, Size = 18, Pack = 1)]
 	public partial struct NetAddress
 	{
-		[FieldOffset( 0 )]
+		[FieldOffset(0)]
 		public IPV4 ip;
 
-		[FieldOffset( 16 )]
+		[FieldOffset(16)]
 		public ushort port;
 
 		public struct IPV4
@@ -26,12 +26,12 @@ namespace Steamworks.Data
 		/// <summary>
 		/// The Port. This is redundant documentation.
 		/// </summary>
-		public ushort Port => port;
+		public ushort Port => this.port;
 
 		/// <summary>
 		/// Any IP, specific port
 		/// </summary>
-		public static NetAddress AnyIp( ushort port )
+		public static NetAddress AnyIp(ushort port)
 		{
 			var addr = Cleared;
 			addr.port = port;
@@ -41,36 +41,36 @@ namespace Steamworks.Data
 		/// <summary>
 		/// Localhost IP, specific port
 		/// </summary>
-		public static NetAddress LocalHost( ushort port )
+		public static NetAddress LocalHost(ushort port)
 		{
 			var local = Cleared;
-			InternalSetIPv6LocalHost( ref local, port );
+			InternalSetIPv6LocalHost(ref local, port);
 			return local;
 		}
 
 		/// <summary>
 		/// Specific IP, specific port
 		/// </summary>
-		public static NetAddress From( string addrStr, ushort port )
+		public static NetAddress From(string addrStr, ushort port)
 		{
-			return From( IPAddress.Parse( addrStr ), port );
+			return From(IPAddress.Parse(addrStr), port);
 		}
 
 		/// <summary>
 		/// Specific IP, specific port
 		/// </summary>
-		public static NetAddress From( IPAddress address, ushort port )
+		public static NetAddress From(IPAddress address, ushort port)
 		{
 			var addr = address.GetAddressBytes();
 
-			if ( address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork )
+			if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
 			{
 				var local = Cleared;
-				InternalSetIPv4( ref local, Utility.IpToInt32( address ), port );
+				InternalSetIPv4(ref local, Utility.IpToInt32(address), port);
 				return local;
 			}
 
-			throw new System.NotImplementedException( "Oops - no IPV6 support yet?" );
+			throw new System.NotImplementedException("Oops - no IPV6 support yet?");
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace Steamworks.Data
 			get
 			{
 				NetAddress self = default;
-				InternalClear( ref self );
+				InternalClear(ref self);
 				return self;
 			}
 		}
@@ -93,8 +93,8 @@ namespace Steamworks.Data
 		{
 			get
 			{
-				NetAddress self = this;
-				return InternalIsIPv6AllZeros( ref self );
+				var self = this;
+				return InternalIsIPv6AllZeros(ref self);
 			}
 		}
 
@@ -105,8 +105,8 @@ namespace Steamworks.Data
 		{
 			get
 			{
-				NetAddress self = this;
-				return InternalIsIPv4( ref self );
+				var self = this;
+				return InternalIsIPv4(ref self);
 			}
 		}
 
@@ -117,8 +117,8 @@ namespace Steamworks.Data
 		{
 			get
 			{
-				NetAddress self = this;
-				return InternalIsLocalHost( ref self );
+				var self = this;
+				return InternalIsLocalHost(ref self);
 			}
 		}
 
@@ -129,19 +129,19 @@ namespace Steamworks.Data
 		{
 			get
 			{
-				if ( IsIPv4 )
+				if (this.IsIPv4)
 				{
-					NetAddress self = this;
-					var ip = InternalGetIPv4( ref self  );
-					return Utility.Int32ToIp( ip );
+					var self = this;
+					var ip = InternalGetIPv4(ref self);
+					return Utility.Int32ToIp(ip);
 				}
 
-				if ( IsIPv6AllZeros )
+				if (this.IsIPv6AllZeros)
 				{
 					return IPAddress.IPv6Loopback;
 				}
 
-				throw new System.NotImplementedException( "Oops - no IPV6 support yet?" );
+				throw new System.NotImplementedException("Oops - no IPV6 support yet?");
 			}
 		}
 
@@ -149,8 +149,8 @@ namespace Steamworks.Data
 		{
 			var ptr = Helpers.TakeMemory();
 			var self = this;
-			InternalToString( ref self, ptr, Helpers.MemoryBufferSize, true );
-			return Helpers.MemoryToString( ptr );
+			InternalToString(ref self, ptr, Helpers.MemoryBufferSize, true);
+			return Helpers.MemoryToString(ptr);
 		}
 	}
 }

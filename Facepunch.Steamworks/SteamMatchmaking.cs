@@ -1,26 +1,24 @@
-﻿using System;
+﻿using Steamworks.Data;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Functions for clients to access matchmaking services, favorites, and to operate on game lobbies
 	/// </summary>
-	public class SteamMatchmaking : SteamClientClass<SteamMatchmaking>
+	public class SteamMatchmaking: SteamClientClass<SteamMatchmaking>
 	{
 		public static ISteamMatchmaking Internal => Interface as ISteamMatchmaking;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamMatchmaking( server ) );
+			this.SetInterface(server, new ISteamMatchmaking(server));
 
 			InstallEvents();
 		}
-	
+
 		/// <summary>
 		/// Maximum number of characters a lobby metadata key can be
 		/// </summary>
@@ -29,56 +27,56 @@ namespace Steamworks
 
 		public static void InstallEvents()
 		{
-			Dispatch.Install<LobbyInvite_t>( x => OnLobbyInvite?.Invoke( new Friend( x.SteamIDUser ), new Lobby( x.SteamIDLobby ) ) );
+			Dispatch.Install<LobbyInvite_t>(x => OnLobbyInvite?.Invoke(new Friend(x.SteamIDUser), new Lobby(x.SteamIDLobby)));
 
-			Dispatch.Install<LobbyEnter_t>( x => OnLobbyEntered?.Invoke( new Lobby( x.SteamIDLobby ) ) );
+			Dispatch.Install<LobbyEnter_t>(x => OnLobbyEntered?.Invoke(new Lobby(x.SteamIDLobby)));
 
-			Dispatch.Install<LobbyCreated_t>( x => OnLobbyCreated?.Invoke( x.Result, new Lobby( x.SteamIDLobby ) ) );
+			Dispatch.Install<LobbyCreated_t>(x => OnLobbyCreated?.Invoke(x.Result, new Lobby(x.SteamIDLobby)));
 
-			Dispatch.Install<LobbyGameCreated_t>( x => OnLobbyGameCreated?.Invoke( new Lobby( x.SteamIDLobby ), x.IP, x.Port, x.SteamIDGameServer ) );
+			Dispatch.Install<LobbyGameCreated_t>(x => OnLobbyGameCreated?.Invoke(new Lobby(x.SteamIDLobby), x.IP, x.Port, x.SteamIDGameServer));
 
-			Dispatch.Install<LobbyDataUpdate_t>( x =>
-			{
-				if ( x.Success == 0 ) return;
+			Dispatch.Install<LobbyDataUpdate_t>(x =>
+		   {
+			   if (x.Success == 0) return;
 
-				if ( x.SteamIDLobby == x.SteamIDMember )
-					OnLobbyDataChanged?.Invoke( new Lobby( x.SteamIDLobby ) );
-				else
-					OnLobbyMemberDataChanged?.Invoke( new Lobby( x.SteamIDLobby ), new Friend( x.SteamIDMember ) );
-			} );
+			   if (x.SteamIDLobby == x.SteamIDMember)
+				   OnLobbyDataChanged?.Invoke(new Lobby(x.SteamIDLobby));
+			   else
+				   OnLobbyMemberDataChanged?.Invoke(new Lobby(x.SteamIDLobby), new Friend(x.SteamIDMember));
+		   });
 
-			Dispatch.Install<LobbyChatUpdate_t>( x =>
-			{
-				if ( (x.GfChatMemberStateChange & (int)ChatMemberStateChange.Entered) != 0 )
-					OnLobbyMemberJoined?.Invoke( new Lobby( x.SteamIDLobby ), new Friend( x.SteamIDUserChanged ) );
+			Dispatch.Install<LobbyChatUpdate_t>(x =>
+		   {
+			   if ((x.GfChatMemberStateChange & (int)ChatMemberStateChange.Entered) != 0)
+				   OnLobbyMemberJoined?.Invoke(new Lobby(x.SteamIDLobby), new Friend(x.SteamIDUserChanged));
 
-				if ( (x.GfChatMemberStateChange & (int)ChatMemberStateChange.Left) != 0 )
-					OnLobbyMemberLeave?.Invoke( new Lobby( x.SteamIDLobby ), new Friend( x.SteamIDUserChanged ) );
+			   if ((x.GfChatMemberStateChange & (int)ChatMemberStateChange.Left) != 0)
+				   OnLobbyMemberLeave?.Invoke(new Lobby(x.SteamIDLobby), new Friend(x.SteamIDUserChanged));
 
-				if ( (x.GfChatMemberStateChange & (int)ChatMemberStateChange.Disconnected) != 0 )
-					OnLobbyMemberDisconnected?.Invoke( new Lobby( x.SteamIDLobby ), new Friend( x.SteamIDUserChanged ) );
+			   if ((x.GfChatMemberStateChange & (int)ChatMemberStateChange.Disconnected) != 0)
+				   OnLobbyMemberDisconnected?.Invoke(new Lobby(x.SteamIDLobby), new Friend(x.SteamIDUserChanged));
 
-				if ( (x.GfChatMemberStateChange & (int)ChatMemberStateChange.Kicked) != 0 )
-					OnLobbyMemberKicked?.Invoke( new Lobby( x.SteamIDLobby ), new Friend( x.SteamIDUserChanged ), new Friend( x.SteamIDMakingChange ) );
+			   if ((x.GfChatMemberStateChange & (int)ChatMemberStateChange.Kicked) != 0)
+				   OnLobbyMemberKicked?.Invoke(new Lobby(x.SteamIDLobby), new Friend(x.SteamIDUserChanged), new Friend(x.SteamIDMakingChange));
 
-				if ( (x.GfChatMemberStateChange & (int)ChatMemberStateChange.Banned) != 0 )
-					OnLobbyMemberBanned?.Invoke( new Lobby( x.SteamIDLobby ), new Friend( x.SteamIDUserChanged ), new Friend( x.SteamIDMakingChange ) );
-			} );
+			   if ((x.GfChatMemberStateChange & (int)ChatMemberStateChange.Banned) != 0)
+				   OnLobbyMemberBanned?.Invoke(new Lobby(x.SteamIDLobby), new Friend(x.SteamIDUserChanged), new Friend(x.SteamIDMakingChange));
+		   });
 
-			Dispatch.Install<LobbyChatMsg_t>( OnLobbyChatMessageRecievedAPI );
+			Dispatch.Install<LobbyChatMsg_t>(OnLobbyChatMessageRecievedAPI);
 		}
 
-		static private unsafe void OnLobbyChatMessageRecievedAPI( LobbyChatMsg_t callback )
+		private static unsafe void OnLobbyChatMessageRecievedAPI(LobbyChatMsg_t callback)
 		{
 			SteamId steamid = default;
 			ChatEntryType chatEntryType = default;
 			var buffer = Helpers.TakeMemory();
 
-			var readData = Internal.GetLobbyChatEntry( callback.SteamIDLobby, (int)callback.ChatID, ref steamid, buffer, Helpers.MemoryBufferSize, ref chatEntryType );
+			var readData = Internal.GetLobbyChatEntry(callback.SteamIDLobby, (int)callback.ChatID, ref steamid, buffer, Helpers.MemoryBufferSize, ref chatEntryType);
 
-			if ( readData > 0 )
+			if (readData > 0)
 			{
-				OnChatMessage?.Invoke( new Lobby( callback.SteamIDLobby ), new Friend( steamid ), Helpers.MemoryToString( buffer ) );
+				OnChatMessage?.Invoke(new Lobby(callback.SteamIDLobby), new Friend(steamid), Helpers.MemoryToString(buffer));
 			}
 		}
 
@@ -147,10 +145,10 @@ namespace Steamworks
 		/// <summary>
 		/// Creates a new invisible lobby. Call lobby.SetPublic to take it online.
 		/// </summary>
-		public static async Task<Lobby?> CreateLobbyAsync( int maxMembers = 100 )
+		public static async Task<Lobby?> CreateLobbyAsync(int maxMembers = 100)
 		{
-			var lobby = await Internal.CreateLobby( LobbyType.Invisible, maxMembers );
-			if ( !lobby.HasValue || lobby.Value.Result != Result.OK ) return null;
+			var lobby = await Internal.CreateLobby(LobbyType.Invisible, maxMembers);
+			if (!lobby.HasValue || lobby.Value.Result != Result.OK) return null;
 
 			return new Lobby { Id = lobby.Value.SteamIDLobby };
 		}
@@ -158,10 +156,10 @@ namespace Steamworks
 		/// <summary>
 		/// Attempts to directly join the specified lobby
 		/// </summary>
-		public static async Task<Lobby?> JoinLobbyAsync( SteamId lobbyId )
+		public static async Task<Lobby?> JoinLobbyAsync(SteamId lobbyId)
 		{
-			var lobby = await Internal.JoinLobby( lobbyId );
-			if ( !lobby.HasValue ) return null;
+			var lobby = await Internal.JoinLobby(lobbyId);
+			if (!lobby.HasValue) return null;
 
 			return new Lobby { Id = lobby.Value.SteamIDLobby };
 		}
@@ -173,7 +171,7 @@ namespace Steamworks
 		{
 			var count = Internal.GetFavoriteGameCount();
 
-			for( int i=0; i<count; i++ )
+			for (var i = 0; i < count; i++)
 			{
 				uint timeplayed = 0;
 				uint flags = 0;
@@ -182,10 +180,10 @@ namespace Steamworks
 				uint ip = 0;
 				AppId appid = default;
 
-				if ( Internal.GetFavoriteGame( i, ref appid, ref ip, ref cport, ref qport, ref flags, ref timeplayed ) )
+				if (Internal.GetFavoriteGame(i, ref appid, ref ip, ref cport, ref qport, ref flags, ref timeplayed))
 				{
-					if ( (flags & ServerInfo.k_unFavoriteFlagFavorite) == 0 ) continue;
-					yield return new ServerInfo( ip, cport, qport, timeplayed );
+					if ((flags & ServerInfo.k_unFavoriteFlagFavorite) == 0) continue;
+					yield return new ServerInfo(ip, cport, qport, timeplayed);
 				}
 			}
 		}
@@ -197,7 +195,7 @@ namespace Steamworks
 		{
 			var count = Internal.GetFavoriteGameCount();
 
-			for ( int i = 0; i < count; i++ )
+			for (var i = 0; i < count; i++)
 			{
 				uint timeplayed = 0;
 				uint flags = 0;
@@ -206,10 +204,10 @@ namespace Steamworks
 				uint ip = 0;
 				AppId appid = default;
 
-				if ( Internal.GetFavoriteGame( i, ref appid, ref ip, ref cport, ref qport, ref flags, ref timeplayed ) )
+				if (Internal.GetFavoriteGame(i, ref appid, ref ip, ref cport, ref qport, ref flags, ref timeplayed))
 				{
-					if ( (flags & ServerInfo.k_unFavoriteFlagHistory) == 0 ) continue;
-					yield return new ServerInfo( ip, cport, qport, timeplayed );
+					if ((flags & ServerInfo.k_unFavoriteFlagHistory) == 0) continue;
+					yield return new ServerInfo(ip, cport, qport, timeplayed);
 				}
 			}
 		}

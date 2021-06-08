@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
+﻿using System.Collections.Generic;
 
 namespace Steamworks
 {
 	public static class SteamClient
 	{
-		static bool initialized;
+		private static bool initialized;
 
 		/// <summary>
 		/// Initialize the steam client.
 		/// If asyncCallbacks is false you need to call RunCallbacks manually every frame.
 		/// </summary>
-		public static void Init( uint appid, bool asyncCallbacks = true )
+		public static void Init(uint appid, bool asyncCallbacks = true)
 		{
-			if ( initialized )
-				throw new System.Exception( "Calling SteamClient.Init but is already initialized" );
+			if (initialized)
+				throw new System.Exception("Calling SteamClient.Init but is already initialized");
 
-			System.Environment.SetEnvironmentVariable( "SteamAppId", appid.ToString() );
-			System.Environment.SetEnvironmentVariable( "SteamGameId", appid.ToString() );
+			System.Environment.SetEnvironmentVariable("SteamAppId", appid.ToString());
+			System.Environment.SetEnvironmentVariable("SteamGameId", appid.ToString());
 
-			if ( !SteamAPI.Init() )
+			if (!SteamAPI.Init())
 			{
-				throw new System.Exception( "SteamApi_Init returned false. Steam isn't running, couldn't find Steam, AppId is ureleased, Don't own AppId." );
+				throw new System.Exception("SteamApi_Init returned false. Steam isn't running, couldn't find Steam, AppId is ureleased, Don't own AppId.");
 			}
 
 			AppId = appid;
@@ -60,7 +55,7 @@ namespace Steamworks
 			AddInterface<SteamVideo>();
 			AddInterface<SteamRemotePlay>();
 
-			if ( asyncCallbacks )
+			if (asyncCallbacks)
 			{
 				//
 				// This will keep looping in the background every 16 ms
@@ -73,17 +68,17 @@ namespace Steamworks
 		public static void AddInterface<T>() where T : SteamClass, new()
 		{
 			var t = new T();
-			t.InitializeInterface( false );
-			openInterfaces.Add( t );
+			t.InitializeInterface(false);
+			openInterfaces.Add(t);
 		}
 
-		static readonly List<SteamClass> openInterfaces = new List<SteamClass>();
+		private static readonly List<SteamClass> openInterfaces = new List<SteamClass>();
 
 		public static void ShutdownInterfaces()
 		{
-			foreach ( var e in openInterfaces )
+			foreach (var e in openInterfaces)
 			{
-				e.DestroyInterface( false );
+				e.DestroyInterface(false);
 			}
 
 			openInterfaces.Clear();
@@ -96,7 +91,7 @@ namespace Steamworks
 
 		public static void Shutdown()
 		{
-			if ( !IsValid ) return;
+			if (!IsValid) return;
 
 			Cleanup();
 
@@ -113,8 +108,8 @@ namespace Steamworks
 
 		public static void RunCallbacks()
 		{
-			if ( Dispatch.ClientPipe != 0 )
-				Dispatch.Frame( Dispatch.ClientPipe );
+			if (Dispatch.ClientPipe != 0)
+				Dispatch.Frame(Dispatch.ClientPipe);
 		}
 
 		/// <summary>
@@ -161,14 +156,14 @@ namespace Steamworks
 		///  installed in your Steam library folder/
 		///  Note that during development, when not launching via Steam, this might always return true.
 		/// </summary>
-		public static bool RestartAppIfNecessary( uint appid )
+		public static bool RestartAppIfNecessary(uint appid)
 		{
 			// Having these here would probably mean it always returns false?
 
 			//System.Environment.SetEnvironmentVariable( "SteamAppId", appid.ToString() );
 			//System.Environment.SetEnvironmentVariable( "SteamGameId", appid.ToString() );
 
-			return SteamAPI.RestartAppIfNecessary( appid );
+			return SteamAPI.RestartAppIfNecessary(appid);
 		}
 
 		/// <summary>
@@ -176,8 +171,8 @@ namespace Steamworks
 		/// </summary>
 		public static void ValidCheck()
 		{
-			if ( !IsValid )
-				throw new System.Exception( "SteamClient isn't initialized" );
+			if (!IsValid)
+				throw new System.Exception("SteamClient isn't initialized");
 		}
 
 	}

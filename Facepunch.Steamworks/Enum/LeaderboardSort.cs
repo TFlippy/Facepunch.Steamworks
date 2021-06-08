@@ -1,6 +1,6 @@
 ﻿namespace Steamworks.Data
 {
-	public enum LeaderboardSort : int
+	public enum LeaderboardSort: int
 	{
 		/// <summary>
 		/// The top-score is the lowest number

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Steamworks.Data;
+﻿using Steamworks.Data;
+using System;
 
 namespace Steamworks
 {
@@ -13,21 +9,21 @@ namespace Steamworks
 	/// when an important cut scene is shown, and start playing afterwards.
 	/// Nothing uses Steam Music though so this can probably get fucked
 	/// </summary>
-	public class SteamMusic : SteamClientClass<SteamMusic>
+	public class SteamMusic: SteamClientClass<SteamMusic>
 	{
 		public static ISteamMusic Internal => Interface as ISteamMusic;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamMusic( server ) );
+			this.SetInterface(server, new ISteamMusic(server));
 
 			InstallEvents();
 		}
 
 		public static void InstallEvents()
 		{
-			Dispatch.Install<PlaybackStatusHasChanged_t>( x => OnPlaybackChanged?.Invoke() );
-			Dispatch.Install<VolumeHasChanged_t>( x => OnVolumeChanged?.Invoke( x.NewVolume ) );
+			Dispatch.Install<PlaybackStatusHasChanged_t>(x => OnPlaybackChanged?.Invoke());
+			Dispatch.Install<VolumeHasChanged_t>(x => OnVolumeChanged?.Invoke(x.NewVolume));
 		}
 
 		/// <summary>
@@ -56,19 +52,31 @@ namespace Steamworks
 		public static MusicStatus Status => Internal.GetPlaybackStatus();
 
 
-		public static void Play() => Internal.Play();
+		public static void Play()
+		{
+			Internal.Play();
+		}
 
-		public static void Pause() => Internal.Pause();
+		public static void Pause()
+		{
+			Internal.Pause();
+		}
 
 		/// <summary>
 		/// Have the Steam Music player play the previous song.
 		/// </summary>
-		public static void PlayPrevious() => Internal.PlayPrevious();
+		public static void PlayPrevious()
+		{
+			Internal.PlayPrevious();
+		}
 
 		/// <summary>
 		/// Have the Steam Music player skip to the next song
 		/// </summary>
-		public static void PlayNext() => Internal.PlayNext();
+		public static void PlayNext()
+		{
+			Internal.PlayNext();
+		}
 
 		/// <summary>
 		/// Gets/Sets the current volume of the Steam Music player
@@ -76,7 +84,7 @@ namespace Steamworks
 		public static float Volume
 		{
 			get => Internal.GetVolume();
-			set => Internal.SetVolume( value );
+			set => Internal.SetVolume(value);
 		}
 	}
 }

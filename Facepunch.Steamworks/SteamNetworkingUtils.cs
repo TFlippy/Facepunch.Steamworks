@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using Steamworks.Data;
+using System;
 using System.Text;
 using System.Threading.Tasks;
-using Steamworks.Data;
 
 namespace Steamworks
 {
 	/// <summary>
 	/// Undocumented Parental Settings
 	/// </summary>
-	public class SteamNetworkingUtils : SteamSharedClass<SteamNetworkingUtils>
+	public class SteamNetworkingUtils: SteamSharedClass<SteamNetworkingUtils>
 	{
 		public static ISteamNetworkingUtils Internal => Interface as ISteamNetworkingUtils;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamNetworkingUtils( server ) );
-			InstallCallbacks( server );
+			this.SetInterface(server, new ISteamNetworkingUtils(server));
+			InstallCallbacks(server);
 		}
 
-		static void InstallCallbacks( bool server )
+		private static void InstallCallbacks(bool server)
 		{
-			Dispatch.Install<SteamRelayNetworkStatus_t>( x =>
-			{
-				Status = x.Avail;
-			}, server );
+			Dispatch.Install<SteamRelayNetworkStatus_t>(x =>
+		   {
+			   Status = x.Avail;
+		   }, server);
 		}
 
 		/// <summary>
@@ -85,8 +83,8 @@ namespace Steamworks
 			get
 			{
 				NetPingLocation location = default;
-				var age = Internal.GetLocalPingLocation( ref location );
-				if ( age < 0 )
+				var age = Internal.GetLocalPingLocation(ref location);
+				if (age < 0)
 					return null;
 
 				return location;
@@ -98,25 +96,25 @@ namespace Steamworks
 		/// This is a bit faster, especially if you need to calculate a bunch of
 		/// these in a loop to find the fastest one.
 		/// </summary>
-		public static int EstimatePingTo( NetPingLocation target )
+		public static int EstimatePingTo(NetPingLocation target)
 		{
-			return Internal.EstimatePingTimeFromLocalHost( ref target );
+			return Internal.EstimatePingTimeFromLocalHost(ref target);
 		}
 
 		/// <summary>
 		/// If you need ping information straight away, wait on this. It will return
 		/// immediately if you already have up to date ping data
 		/// </summary>
-		public static async Task WaitForPingDataAsync( float maxAgeInSeconds = 60 * 5 )
+		public static async Task WaitForPingDataAsync(float maxAgeInSeconds = 60 * 5)
 		{
-			if ( Internal.CheckPingDataUpToDate( maxAgeInSeconds ) )
+			if (Internal.CheckPingDataUpToDate(maxAgeInSeconds))
 				return;
 
 			SteamRelayNetworkStatus_t status = default;
 
-			while ( Internal.GetRelayNetworkStatus( ref status ) != SteamNetworkingAvailability.Current )
+			while (Internal.GetRelayNetworkStatus(ref status) != SteamNetworkingAvailability.Current)
 			{
-				await Task.Delay( 10 );
+				await Task.Delay(10);
 			}
 		}
 
@@ -128,8 +126,8 @@ namespace Steamworks
 		/// </summary>
 		public static float FakeSendPacketLoss
 		{
-			get => GetConfigFloat( NetConfig.FakePacketLoss_Send );
-			set => SetConfigFloat( NetConfig.FakePacketLoss_Send, value );
+			get => GetConfigFloat(NetConfig.FakePacketLoss_Send);
+			set => SetConfigFloat(NetConfig.FakePacketLoss_Send, value);
 		}
 
 		/// <summary>
@@ -137,8 +135,8 @@ namespace Steamworks
 		/// </summary>
 		public static float FakeRecvPacketLoss
 		{
-			get => GetConfigFloat( NetConfig.FakePacketLoss_Recv );
-			set => SetConfigFloat( NetConfig.FakePacketLoss_Recv, value );
+			get => GetConfigFloat(NetConfig.FakePacketLoss_Recv);
+			set => SetConfigFloat(NetConfig.FakePacketLoss_Recv, value);
 		}
 
 		/// <summary>
@@ -146,8 +144,8 @@ namespace Steamworks
 		/// </summary>
 		public static float FakeSendPacketLag
 		{
-			get => GetConfigFloat( NetConfig.FakePacketLag_Send );
-			set => SetConfigFloat( NetConfig.FakePacketLag_Send, value );
+			get => GetConfigFloat(NetConfig.FakePacketLag_Send);
+			set => SetConfigFloat(NetConfig.FakePacketLag_Send, value);
 		}
 
 		/// <summary>
@@ -155,8 +153,8 @@ namespace Steamworks
 		/// </summary>
 		public static float FakeRecvPacketLag
 		{
-			get => GetConfigFloat( NetConfig.FakePacketLag_Recv );
-			set => SetConfigFloat( NetConfig.FakePacketLag_Recv, value );
+			get => GetConfigFloat(NetConfig.FakePacketLag_Recv);
+			set => SetConfigFloat(NetConfig.FakePacketLag_Recv, value);
 		}
 
 		/// <summary>
@@ -164,8 +162,8 @@ namespace Steamworks
 		/// </summary>
 		public static int ConnectionTimeout
 		{
-			get => GetConfigInt( NetConfig.TimeoutInitial );
-			set => SetConfigInt( NetConfig.TimeoutInitial, value );
+			get => GetConfigInt(NetConfig.TimeoutInitial);
+			set => SetConfigInt(NetConfig.TimeoutInitial, value);
 		}
 
 		/// <summary>
@@ -173,10 +171,10 @@ namespace Steamworks
 		/// </summary>
 		public static int Timeout
 		{
-			get => GetConfigInt( NetConfig.TimeoutConnected );
-			set => SetConfigInt( NetConfig.TimeoutConnected, value );
+			get => GetConfigInt(NetConfig.TimeoutConnected);
+			set => SetConfigInt(NetConfig.TimeoutConnected, value);
 		}
-		
+
 		public static int NagleTime
 		{
 			get => GetConfigInt(NetConfig.NagleTime);
@@ -190,8 +188,8 @@ namespace Steamworks
 		/// </summary>
 		public static int SendBufferSize
 		{
-			get => GetConfigInt( NetConfig.SendBufferSize );
-			set => SetConfigInt( NetConfig.SendBufferSize, value );
+			get => GetConfigInt(NetConfig.SendBufferSize);
+			set => SetConfigInt(NetConfig.SendBufferSize, value);
 		}
 
 		/// <summary>
@@ -206,8 +204,8 @@ namespace Steamworks
 		/// </summary>
 		public static int AllowWithoutAuth
 		{
-			get => GetConfigInt( NetConfig.IP_AllowWithoutAuth );
-			set => SetConfigInt( NetConfig.IP_AllowWithoutAuth, value );
+			get => GetConfigInt(NetConfig.IP_AllowWithoutAuth);
+			set => SetConfigInt(NetConfig.IP_AllowWithoutAuth, value);
 		}
 
 		/// <summary>
@@ -227,9 +225,9 @@ namespace Steamworks
 			set
 			{
 				_debugLevel = value;
-				_debugFunc = new NetDebugFunc( OnDebugMessage );
+				_debugFunc = new NetDebugFunc(OnDebugMessage);
 
-				Internal.SetDebugOutputFunction( value, _debugFunc );
+				Internal.SetDebugOutputFunction(value, _debugFunc);
 			}
 		}
 
@@ -241,9 +239,9 @@ namespace Steamworks
 		/// <summary>
 		/// We need to keep the delegate around until it's not used anymore
 		/// </summary>
-		static NetDebugFunc _debugFunc;
+		private static NetDebugFunc _debugFunc;
 
-		struct DebugMessage
+		private struct DebugMessage
 		{
 			public NetDebugOutput Type;
 			public string Msg;
@@ -255,9 +253,9 @@ namespace Steamworks
 		/// This can be called from other threads - so we're going to queue these up and process them in a safe place.
 		/// </summary>
 		[MonoPInvokeCallback]
-		private static void OnDebugMessage( NetDebugOutput nType, IntPtr str )
+		private static void OnDebugMessage(NetDebugOutput nType, IntPtr str)
 		{
-			debugMessages.Enqueue( new DebugMessage { Type = nType, Msg = Helpers.MemoryToString( str ) } );
+			debugMessages.Enqueue(new DebugMessage { Type = nType, Msg = Helpers.MemoryToString(str) });
 		}
 
 		/// <summary>
@@ -266,62 +264,62 @@ namespace Steamworks
 		/// </summary>
 		public static void OutputDebugMessages()
 		{
-			if ( debugMessages.IsEmpty )
+			if (debugMessages.IsEmpty)
 				return;
 
-			while ( debugMessages.TryDequeue( out var result ) )
+			while (debugMessages.TryDequeue(out var result))
 			{
-				OnDebugOutput?.Invoke( result.Type, result.Msg );
+				OnDebugOutput?.Invoke(result.Type, result.Msg);
 			}
 		}
 
 		#region Config Internals
 
-		public unsafe static bool SetConfigInt( NetConfig type, int value )
+		public static unsafe bool SetConfigInt(NetConfig type, int value)
 		{
-			int* ptr = &value;
-			return Internal.SetConfigValue( type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.Int32, (IntPtr)ptr );
+			var ptr = &value;
+			return Internal.SetConfigValue(type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.Int32, (IntPtr)ptr);
 		}
 
-		public unsafe static int GetConfigInt( NetConfig type )
+		public static unsafe int GetConfigInt(NetConfig type)
 		{
-			int value = 0;
-			NetConfigType dtype = NetConfigType.Int32;
-			int* ptr = &value;
-			UIntPtr size = new UIntPtr( sizeof( int ) );
-			var result = Internal.GetConfigValue( type, NetConfigScope.Global, IntPtr.Zero, ref dtype, (IntPtr) ptr, ref size );
-			if ( result != NetConfigResult.OK )
+			var value = 0;
+			var dtype = NetConfigType.Int32;
+			var ptr = &value;
+			var size = new UIntPtr(sizeof(int));
+			var result = Internal.GetConfigValue(type, NetConfigScope.Global, IntPtr.Zero, ref dtype, (IntPtr)ptr, ref size);
+			if (result != NetConfigResult.OK)
 				return 0;
 
 			return value;
 		}
 
-		public unsafe static bool SetConfigFloat( NetConfig type, float value )
+		public static unsafe bool SetConfigFloat(NetConfig type, float value)
 		{
-			float* ptr = &value;
-			return Internal.SetConfigValue( type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.Float, (IntPtr)ptr );
+			var ptr = &value;
+			return Internal.SetConfigValue(type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.Float, (IntPtr)ptr);
 		}
 
-		public unsafe static float GetConfigFloat( NetConfig type )
+		public static unsafe float GetConfigFloat(NetConfig type)
 		{
 			float value = 0;
-			NetConfigType dtype = NetConfigType.Float;
-			float* ptr = &value;
-			UIntPtr size = new UIntPtr( sizeof( float ) );
-			var result = Internal.GetConfigValue( type, NetConfigScope.Global, IntPtr.Zero, ref dtype, (IntPtr)ptr, ref size );
-			if ( result != NetConfigResult.OK )
+			var dtype = NetConfigType.Float;
+			var ptr = &value;
+			var size = new UIntPtr(sizeof(float));
+			var result = Internal.GetConfigValue(type, NetConfigScope.Global, IntPtr.Zero, ref dtype, (IntPtr)ptr, ref size);
+			if (result != NetConfigResult.OK)
 				return 0;
 
 			return value;
 		}
 
-		public unsafe static bool SetConfigString( NetConfig type, string value )
+		public static unsafe bool SetConfigString(NetConfig type, string value)
 		{
-			var bytes = Encoding.UTF8.GetBytes( value );
+			var bytes = Encoding.UTF8.GetBytes(value);
 
-			fixed ( byte* ptr = bytes )
+			fixed (byte* ptr = bytes)
 			{
-				return Internal.SetConfigValue( type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.String, (IntPtr)ptr );
+				return Internal.SetConfigValue(type, NetConfigScope.Global, IntPtr.Zero, NetConfigType.String, (IntPtr)ptr);
 			}
 		}
 
@@ -368,6 +366,6 @@ namespace Steamworks
 			}
 		}*/
 
-#endregion
+		#endregion
 	}
 }
