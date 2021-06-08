@@ -17,6 +17,8 @@ namespace Steamworks
 	{
 		public ISocketManager Interface { get; set; }
 
+		public object mutex = new();
+
 		public HashSet<Connection> Connecting = new HashSet<Connection>();
 		public HashSet<Connection> Connected = new HashSet<Connection>();
 
@@ -46,14 +48,16 @@ namespace Steamworks
 
 		public virtual void OnConnectionChanged(Connection connection, ConnectionInfo info)
 		{
-			//
-			// Some notes:
-			// - Update state before the callbacks, in case an exception is thrown
-			// - ConnectionState.None happens when a connection is destroyed, even if it was already disconnected (ClosedByPeer / ProblemDetectedLocally)
-			//
-			switch (info.State)
+			lock (this.mutex)
 			{
-				case ConnectionState.Connecting:
+				//
+				// Some notes:
+				// - Update state before the callbacks, in case an exception is thrown
+				// - ConnectionState.None happens when a connection is destroyed, even if it was already disconnected (ClosedByPeer / ProblemDetectedLocally)
+				//
+				switch (info.State)
+				{
+					case ConnectionState.Connecting:
 					if (!Connecting.Contains(connection) && !Connected.Contains(connection))
 					{
 						Connecting.Add(connection);
@@ -61,7 +65,7 @@ namespace Steamworks
 						OnConnecting(connection, info);
 					}
 					break;
-				case ConnectionState.Connected:
+					case ConnectionState.Connected:
 					if (Connecting.Contains(connection) && !Connected.Contains(connection))
 					{
 						Connecting.Remove(connection);
@@ -70,9 +74,9 @@ namespace Steamworks
 						OnConnected(connection, info);
 					}
 					break;
-				case ConnectionState.ClosedByPeer:
-				case ConnectionState.ProblemDetectedLocally:
-				case ConnectionState.None:
+					case ConnectionState.ClosedByPeer:
+					case ConnectionState.ProblemDetectedLocally:
+					case ConnectionState.None:
 					if (Connecting.Contains(connection) || Connected.Contains(connection))
 					{
 						Connecting.Remove(connection);
@@ -81,6 +85,7 @@ namespace Steamworks
 						OnDisconnected(connection, info);
 					}
 					break;
+				}
 			}
 		}
 
@@ -122,48 +127,6 @@ namespace Steamworks
 			{
 				connection.Close();
 			}
-		}
-
-		public unsafe void Receive(int bufferSize = 32)
-		{
-			int processed = 0;
-			var messageBuffer = stackalloc IntPtr[bufferSize]; // Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
-
-			try
-			{
-				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnPollGroup(pollGroup, (IntPtr)messageBuffer, bufferSize);
-
-				for (int i = 0; i < processed; i++)
-				{
-					ReceiveMessage(messageBuffer[i]); //ReceiveMessage( Marshal.ReadIntPtr( messageBuffer, i * IntPtr.Size ) );
-				}
-			}
-			finally
-			{
-
-			}
-
-			// Overwhelmed our buffer, keep going
-			if (processed == bufferSize) Receive(bufferSize);
-		}
-
-		public unsafe void ReceiveMessage(IntPtr msgPtr)
-		{
-			var msg = Unsafe.AsRef<NetMsg>(msgPtr.ToPointer()); // Marshal.PtrToStructure<NetMsg>( msgPtr );
-			try
-			{
-				OnMessage(msg.Connection, msg.Identity, msg.DataPtr, msg.DataSize, msg.RecvTime, msg.MessageNumber, msg.Channel);
-			}
-			finally
-			{
-				// Releases the message
-				NetMsg.InternalRelease((NetMsg*)msgPtr);
-			}
-		}
-
-		public virtual void OnMessage(Connection connection, NetIdentity identity, IntPtr data, int size, long messageNum, long recvTime, int channel)
-		{
-			Interface?.OnMessage(connection, identity, data, size, messageNum, recvTime, channel);
 		}
 	}
 }

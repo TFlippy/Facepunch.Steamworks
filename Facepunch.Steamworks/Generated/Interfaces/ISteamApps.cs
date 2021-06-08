@@ -26,7 +26,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsSubscribed", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsSubscribed( IntPtr self );
+		public static extern bool _BIsSubscribed( IntPtr self );
 		
 		#endregion
 		public bool BIsSubscribed()
@@ -38,7 +38,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsLowViolence", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsLowViolence( IntPtr self );
+		public static extern bool _BIsLowViolence( IntPtr self );
 		
 		#endregion
 		public bool BIsLowViolence()
@@ -50,7 +50,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsCybercafe", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsCybercafe( IntPtr self );
+		public static extern bool _BIsCybercafe( IntPtr self );
 		
 		#endregion
 		public bool BIsCybercafe()
@@ -62,7 +62,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsVACBanned", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsVACBanned( IntPtr self );
+		public static extern bool _BIsVACBanned( IntPtr self );
 		
 		#endregion
 		public bool BIsVACBanned()
@@ -73,7 +73,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetCurrentGameLanguage", CallingConvention = Platform.CC)]
-		private static extern Utf8StringPointer _GetCurrentGameLanguage( IntPtr self );
+		public static extern Utf8StringPointer _GetCurrentGameLanguage( IntPtr self );
 		
 		#endregion
 		public string GetCurrentGameLanguage()
@@ -84,7 +84,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetAvailableGameLanguages", CallingConvention = Platform.CC)]
-		private static extern Utf8StringPointer _GetAvailableGameLanguages( IntPtr self );
+		public static extern Utf8StringPointer _GetAvailableGameLanguages( IntPtr self );
 		
 		#endregion
 		public string GetAvailableGameLanguages()
@@ -96,7 +96,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsSubscribedApp", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsSubscribedApp( IntPtr self, AppId appID );
+		public static extern bool _BIsSubscribedApp( IntPtr self, AppId appID );
 		
 		#endregion
 		public bool BIsSubscribedApp( AppId appID )
@@ -108,7 +108,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsDlcInstalled", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsDlcInstalled( IntPtr self, AppId appID );
+		public static extern bool _BIsDlcInstalled( IntPtr self, AppId appID );
 		
 		#endregion
 		public bool BIsDlcInstalled( AppId appID )
@@ -119,7 +119,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetEarliestPurchaseUnixTime", CallingConvention = Platform.CC)]
-		private static extern uint _GetEarliestPurchaseUnixTime( IntPtr self, AppId nAppID );
+		public static extern uint _GetEarliestPurchaseUnixTime( IntPtr self, AppId nAppID );
 		
 		#endregion
 		public uint GetEarliestPurchaseUnixTime( AppId nAppID )
@@ -131,7 +131,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsSubscribedFromFreeWeekend", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsSubscribedFromFreeWeekend( IntPtr self );
+		public static extern bool _BIsSubscribedFromFreeWeekend( IntPtr self );
 		
 		#endregion
 		public bool BIsSubscribedFromFreeWeekend()
@@ -142,7 +142,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetDLCCount", CallingConvention = Platform.CC)]
-		private static extern int _GetDLCCount( IntPtr self );
+		public static extern int _GetDLCCount( IntPtr self );
 		
 		#endregion
 		public int GetDLCCount()
@@ -154,7 +154,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BGetDLCDataByIndex", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BGetDLCDataByIndex( IntPtr self, int iDLC, ref AppId pAppID, [MarshalAs( UnmanagedType.U1 )] ref bool pbAvailable, IntPtr pchName, int cchNameBufferSize );
+		public static extern bool _BGetDLCDataByIndex( IntPtr self, int iDLC, ref AppId pAppID, [MarshalAs( UnmanagedType.U1 )] ref bool pbAvailable, IntPtr pchName, int cchNameBufferSize );
 		
 		#endregion
 		public bool BGetDLCDataByIndex( int iDLC, ref AppId pAppID, [MarshalAs( UnmanagedType.U1 )] ref bool pbAvailable, out string pchName )
@@ -167,7 +167,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_InstallDLC", CallingConvention = Platform.CC)]
-		private static extern void _InstallDLC( IntPtr self, AppId nAppID );
+		public static extern void _InstallDLC( IntPtr self, AppId nAppID );
 		
 		#endregion
 		public void InstallDLC( AppId nAppID )
@@ -177,7 +177,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_UninstallDLC", CallingConvention = Platform.CC)]
-		private static extern void _UninstallDLC( IntPtr self, AppId nAppID );
+		public static extern void _UninstallDLC( IntPtr self, AppId nAppID );
 		
 		#endregion
 		public void UninstallDLC( AppId nAppID )
@@ -187,7 +187,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_RequestAppProofOfPurchaseKey", CallingConvention = Platform.CC)]
-		private static extern void _RequestAppProofOfPurchaseKey( IntPtr self, AppId nAppID );
+		public static extern void _RequestAppProofOfPurchaseKey( IntPtr self, AppId nAppID );
 		
 		#endregion
 		public void RequestAppProofOfPurchaseKey( AppId nAppID )
@@ -198,7 +198,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetCurrentBetaName", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _GetCurrentBetaName( IntPtr self, IntPtr pchName, int cchNameBufferSize );
+		public static extern bool _GetCurrentBetaName( IntPtr self, IntPtr pchName, int cchNameBufferSize );
 		
 		#endregion
 		public bool GetCurrentBetaName( out string pchName )
@@ -212,7 +212,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_MarkContentCorrupt", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _MarkContentCorrupt( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bMissingFilesOnly );
+		public static extern bool _MarkContentCorrupt( IntPtr self, [MarshalAs( UnmanagedType.U1 )] bool bMissingFilesOnly );
 		
 		#endregion
 		public bool MarkContentCorrupt( [MarshalAs( UnmanagedType.U1 )] bool bMissingFilesOnly )
@@ -223,7 +223,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetInstalledDepots", CallingConvention = Platform.CC)]
-		private static extern uint _GetInstalledDepots( IntPtr self, AppId appID, [In,Out] DepotId_t[]  pvecDepots, uint cMaxDepots );
+		public static extern uint _GetInstalledDepots( IntPtr self, AppId appID, [In,Out] DepotId_t[]  pvecDepots, uint cMaxDepots );
 		
 		#endregion
 		public uint GetInstalledDepots( AppId appID, [In,Out] DepotId_t[]  pvecDepots, uint cMaxDepots )
@@ -234,7 +234,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetAppInstallDir", CallingConvention = Platform.CC)]
-		private static extern uint _GetAppInstallDir( IntPtr self, AppId appID, IntPtr pchFolder, uint cchFolderBufferSize );
+		public static extern uint _GetAppInstallDir( IntPtr self, AppId appID, IntPtr pchFolder, uint cchFolderBufferSize );
 		
 		#endregion
 		public uint GetAppInstallDir( AppId appID, out string pchFolder )
@@ -248,7 +248,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsAppInstalled", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsAppInstalled( IntPtr self, AppId appID );
+		public static extern bool _BIsAppInstalled( IntPtr self, AppId appID );
 		
 		#endregion
 		public bool BIsAppInstalled( AppId appID )
@@ -259,7 +259,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetAppOwner", CallingConvention = Platform.CC)]
-		private static extern SteamId _GetAppOwner( IntPtr self );
+		public static extern SteamId _GetAppOwner( IntPtr self );
 		
 		#endregion
 		public SteamId GetAppOwner()
@@ -270,7 +270,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetLaunchQueryParam", CallingConvention = Platform.CC)]
-		private static extern Utf8StringPointer _GetLaunchQueryParam( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey );
+		public static extern Utf8StringPointer _GetLaunchQueryParam( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey );
 		
 		#endregion
 		public string GetLaunchQueryParam( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pchKey )
@@ -282,7 +282,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetDlcDownloadProgress", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _GetDlcDownloadProgress( IntPtr self, AppId nAppID, ref ulong punBytesDownloaded, ref ulong punBytesTotal );
+		public static extern bool _GetDlcDownloadProgress( IntPtr self, AppId nAppID, ref ulong punBytesDownloaded, ref ulong punBytesTotal );
 		
 		#endregion
 		public bool GetDlcDownloadProgress( AppId nAppID, ref ulong punBytesDownloaded, ref ulong punBytesTotal )
@@ -293,7 +293,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetAppBuildId", CallingConvention = Platform.CC)]
-		private static extern int _GetAppBuildId( IntPtr self );
+		public static extern int _GetAppBuildId( IntPtr self );
 		
 		#endregion
 		public int GetAppBuildId()
@@ -304,7 +304,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_RequestAllProofOfPurchaseKeys", CallingConvention = Platform.CC)]
-		private static extern void _RequestAllProofOfPurchaseKeys( IntPtr self );
+		public static extern void _RequestAllProofOfPurchaseKeys( IntPtr self );
 		
 		#endregion
 		public void RequestAllProofOfPurchaseKeys()
@@ -314,7 +314,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetFileDetails", CallingConvention = Platform.CC)]
-		private static extern SteamAPICall_t _GetFileDetails( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pszFileName );
+		public static extern SteamAPICall_t _GetFileDetails( IntPtr self, [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pszFileName );
 		
 		#endregion
 		public CallResult<FileDetailsResult_t> GetFileDetails( [MarshalAs( UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof( Utf8StringToNative ) )] string pszFileName )
@@ -325,7 +325,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_GetLaunchCommandLine", CallingConvention = Platform.CC)]
-		private static extern int _GetLaunchCommandLine( IntPtr self, IntPtr pszCommandLine, int cubCommandLine );
+		public static extern int _GetLaunchCommandLine( IntPtr self, IntPtr pszCommandLine, int cubCommandLine );
 		
 		#endregion
 		public int GetLaunchCommandLine( out string pszCommandLine )
@@ -339,7 +339,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsSubscribedFromFamilySharing", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsSubscribedFromFamilySharing( IntPtr self );
+		public static extern bool _BIsSubscribedFromFamilySharing( IntPtr self );
 		
 		#endregion
 		public bool BIsSubscribedFromFamilySharing()
@@ -351,7 +351,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsTimedTrial", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		private static extern bool _BIsTimedTrial( IntPtr self, ref uint punSecondsAllowed, ref uint punSecondsPlayed );
+		public static extern bool _BIsTimedTrial( IntPtr self, ref uint punSecondsAllowed, ref uint punSecondsPlayed );
 		
 		#endregion
 		public bool BIsTimedTrial( ref uint punSecondsAllowed, ref uint punSecondsPlayed )

@@ -128,7 +128,7 @@ namespace Generator
 			if ( returnType.ReturnAttribute != null )
 				WriteLine( returnType.ReturnAttribute );
 
-			WriteLine( $"private static extern {returnType.TypeNameFrom} _{func.Name}( IntPtr self, {delegateargstr} );".Replace( "( IntPtr self,  )", "( IntPtr self )" ) );
+			WriteLine( $"public static extern {returnType.TypeNameFrom} _{func.Name}( IntPtr self, {delegateargstr} );".Replace( "( IntPtr self,  )", "( IntPtr self )" ) );
 
 			WriteLine();
 			WriteLine( $"#endregion" );

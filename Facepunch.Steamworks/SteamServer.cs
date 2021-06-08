@@ -10,13 +10,13 @@ namespace Steamworks
 	/// <summary>
 	/// Provides the core of the Steam Game Servers API
 	/// </summary>
-	public partial class SteamServer : SteamServerClass<SteamServer>
+	public partial class SteamServer: SteamServerClass<SteamServer>
 	{
 		public static ISteamGameServer Internal => Interface as ISteamGameServer;
 
-		public override void InitializeInterface( bool server )
+		public override void InitializeInterface(bool server)
 		{
-			SetInterface( server, new ISteamGameServer( server ) );
+			SetInterface(server, new ISteamGameServer(server));
 			InstallEvents();
 		}
 
@@ -24,10 +24,10 @@ namespace Steamworks
 
 		public static void InstallEvents()
 		{
-            Dispatch.Install<ValidateAuthTicketResponse_t>( x => OnValidateAuthTicketResponse?.Invoke( x.SteamID, x.OwnerSteamID, x.AuthSessionResponse ), true );
-			Dispatch.Install<SteamServersConnected_t>( x => OnSteamServersConnected?.Invoke(), true );
-			Dispatch.Install<SteamServerConnectFailure_t>( x => OnSteamServerConnectFailure?.Invoke( x.Result, x.StillRetrying ), true );
-			Dispatch.Install<SteamServersDisconnected_t>( x => OnSteamServersDisconnected?.Invoke( x.Result ), true );
+			Dispatch.Install<ValidateAuthTicketResponse_t>(x => OnValidateAuthTicketResponse?.Invoke(x.SteamID, x.OwnerSteamID, x.AuthSessionResponse), true);
+			Dispatch.Install<SteamServersConnected_t>(x => OnSteamServersConnected?.Invoke(), true);
+			Dispatch.Install<SteamServerConnectFailure_t>(x => OnSteamServerConnectFailure?.Invoke(x.Result, x.StillRetrying), true);
+			Dispatch.Install<SteamServersDisconnected_t>(x => OnSteamServersDisconnected?.Invoke(x.Result), true);
 			Dispatch.Install<SteamNetAuthenticationStatus_t>(x => OnSteamNetAuthenticationStatus?.Invoke(x.Avail), true);
 		}
 
@@ -57,34 +57,33 @@ namespace Steamworks
 		/// </summary>
 		public static event Action<SteamNetworkingAvailability> OnSteamNetAuthenticationStatus;
 
-
 		/// <summary>
 		/// Initialize the steam server.
 		/// If asyncCallbacks is false you need to call RunCallbacks manually every frame.
 		/// </summary>
-		public static void Init( AppId appid, SteamServerInit init, bool asyncCallbacks = true )
+		public static void Init(AppId appid, SteamServerInit init, ServerMode mode, bool asyncCallbacks = true)
 		{
-			if ( IsValid )
-				throw new System.Exception( "Calling SteamServer.Init but is already initialized" );
+			if (IsValid)
+				throw new System.Exception("Calling SteamServer.Init but is already initialized");
 
 			uint ipaddress = 0; // Any Port
 
-			if ( init.SteamPort == 0 )
+			if (init.SteamPort == 0)
 				init = init.WithRandomSteamPort();
 
-			if ( init.IpAddress != null )
-				ipaddress = Utility.IpToInt32( init.IpAddress );
+			if (init.IpAddress != null)
+				ipaddress = Utility.IpToInt32(init.IpAddress);
 
-			System.Environment.SetEnvironmentVariable( "SteamAppId", appid.ToString() );
-			System.Environment.SetEnvironmentVariable( "SteamGameId", appid.ToString() );
-			var secure = (int)(init.Secure ? 3 : 2);
+			System.Environment.SetEnvironmentVariable("SteamAppId", appid.ToString());
+			System.Environment.SetEnvironmentVariable("SteamGameId", appid.ToString());
+			//var secure = (int)(init.Secure ? 3 : 2);
 
 			//
 			// Get other interfaces
 			//
-			if ( !SteamInternal.GameServer_Init( ipaddress, init.SteamPort, init.GamePort, init.QueryPort, secure, init.VersionString ) )
+			if (!SteamInternal.GameServer_Init(ipaddress, init.SteamPort, init.GamePort, init.QueryPort, (int)mode, init.VersionString))
 			{
-				throw new System.Exception( $"InitGameServer returned false ({ipaddress},{init.SteamPort},{init.GamePort},{init.QueryPort},{secure},\"{init.VersionString}\")" );
+				throw new System.Exception($"InitGameServer returned false ({ipaddress},{init.SteamPort},{init.GamePort},{init.QueryPort},{mode},\"{init.VersionString}\")");
 			}
 
 			//
@@ -118,7 +117,7 @@ namespace Steamworks
 			Passworded = false;
 			DedicatedServer = init.DedicatedServer;
 
-			if ( asyncCallbacks )
+			if (asyncCallbacks)
 			{
 				//
 				// This will keep looping in the background every 16 ms
@@ -131,17 +130,17 @@ namespace Steamworks
 		public static void AddInterface<T>() where T : SteamClass, new()
 		{
 			var t = new T();
-			t.InitializeInterface( true );
-			openInterfaces.Add( t );
+			t.InitializeInterface(true);
+			openInterfaces.Add(t);
 		}
 
 		static readonly List<SteamClass> openInterfaces = new List<SteamClass>();
 
 		public static void ShutdownInterfaces()
 		{
-			foreach ( var e in openInterfaces )
+			foreach (var e in openInterfaces)
 			{
-				e.DestroyInterface( true );
+				e.DestroyInterface(true);
 			}
 
 			openInterfaces.Clear();
@@ -160,9 +159,9 @@ namespace Steamworks
 		/// </summary>
 		public static void RunCallbacks()
 		{
-			if ( Dispatch.ServerPipe != 0 )
+			if (Dispatch.ServerPipe != 0)
 			{
-				Dispatch.Frame( Dispatch.ServerPipe );
+				Dispatch.Frame(Dispatch.ServerPipe);
 			}
 		}
 
@@ -173,7 +172,7 @@ namespace Steamworks
 		public static bool DedicatedServer
 		{
 			get => _dedicatedServer;
-			set { if ( _dedicatedServer == value ) return; Internal.SetDedicatedServer( value ); _dedicatedServer = value; }
+			set { if (_dedicatedServer == value) return; Internal.SetDedicatedServer(value); _dedicatedServer = value; }
 		}
 		private static bool _dedicatedServer;
 
@@ -184,7 +183,7 @@ namespace Steamworks
 		public static int MaxPlayers
 		{
 			get => _maxplayers;
-			set { if ( _maxplayers == value ) return; Internal.SetMaxPlayerCount( value ); _maxplayers = value; }
+			set { if (_maxplayers == value) return; Internal.SetMaxPlayerCount(value); _maxplayers = value; }
 		}
 		private static int _maxplayers = 0;
 
@@ -195,7 +194,7 @@ namespace Steamworks
 		public static int BotCount
 		{
 			get => _botcount;
-			set { if ( _botcount == value ) return; Internal.SetBotPlayerCount( value ); _botcount = value; }
+			set { if (_botcount == value) return; Internal.SetBotPlayerCount(value); _botcount = value; }
 		}
 		private static int _botcount = 0;
 
@@ -205,7 +204,7 @@ namespace Steamworks
 		public static string MapName
 		{
 			get => _mapname;
-			set { if ( _mapname == value ) return; Internal.SetMapName( value ); _mapname = value; }
+			set { if (_mapname == value) return; Internal.SetMapName(value); _mapname = value; }
 		}
 		private static string _mapname;
 
@@ -214,8 +213,8 @@ namespace Steamworks
 		/// </summary>
 		public static string ModDir
 		{
-			get => _modDir; 
-			set { if ( _modDir == value ) return; Internal.SetModDir( value ); _modDir = value; }
+			get => _modDir;
+			set { if (_modDir == value) return; Internal.SetModDir(value); _modDir = value; }
 		}
 		private static string _modDir = "";
 
@@ -225,7 +224,7 @@ namespace Steamworks
 		public static string Product
 		{
 			get => _product;
-			set { if ( _product == value ) return; Internal.SetProduct( value ); _product = value; }
+			set { if (_product == value) return; Internal.SetProduct(value); _product = value; }
 		}
 		private static string _product = "";
 
@@ -235,7 +234,7 @@ namespace Steamworks
 		public static string GameDescription
 		{
 			get => _gameDescription;
-			set { if ( _gameDescription == value ) return; Internal.SetGameDescription( value ); _gameDescription = value; }
+			set { if (_gameDescription == value) return; Internal.SetGameDescription(value); _gameDescription = value; }
 		}
 		private static string _gameDescription = "";
 
@@ -245,7 +244,7 @@ namespace Steamworks
 		public static string ServerName
 		{
 			get => _serverName;
-			set { if ( _serverName == value ) return; Internal.SetServerName( value ); _serverName = value; }
+			set { if (_serverName == value) return; Internal.SetServerName(value); _serverName = value; }
 		}
 		private static string _serverName = "";
 
@@ -255,7 +254,7 @@ namespace Steamworks
 		public static bool Passworded
 		{
 			get => _passworded;
-			set { if ( _passworded == value ) return; Internal.SetPasswordProtected( value ); _passworded = value; }
+			set { if (_passworded == value) return; Internal.SetPasswordProtected(value); _passworded = value; }
 		}
 		private static bool _passworded;
 
@@ -268,8 +267,8 @@ namespace Steamworks
 			get => _gametags;
 			set
 			{
-				if ( _gametags == value ) return;
-				Internal.SetGameTags( value );
+				if (_gametags == value) return;
+				Internal.SetGameTags(value);
 				_gametags = value;
 			}
 		}
@@ -313,7 +312,7 @@ namespace Steamworks
 		/// </summary>
 		public static bool AutomaticHeartbeats
 		{
-			set { Internal.EnableHeartbeats( value ); }
+			set { Internal.EnableHeartbeats(value); }
 		}
 
 		/// <summary>
@@ -322,7 +321,7 @@ namespace Steamworks
 		/// </summary>
 		public static int AutomaticHeartbeatRate
 		{
-			set { Internal.SetHeartbeatInterval( value ); }
+			set { Internal.SetHeartbeatInterval(value); }
 		}
 
 		/// <summary>
@@ -339,9 +338,9 @@ namespace Steamworks
 		/// any time a player's name or score changes. This keeps the information shown
 		/// to server queries up to date.
 		/// </summary>
-		public static void UpdatePlayer( SteamId steamid, string name, int score )
+		public static void UpdatePlayer(SteamId steamid, string name, int score)
 		{
-			Internal.BUpdateUserData( steamid, name, (uint)score );
+			Internal.BUpdateUserData(steamid, name, (uint)score);
 		}
 
 		static Dictionary<string, string> KeyValue = new Dictionary<string, string>();
@@ -352,21 +351,21 @@ namespace Steamworks
 		/// 
 		/// Information describing gamemodes are common here.
 		/// </summary>
-		public static void SetKey( string Key, string Value )
+		public static void SetKey(string Key, string Value)
 		{
-			if ( KeyValue.ContainsKey( Key ) )
+			if (KeyValue.ContainsKey(Key))
 			{
-				if ( KeyValue[Key] == Value )
+				if (KeyValue[Key] == Value)
 					return;
 
 				KeyValue[Key] = Value;
 			}
 			else
 			{
-				KeyValue.Add( Key, Value );
+				KeyValue.Add(Key, Value);
 			}
 
-			Internal.SetKeyValue( Key, Value );
+			Internal.SetKeyValue(Key, Value);
 		}
 
 		/// <summary>
@@ -381,13 +380,26 @@ namespace Steamworks
 		/// <summary>
 		/// Start authorizing a ticket. This user isn't authorized yet. Wait for a call to OnAuthChange.
 		/// </summary>
-		public static unsafe bool BeginAuthSession( byte[] data, SteamId steamid )
+		public static unsafe bool BeginAuthSession(byte* data, int size, SteamId steamid)
 		{
-			fixed ( byte* p = data )
-			{
-				var result = Internal.BeginAuthSession( (IntPtr)p, data.Length, steamid );
+			var result = Internal.BeginAuthSession((IntPtr)data, size, steamid);
 
-				if ( result == BeginAuthResult.OK )
+			if (result == BeginAuthResult.OK)
+				return true;
+
+			return false;
+		}
+
+		/// <summary>
+		/// Start authorizing a ticket. This user isn't authorized yet. Wait for a call to OnAuthChange.
+		/// </summary>
+		public static unsafe bool BeginAuthSession(byte[] data, SteamId steamid)
+		{
+			fixed (byte* p = data)
+			{
+				var result = Internal.BeginAuthSession((IntPtr)p, data.Length, steamid);
+
+				if (result == BeginAuthResult.OK)
 					return true;
 
 				return false;
@@ -397,9 +409,9 @@ namespace Steamworks
 		/// <summary>
 		/// Forget this guy. They're no longer in the game.
 		/// </summary>
-		public static void EndSession( SteamId steamid )
+		public static void EndSession(SteamId steamid)
 		{
-			Internal.EndAuthSession( steamid );
+			Internal.EndAuthSession(steamid);
 		}
 
 		/// <summary>
@@ -408,18 +420,18 @@ namespace Steamworks
 		/// </summary>
 		/// <param name="packet">Packet to send. The Data passed is pooled - so use it immediately.</param>
 		/// <returns>True if we want to send a packet</returns>
-		public static unsafe bool GetOutgoingPacket( out OutgoingPacket packet )
+		public static unsafe bool GetOutgoingPacket(out OutgoingPacket packet)
 		{
-			var buffer = Helpers.TakeBuffer( 1024 * 32 );
+			var buffer = Helpers.TakeBuffer(1024 * 32);
 			packet = new OutgoingPacket();
 
-			fixed ( byte* ptr = buffer )
+			fixed (byte* ptr = buffer)
 			{
 				uint addr = 0;
 				ushort port = 0;
 
-				var size = Internal.GetNextOutgoingPacket( (IntPtr)ptr, buffer.Length, ref addr, ref port );
-				if ( size == 0 )
+				var size = Internal.GetNextOutgoingPacket((IntPtr)ptr, buffer.Length, ref addr, ref port);
+				if (size == 0)
 					return false;
 
 				packet.Size = size;
@@ -433,28 +445,28 @@ namespace Steamworks
 		/// <summary>
 		/// We have received a server query on our game port. Pass it to Steam to handle.
 		/// </summary>
-		public static unsafe void HandleIncomingPacket( byte[] data, int size, uint address, ushort port )
+		public static unsafe void HandleIncomingPacket(byte[] data, int size, uint address, ushort port)
 		{
-			fixed ( byte* ptr = data )
+			fixed (byte* ptr = data)
 			{
-				HandleIncomingPacket( (IntPtr)ptr, size, address, port );
+				HandleIncomingPacket((IntPtr)ptr, size, address, port);
 			}
 		}
-		
+
 		/// <summary>
 		/// We have received a server query on our game port. Pass it to Steam to handle.
 		/// </summary>
-		public static unsafe void HandleIncomingPacket( IntPtr ptr, int size, uint address, ushort port )
+		public static unsafe void HandleIncomingPacket(IntPtr ptr, int size, uint address, ushort port)
 		{
-			Internal.HandleIncomingPacket( ptr, size, address, port );
-		}		
-		
+			Internal.HandleIncomingPacket(ptr, size, address, port);
+		}
+
 		/// <summary>
 		/// Does the user own this app (which could be DLC)
 		/// </summary>
-		public static UserHasLicenseForAppResult UserHasLicenseForApp( SteamId steamid, AppId appid )
+		public static UserHasLicenseForAppResult UserHasLicenseForApp(SteamId steamid, AppId appid)
 		{
-			return Internal.UserHasLicenseForApp( steamid, appid );
+			return Internal.UserHasLicenseForApp(steamid, appid);
 		}
 	}
 }

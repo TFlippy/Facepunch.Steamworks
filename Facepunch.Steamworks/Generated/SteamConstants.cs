@@ -97,13 +97,6 @@ namespace Steamworks.Data
 		public static readonly int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Public = 4;
 		public static readonly int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_All = 0x7fffffff;
 		public static readonly SteamNetworkingPOPID k_SteamDatagramPOPID_dev = ( ( uint ) 'd' << 16 ) | ( ( uint ) 'e' << 8 ) | ( uint ) 'v';
-		public static readonly uint k_unServerFlagNone = 0x00;
-		public static readonly uint k_unServerFlagActive = 0x01;
-		public static readonly uint k_unServerFlagSecure = 0x02;
-		public static readonly uint k_unServerFlagDedicated = 0x04;
-		public static readonly uint k_unServerFlagLinux = 0x08;
-		public static readonly uint k_unServerFlagPassworded = 0x10;
-		public static readonly uint k_unServerFlagPrivate = 0x20;
 		public static readonly uint k_cbSteamDatagramMaxSerializedTicket = 512;
 		public static readonly uint k_cbMaxSteamDatagramGameCoordinatorServerLoginAppData = 2048;
 		public static readonly uint k_cbMaxSteamDatagramGameCoordinatorServerLoginSerialized = 4096;

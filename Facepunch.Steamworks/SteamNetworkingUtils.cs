@@ -176,6 +176,12 @@ namespace Steamworks
 			get => GetConfigInt( NetConfig.TimeoutConnected );
 			set => SetConfigInt( NetConfig.TimeoutConnected, value );
 		}
+		
+		public static int NagleTime
+		{
+			get => GetConfigInt(NetConfig.NagleTime);
+			set => SetConfigInt(NetConfig.NagleTime, value);
+		}
 
 		/// <summary>
 		/// Upper limit of buffered pending bytes to be sent.

@@ -22,7 +22,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetNumInstalledApps", CallingConvention = Platform.CC)]
-		private static extern uint _GetNumInstalledApps( IntPtr self );
+		public static extern uint _GetNumInstalledApps( IntPtr self );
 		
 		#endregion
 		public uint GetNumInstalledApps()
@@ -33,7 +33,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetInstalledApps", CallingConvention = Platform.CC)]
-		private static extern uint _GetInstalledApps( IntPtr self, [In,Out] AppId[]  pvecAppID, uint unMaxAppIDs );
+		public static extern uint _GetInstalledApps( IntPtr self, [In,Out] AppId[]  pvecAppID, uint unMaxAppIDs );
 		
 		#endregion
 		public uint GetInstalledApps( [In,Out] AppId[]  pvecAppID, uint unMaxAppIDs )
@@ -44,7 +44,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetAppName", CallingConvention = Platform.CC)]
-		private static extern int _GetAppName( IntPtr self, AppId nAppID, IntPtr pchName, int cchNameMax );
+		public static extern int _GetAppName( IntPtr self, AppId nAppID, IntPtr pchName, int cchNameMax );
 		
 		#endregion
 		public int GetAppName( AppId nAppID, out string pchName )
@@ -57,7 +57,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetAppInstallDir", CallingConvention = Platform.CC)]
-		private static extern int _GetAppInstallDir( IntPtr self, AppId nAppID, IntPtr pchDirectory, int cchNameMax );
+		public static extern int _GetAppInstallDir( IntPtr self, AppId nAppID, IntPtr pchDirectory, int cchNameMax );
 		
 		#endregion
 		public int GetAppInstallDir( AppId nAppID, out string pchDirectory )
@@ -70,7 +70,7 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetAppBuildId", CallingConvention = Platform.CC)]
-		private static extern int _GetAppBuildId( IntPtr self, AppId nAppID );
+		public static extern int _GetAppBuildId( IntPtr self, AppId nAppID );
 		
 		#endregion
 		public int GetAppBuildId( AppId nAppID )
