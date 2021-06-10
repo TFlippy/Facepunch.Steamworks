@@ -96,7 +96,7 @@ List them
 ```csharp
     foreach ( var a in SteamUserStats.Achievements )
     {
-        Console.WriteLine( $"{a.Name} ({a.State}})" );
+        Console.WriteLine( $"{a.Name} ({a.State})" );
     }	
 ```
 
@@ -241,7 +241,7 @@ Write a cloud file
 Read a cloud file
 
 ```csharp
-    var fileContents = SteamRemoteStorage.ReadFile( "file.txt" );
+    var fileContents = SteamRemoteStorage.FileRead( "file.txt" );
 ```
 
 List all files

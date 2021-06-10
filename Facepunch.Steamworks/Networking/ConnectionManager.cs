@@ -117,7 +117,10 @@ namespace Steamworks
 			var processed = 0;
 			var messageBuffer = stackalloc IntPtr[bufferSize]; //IntPtr messageBuffer = Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
 
-			try
+			int totalProcessed = 0;
+			NetMsg** messageBuffer = stackalloc NetMsg*[bufferSize];
+			
+			while ( true )
 			{
 				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnConnection(this.Connection, (IntPtr)messageBuffer, bufferSize);
 

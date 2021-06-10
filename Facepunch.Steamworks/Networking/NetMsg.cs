@@ -16,5 +16,7 @@ namespace Steamworks.Data
 		public IntPtr FreeDataPtr;
 		public IntPtr ReleasePtr;
 		public int Channel;
+		public SendType Flags;
+		public long UserData;
 	}
 }

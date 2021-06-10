@@ -22,13 +22,13 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamNetworkingUtils_AllocateMessage", CallingConvention = Platform.CC)]
-		public static extern IntPtr _AllocateMessage( IntPtr self, int cbAllocateBuffer );
-		
+		public static extern NetMsg* _AllocateMessage( IntPtr self, int cbAllocateBuffer );
+
 		#endregion
-		public NetMsg AllocateMessage( int cbAllocateBuffer )
+		public NetMsg* AllocateMessage( int cbAllocateBuffer )
 		{
 			var returnValue = _AllocateMessage( Self, cbAllocateBuffer );
-			return returnValue.ToType<NetMsg>();
+			return returnValue;
 		}
 		
 		#region FunctionMeta

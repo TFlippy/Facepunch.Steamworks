@@ -93,7 +93,7 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetQueryUGCNumTags", CallingConvention = Platform.CC)]
 		public static extern uint _GetQueryUGCNumTags( IntPtr self, UGCQueryHandle_t handle, uint index );
-		
+
 		#endregion
 		public uint GetQueryUGCNumTags( UGCQueryHandle_t handle, uint index )
 		{
@@ -104,10 +104,10 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetQueryUGCTag", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		public static extern bool _GetQueryUGCTag( IntPtr self, UGCQueryHandle_t handle, uint index, uint indexTag, IntPtr pchValue, uint cchValueSize );
+		private static extern bool _GetQueryUGCTag( IntPtr self, UGCQueryHandle_t handle, uint index, uint indexTag, IntPtr pchValue, uint cchValueSize );
 		
 		#endregion
-		public bool GetQueryUGCTag( UGCQueryHandle_t handle, uint index, uint indexTag, out string pchValue )
+		internal bool GetQueryUGCTag( UGCQueryHandle_t handle, uint index, uint indexTag, out string pchValue )
 		{
 			IntPtr mempchValue = Helpers.TakeMemory();
 			var returnValue = _GetQueryUGCTag( Self, handle, index, indexTag, mempchValue, (1024 * 32) );
@@ -118,10 +118,10 @@ namespace Steamworks
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetQueryUGCTagDisplayName", CallingConvention = Platform.CC)]
 		[return: MarshalAs( UnmanagedType.I1 )]
-		public static extern bool _GetQueryUGCTagDisplayName( IntPtr self, UGCQueryHandle_t handle, uint index, uint indexTag, IntPtr pchValue, uint cchValueSize );
+		private static extern bool _GetQueryUGCTagDisplayName( IntPtr self, UGCQueryHandle_t handle, uint index, uint indexTag, IntPtr pchValue, uint cchValueSize );
 		
 		#endregion
-		public bool GetQueryUGCTagDisplayName( UGCQueryHandle_t handle, uint index, uint indexTag, out string pchValue )
+		internal bool GetQueryUGCTagDisplayName( UGCQueryHandle_t handle, uint index, uint indexTag, out string pchValue )
 		{
 			IntPtr mempchValue = Helpers.TakeMemory();
 			var returnValue = _GetQueryUGCTagDisplayName( Self, handle, index, indexTag, mempchValue, (1024 * 32) );

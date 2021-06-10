@@ -209,6 +209,23 @@ namespace Steamworks
 		}
 
 		/// <summary>
+		/// Allow unencrypted (and unauthenticated) communication.
+		/// 0: Not allowed (the default)
+		/// 1: Allowed, but prefer encrypted
+		/// 2: Allowed, and preferred
+		/// 3: Required.  (Fail the connection if the peer requires encryption.)
+		///
+		/// This is a dev configuration value, since its purpose is to disable encryption.
+		/// You should not let users modify it in production.  (But note that it requires
+		/// the peer to also modify their value in order for encryption to be disabled.)
+		/// </summary>
+		public static int Unencrypted
+		{
+			get => GetConfigInt( NetConfig.Unencrypted );
+			set => SetConfigInt( NetConfig.Unencrypted, value );
+		}
+
+		/// <summary>
 		/// Get Debug Information via OnDebugOutput event
 		/// 
 		/// Except when debugging, you should only use NetDebugOutput.Msg
@@ -258,6 +275,11 @@ namespace Steamworks
 			debugMessages.Enqueue(new DebugMessage { Type = nType, Msg = Helpers.MemoryToString(str) });
 		}
 
+		internal static void LogDebugMessage( NetDebugOutput type, string message )
+        {
+			debugMessages.Enqueue( new DebugMessage { Type = type, Msg = message } );
+        }
+
 		/// <summary>
 		/// Called regularly from the Dispatch loop so we can provide a timely
 		/// stream of messages.
@@ -272,6 +294,11 @@ namespace Steamworks
 				OnDebugOutput?.Invoke(result.Type, result.Msg);
 			}
 		}
+
+        internal static unsafe NetMsg* AllocateMessage()
+        {
+            return Internal.AllocateMessage(0);
+        }
 
 		#region Config Internals
 

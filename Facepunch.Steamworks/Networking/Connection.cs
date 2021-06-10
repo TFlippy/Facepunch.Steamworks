@@ -14,10 +14,14 @@ namespace Steamworks.Data
 	{
 		public uint Id { get; set; }
 
-		public bool Equals(Connection other)
-		{
-			return this.Id == other.Id;
-		}
+		public bool Equals( Connection other ) => Id == other.Id;
+		public override bool Equals( object obj ) => obj is Connection other && Id == other.Id;
+		public override int GetHashCode() => Id.GetHashCode();
+		public override string ToString() => Id.ToString();
+		public static implicit operator Connection( uint value ) => new Connection() { Id = value };
+		public static implicit operator uint( Connection value ) => value.Id;
+		public static bool operator ==( Connection value1, Connection value2 ) => value1.Equals(value2);
+		public static bool operator !=( Connection value1, Connection value2 ) => !value1.Equals(value2);
 
 		public override string ToString()
 		{
@@ -72,11 +76,30 @@ namespace Steamworks.Data
 		/// <summary>
 		/// This is the best version to use.
 		/// </summary>
-		public Result SendMessage(IntPtr ptr, int size, SendType sendType = SendType.Reliable)
+		public unsafe Result SendMessage( IntPtr ptr, int size, SendType sendType = SendType.Reliable )
 		{
+            if ( ptr == IntPtr.Zero )
+                throw new ArgumentNullException( nameof( ptr ) );
+            if ( size == 0 )
+                throw new ArgumentException( "`size` cannot be zero", nameof( size ) );
+
+            var copyPtr = BufferManager.Get( size, 1 );
+            Buffer.MemoryCopy( (void*)ptr, (void*)copyPtr, size, size );
+
+            var message = SteamNetworkingUtils.AllocateMessage();
+            message->Connection = this;
+            message->Flags = sendType;
+            message->DataPtr = copyPtr;
+			message->DataSize = size;
+            message->FreeDataPtr = BufferManager.FreeFunctionPointer;
+
 			long messageNumber = 0;
-			return SteamNetworkingSockets.Internal.SendMessageToConnection(this, ptr, (uint)size, (int)sendType, ref messageNumber);
-		}
+			SteamNetworkingSockets.Internal.SendMessages( 1, &message, &messageNumber );
+
+            return messageNumber >= 0
+                ? Result.OK
+                : (Result)(-messageNumber);
+        }
 
 		/// <summary>
 		/// Ideally should be using an IntPtr version unless you're being really careful with the byte[] array and 

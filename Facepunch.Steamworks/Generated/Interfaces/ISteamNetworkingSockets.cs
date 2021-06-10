@@ -162,12 +162,12 @@ namespace Steamworks
 		
 		#region FunctionMeta
 		[DllImport( Platform.LibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSockets_SendMessages", CallingConvention = Platform.CC)]
-		public static extern void _SendMessages( IntPtr self, int nMessages, ref NetMsg pMessages, [In,Out] long[]  pOutMessageNumberOrResult );
+		private static extern void _SendMessages( IntPtr self, int nMessages, NetMsg** pMessages, long* pOutMessageNumberOrResult );
 		
 		#endregion
-		public void SendMessages( int nMessages, ref NetMsg pMessages, [In,Out] long[]  pOutMessageNumberOrResult )
+		internal void SendMessages( int nMessages, NetMsg** pMessages, long* pOutMessageNumberOrResult )
 		{
-			_SendMessages( Self, nMessages, ref pMessages, pOutMessageNumberOrResult );
+			_SendMessages( Self, nMessages, pMessages, pOutMessageNumberOrResult );
 		}
 		
 		#region FunctionMeta

@@ -38,9 +38,14 @@ namespace Steamworks.Ugc
 		/// <summary>
 		/// Workshop item that is meant to be voted on for the purpose of selling in-game
 		/// </summary>
-		public static Editor NewMicrotransactionFile => new Editor(WorkshopFileType.Microtransaction);
+		public static Editor NewMicrotransactionFile => new Editor( WorkshopFileType.Microtransaction );
 
-		public Editor ForAppId(AppId id) { this.consumerAppId = id; return this; }
+		/// <summary>
+		/// Workshop item that is meant to be managed by the game. It is queryable by the API, but isn't visible on the web browser.
+		/// </summary>
+		public static Editor NewGameManagedFile => new Editor(WorkshopFileType.GameManagedItem);
+
+		public Editor ForAppId( AppId id ) { this.consumerAppId = id; return this; }
 
 		private string Title;
 		public Editor WithTitle(string t) { this.Title = t; return this; }
@@ -117,7 +122,7 @@ namespace Steamworks.Ugc
 			return this;
 		}
 
-		public async Task<PublishResult> SubmitAsync(IProgress<float> progress = null)
+		public async Task<PublishResult> SubmitAsync( IProgress<float> progress = null, Action<PublishResult> onItemCreated = null )
 		{
 			var result = default(PublishResult);
 
@@ -156,7 +161,10 @@ namespace Steamworks.Ugc
 
 				this.fileId = created.Value.PublishedFileId;
 				result.NeedsWorkshopAgreement = created.Value.UserNeedsToAcceptWorkshopLegalAgreement;
-				result.FileId = this.fileId;
+				result.FileId = fileId;
+
+				if ( onItemCreated != null )
+					onItemCreated( result );
 			}
 
 
