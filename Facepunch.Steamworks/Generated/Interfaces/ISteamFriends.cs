@@ -8,7 +8,6 @@ using Steamworks.Data;
 namespace Steamworks
 {
 	public class ISteamFriends : SteamInterface
-	internal unsafe class ISteamFriends : SteamInterface
 	{
 		
 		public ISteamFriends( bool IsGameServer )

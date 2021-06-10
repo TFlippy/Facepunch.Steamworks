@@ -115,26 +115,17 @@ namespace Steamworks
 		public unsafe void Receive(int bufferSize = 32)
 		{
 			var processed = 0;
-			var messageBuffer = stackalloc IntPtr[bufferSize]; //IntPtr messageBuffer = Marshal.AllocHGlobal( IntPtr.Size * bufferSize );
-
-			int totalProcessed = 0;
-			NetMsg** messageBuffer = stackalloc NetMsg*[bufferSize];
-			
-			while ( true )
+			var messageBuffer = stackalloc IntPtr[bufferSize];
+			while (true)
 			{
 				processed = SteamNetworkingSockets.Internal.ReceiveMessagesOnConnection(this.Connection, (IntPtr)messageBuffer, bufferSize);
 
 				for (var i = 0; i < processed; i++)
 				{
-					this.ReceiveMessage(messageBuffer[i]);  // ReceiveMessage(Marshal.ReadIntPtr(messageBuffer, i * IntPtr.Size));
+					this.ReceiveMessage(messageBuffer[i]);
 				}
 			}
-			finally
-			{
-				//Marshal.FreeHGlobal(messageBuffer);
-			}
 
-			// Overwhelmed our buffer, keep going
 			if (processed == bufferSize) this.Receive(bufferSize);
 		}
 
